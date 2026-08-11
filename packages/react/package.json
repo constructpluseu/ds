@@ -1,6 +1,6 @@
 {
   "name": "@constructpluseu/react",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Implementação em React do Construct+ Design System.",
   "license": "UNLICENSED",
   "keywords": ["construct-plus", "design-system", "react", "ui-components"],

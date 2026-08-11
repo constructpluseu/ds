@@ -1,0 +1,135 @@
+.cp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cp-space-2);
+  font-family: var(--cp-font-family-base);
+  font-weight: var(--cp-font-weight-semibold);
+  line-height: var(--cp-font-line-height-tight);
+  border-radius: var(--cp-radius-xl);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  transition: background-color var(--cp-motion-duration-fast) var(--cp-motion-easing-standard),
+    border-color var(--cp-motion-duration-fast) var(--cp-motion-easing-standard),
+    color var(--cp-motion-duration-fast) var(--cp-motion-easing-standard),
+    box-shadow var(--cp-motion-duration-fast) var(--cp-motion-easing-standard);
+}
+
+.cp-button:disabled,
+.cp-button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Tamanhos */
+.cp-button--sm {
+  height: 2rem;
+  padding-inline: var(--cp-space-3);
+  font-size: var(--cp-font-size-sm);
+}
+
+.cp-button--md {
+  height: 2.5rem;
+  padding-inline: var(--cp-space-4);
+  font-size: var(--cp-font-size-md);
+}
+
+.cp-button--lg {
+  height: 3rem;
+  padding-inline: var(--cp-space-6);
+  font-size: var(--cp-font-size-lg);
+}
+
+/* Variante: primary (ação principal) */
+.cp-button--primary {
+  background-color: var(--cp-color-semantic-bg-brand);
+  color: var(--cp-color-semantic-text-on-brand);
+}
+
+.cp-button--primary:hover:not(:disabled) {
+  background-color: var(--cp-color-semantic-bg-brand-hover);
+}
+
+.cp-button--primary:active:not(:disabled) {
+  background-color: var(--cp-color-semantic-bg-brand-active);
+}
+
+/* Variante: accent (chamada para ação de destaque, ex. converter/avançar) */
+.cp-button--accent {
+  background-color: var(--cp-color-semantic-bg-accent);
+  color: var(--cp-color-semantic-text-on-accent);
+  box-shadow: var(--cp-shadow-accent);
+}
+
+.cp-button--accent:hover:not(:disabled) {
+  background-color: var(--cp-color-semantic-bg-accent-hover);
+}
+
+.cp-button--accent:active:not(:disabled) {
+  background-color: var(--cp-color-semantic-bg-accent-active);
+}
+
+/* Variante: secondary (ação alternativa, com contorno) */
+.cp-button--secondary {
+  background-color: transparent;
+  border-color: var(--cp-color-semantic-border-strong);
+  color: var(--cp-color-semantic-text-primary);
+}
+
+.cp-button--secondary:hover:not(:disabled) {
+  background-color: var(--cp-color-semantic-bg-surface-secondary);
+}
+
+.cp-button--secondary:active:not(:disabled) {
+  background-color: var(--cp-color-semantic-border-default);
+}
+
+/* Variante: ghost (ação de baixa ênfase) */
+.cp-button--ghost {
+  background-color: transparent;
+  color: var(--cp-color-semantic-text-primary);
+}
+
+.cp-button--ghost:hover:not(:disabled) {
+  background-color: var(--cp-color-semantic-bg-surface-secondary);
+}
+
+/* Variante: danger (ações destrutivas) */
+.cp-button--danger {
+  background-color: var(--cp-color-base-red-base);
+  color: var(--cp-color-base-white);
+}
+
+.cp-button--danger:hover:not(:disabled) {
+  background-color: var(--cp-color-base-red-dark);
+}
+
+/* Estado: loading */
+.cp-button--loading {
+  cursor: wait;
+}
+
+.cp-button__spinner {
+  width: 1em;
+  height: 1em;
+  border-radius: var(--cp-radius-full);
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: cp-button-spin var(--cp-motion-duration-slow) linear infinite;
+}
+
+.cp-button--full-width {
+  width: 100%;
+}
+
+@keyframes cp-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-button__spinner {
+    animation-duration: 1.2s;
+  }
+}

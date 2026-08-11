@@ -1,0 +1,22 @@
+.cp-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cp-space-2);
+  margin: 0;
+  padding-left: var(--cp-space-6);
+  color: var(--cp-color-semantic-text-secondary);
+  line-height: var(--cp-font-line-height-normal);
+}
+
+.cp-list--unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.cp-list__item {
+  color: var(--cp-color-semantic-text-secondary);
+}
+
+.cp-list__item::marker {
+  color: var(--cp-color-semantic-text-placeholder);
+}

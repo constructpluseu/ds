@@ -1,0 +1,179 @@
+import { Button } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Button" };
+
+# Button <StatusBadge status="disponivel" />
+
+Dispara uma ação imediata e de efeito único: guardar um registo, avançar num fluxo, confirmar
+ou cancelar. É o componente de maior frequência de uso em toda a plataforma Construct+.
+
+## Quando usar
+
+- Para a ação principal de um formulário, ecrã ou cartão (ex.: "Guardar obra", "Avançar para orçamento").
+- Para ações secundárias associadas à principal (ex.: "Cancelar").
+- Para ações destrutivas que exigem confirmação visual clara (ex.: "Eliminar contrato").
+
+## Quando não usar
+
+- Para navegação entre páginas sem submissão de dados — use **Link**.
+- Para alternar um estado binário persistente (ex.: ativar/desativar uma notificação) — use **Toggle**.
+- Quando existem mais de 2-3 ações no mesmo contexto — agrupe as menos frequentes num **Dropdown Menu**.
+
+## Anatomia
+
+1. **Contentor** — define a área clicável, o raio do canto e a cor de fundo da variante.
+2. **Ícone inicial** (opcional) — reforça o significado da ação antes do texto.
+3. **Rótulo** — texto da ação, sempre num verbo no infinitivo ou imperativo.
+4. **Ícone final** (opcional) — usado sobretudo para indicar navegação (ex.: seta).
+5. **Indicador de carregamento** — substitui visualmente o ícone inicial quando `loading`.
+
+## Variantes
+
+<ComponentPreview label="Primary, Accent, Secondary, Ghost, Danger">
+  <Button variant="primary">Guardar obra</Button>
+  <Button variant="accent">Avançar para orçamento</Button>
+  <Button variant="secondary">Cancelar</Button>
+  <Button variant="ghost">Ver detalhes</Button>
+  <Button variant="danger">Eliminar</Button>
+</ComponentPreview>
+
+| Variante | Usar quando |
+|---|---|
+| `primary` | Ação principal e mais comum de um contexto profissional (a maioria dos ecrãs). |
+| `accent` | Ação de destaque que representa avanço/conversão (ex.: fluxos comerciais, ESG). |
+| `secondary` | Ação alternativa que acompanha uma ação primária, sem competir com ela. |
+| `ghost` | Ação de baixa ênfase, frequentemente dentro de tabelas ou barras de ferramentas. |
+| `danger` | Ações destrutivas ou irreversíveis (eliminar, cancelar contrato). |
+
+## Tamanhos
+
+<ComponentPreview label="sm, md, lg">
+  <Button size="sm">Pequeno</Button>
+  <Button size="md">Médio</Button>
+  <Button size="lg">Grande</Button>
+</ComponentPreview>
+
+Use `lg` em ecrãs de destaque (páginas de marketing, ecrãs vazios), `md` como predefinição em
+formulários e painéis, e `sm` dentro de tabelas, cartões compactos ou barras de ferramentas.
+
+## Estados
+
+<ComponentPreview label="default, disabled, loading, full-width">
+  <Button>Guardar</Button>
+  <Button disabled>Indisponível</Button>
+  <Button loading>A guardar…</Button>
+</ComponentPreview>
+<ComponentPreview label="full-width">
+  <Button fullWidth>Ocupa toda a largura do contentor</Button>
+</ComponentPreview>
+
+| Estado | Comportamento |
+|---|---|
+| Default | Cor de fundo e contorno da variante; sombra `accent` apenas na variante `accent`. |
+| Hover | Escurece/aclara o fundo (`hover` token da variante); sem alteração de tamanho. |
+| Focus visible | Anel de foco de 2px na cor `border.focus`, visível apenas por teclado. |
+| Disabled | Opacidade 50%, `cursor: not-allowed`, sem eventos de clique. |
+| Loading | Substitui o ícone inicial por um spinner, define `aria-busy="true"` e desativa o botão. |
+
+## Comportamento
+
+- O elemento HTML subjacente é sempre um `<button>` real (nunca uma `<div>` clicável), garantindo foco, teclado e semântica nativos.
+- O tipo (`type`) predefinido é `button`, para nunca submeter um formulário por acidente — defina `type="submit"` explicitamente quando for essa a intenção.
+- Enquanto `loading`, o botão fica também `disabled`, prevenindo duplo envio.
+- Não existe comportamento de repetição/hold — cada clique dispara a ação uma única vez.
+
+## Conteúdo
+
+- O rótulo é sempre um verbo de ação: **"Guardar obra"**, não **"Obra"** ou **"OK"**.
+- Use maiúscula apenas na primeira palavra (sentence case): **"Avançar para orçamento"**, não **"Avançar Para Orçamento"**.
+- Seja específico sobre o efeito quando o contexto permitir: prefira **"Eliminar contrato"** a **"Eliminar"** solto num ecrã com várias entidades.
+- Evite rótulos genéricos como "Clique aqui" ou "Submeter".
+- Mantenha o rótulo curto — idealmente 1 a 4 palavras — para não forçar a quebra de linha em `sm`.
+
+## Acessibilidade
+
+- **Papel:** nativo de `<button>` — não é necessário `role` adicional.
+- **Teclado:** `Tab` move o foco até ao botão; `Enter` e `Espaço` acionam o clique.
+- **Leitor de ecrã:** anuncia o rótulo textual; quando `loading`, `aria-busy="true"` informa que uma operação está em curso sem interromper o utilizador.
+- Quando o botão contém apenas um ícone (sem rótulo visível), é obrigatório fornecer um rótulo acessível via `aria-label`.
+- O contraste de texto sobre fundo em todas as variantes cumpre WCAG 2.1 AA (mínimo 4.5:1) nos temas claro e escuro.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { Button } from "@constructpluseu/react";
+
+<Button variant="accent" size="lg" onClick={guardarObra}>
+  Avançar para orçamento
+</Button>`,
+    },
+    {
+      label: "Vue",
+      code: `<script setup lang="ts">
+import { CpButton } from "@constructpluseu/vue";
+</script>
+
+<template>
+  <CpButton variant="accent" size="lg" @click="guardarObra">
+    Avançar para orçamento
+  </CpButton>
+</template>`,
+    },
+    {
+      label: "Angular",
+      code: `import { CpButtonComponent } from "@constructpluseu/angular";
+
+@Component({
+  standalone: true,
+  imports: [CpButtonComponent],
+  template: \`
+    <cp-button variant="accent" size="lg" (click)="guardarObra()">
+      Avançar para orçamento
+    </cp-button>
+  \`,
+})
+export class ObraFormComponent {
+  guardarObra() { /* ... */ }
+}`,
+    },
+    {
+      label: "Next.js",
+      code: `// app/obras/nova/page.tsx (Server Component)
+import { Button } from "@constructpluseu/react";
+
+export default function NovaObraPage() {
+  // @constructpluseu/react já inclui 'use client' internamente,
+  // por isso pode ser importado diretamente num Server Component.
+  return <Button variant="accent" size="lg">Avançar para orçamento</Button>;
+}`,
+    },
+  ]}
+/>
+
+Antes de usar qualquer componente, importe os estilos uma única vez na raiz da aplicação:
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import "@constructpluseu/react/styles.css";` },
+    { label: "Vue", code: `import "@constructpluseu/vue/styles.css";` },
+    {
+      label: "Angular",
+      code: `// angular.json
+"styles": ["node_modules/@constructpluseu/angular/dist/styles.css"]`,
+    },
+    { label: "Next.js", code: `// app/layout.tsx
+import "@constructpluseu/react/styles.css";` },
+  ]}
+/>
+
+## Relacionados
+
+- **Toggle** — para alternar um estado persistente em vez de disparar uma ação.
+- **Dropdown Menu** *(planeado)* — para agrupar ações secundárias pouco frequentes.
+- **Modal** — frequentemente contém um `Button` de confirmação e um de cancelamento.

@@ -1,0 +1,74 @@
+{
+  "color": {
+    "semantic": {
+      "bg": {
+        "canvas": { "value": "{color.base.gray.50}" },
+        "surface": { "value": "{color.base.white}" },
+        "surface-secondary": { "value": "{color.base.gray.100}" },
+        "inverse": { "value": "{color.base.navy.700}" },
+        "brand": { "value": "{color.base.navy.700}" },
+        "brand-hover": { "value": "{color.base.navy.600}" },
+        "brand-active": { "value": "{color.base.navy.800}" },
+        "accent": { "value": "{color.base.mint.500}" },
+        "accent-hover": { "value": "{color.base.mint.400}" },
+        "accent-active": { "value": "{color.base.mint.700}" },
+        "accent-subtle": { "value": "rgba(62, 201, 142, 0.12)" },
+        "disabled": { "value": "{color.base.gray.100}" },
+        "overlay": { "value": "rgba(5, 15, 26, 0.6)" }
+      },
+      "text": {
+        "primary": { "value": "{color.base.navy.700}" },
+        "secondary": { "value": "{color.base.gray.600}" },
+        "placeholder": { "value": "{color.base.gray.400}" },
+        "disabled": { "value": "{color.base.gray.400}" },
+        "inverse": { "value": "{color.base.white}" },
+        "on-brand": { "value": "{color.base.white}" },
+        "on-accent": { "value": "{color.base.navy.800}" },
+        "link": { "value": "{color.base.navy.700}" },
+        "danger": { "value": "{color.base.red.base}" },
+        "warning": { "value": "{color.base.amber.dark}" },
+        "success": { "value": "{color.base.mint.900}" },
+        "info": { "value": "{color.base.blue.base}" }
+      },
+      "border": {
+        "default": { "value": "{color.base.gray.200}" },
+        "strong": { "value": "{color.base.gray.300}" },
+        "focus": { "value": "{color.base.mint.500}" },
+        "danger": { "value": "{color.base.red.base}" }
+      },
+      "icon": {
+        "primary": { "value": "{color.base.navy.700}" },
+        "secondary": { "value": "{color.base.gray.500}" },
+        "on-brand": { "value": "{color.base.white}" },
+        "on-accent": { "value": "{color.base.navy.800}" }
+      },
+      "status": {
+        "success": {
+          "bg": { "value": "rgba(62, 201, 142, 0.12)" },
+          "text": { "value": "{color.base.mint.900}" },
+          "border": { "value": "{color.base.mint.300}" }
+        },
+        "warning": {
+          "bg": { "value": "rgba(245, 158, 11, 0.12)" },
+          "text": { "value": "{color.base.amber.dark}" },
+          "border": { "value": "{color.base.amber.light}" }
+        },
+        "danger": {
+          "bg": { "value": "rgba(220, 38, 38, 0.12)" },
+          "text": { "value": "{color.base.red.dark}" },
+          "border": { "value": "{color.base.red.light}" }
+        },
+        "info": {
+          "bg": { "value": "rgba(37, 99, 235, 0.12)" },
+          "text": { "value": "{color.base.blue.dark}" },
+          "border": { "value": "{color.base.blue.light}" }
+        },
+        "neutral": {
+          "bg": { "value": "{color.base.gray.100}" },
+          "text": { "value": "{color.base.gray.700}" },
+          "border": { "value": "{color.base.gray.300}" }
+        }
+      }
+    }
+  }
+}

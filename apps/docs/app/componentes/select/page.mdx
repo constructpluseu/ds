@@ -1,0 +1,117 @@
+import { Select } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Select" };
+export const tipos = [
+  { value: "residencial", label: "Residencial" },
+  { value: "comercial", label: "Comercial" },
+  { value: "infraestrutura", label: "Infraestrutura" },
+];
+
+# Select <StatusBadge status="disponivel" />
+
+Escolha de uma opção entre uma lista curta e conhecida de antemão, usando o elemento nativo
+`<select>` do navegador.
+
+## Quando usar
+
+- Quando o utilizador escolhe uma entre poucas opções fixas (ex.: tipo de obra, estado do contrato).
+
+## Quando não usar
+
+- Para listas longas com necessidade de filtro por digitação — use **Combobox** *(planeado)*.
+- Para 2 a 5 opções sempre visíveis onde a comparação lado a lado ajuda — use **Radio Button**.
+
+## Anatomia
+
+Label, campo de seleção (com seta indicadora desenhada em CSS, sem dependência de ícone
+externo), texto de ajuda/erro.
+
+## Variantes
+
+<ComponentPreview label="Com placeholder e com erro">
+  <Select label="Tipo de obra" options={tipos} placeholder="Selecione o tipo" />
+  <Select label="Estado" options={tipos} errorText="Selecione uma opção" />
+</ComponentPreview>
+
+## Tamanhos
+
+<ComponentPreview label="sm, md, lg">
+  <Select label="sm" size="sm" options={tipos} />
+  <Select label="md" size="md" options={tipos} />
+  <Select label="lg" size="lg" options={tipos} />
+</ComponentPreview>
+
+## Estados
+
+Mesma tabela de estados do **Text Input**. Adicionalmente, cada `option` pode ser
+individualmente desativada via `disabled` sem afetar as restantes.
+
+## Comportamento
+
+- Nesta fase, o `Select` usa o elemento nativo do sistema operativo/navegador — sem lista
+  customizada, sem pesquisa por digitação e sem seleção múltipla. Esta é uma decisão deliberada
+  de escopo: cobre a maioria dos casos de uso com o menor custo de acessibilidade e manutenção.
+- Quando `placeholder` é definido, é renderizado como uma opção desativada e oculta da lista após seleção.
+
+## Conteúdo
+
+- As opções seguem sentence case e vocabulário do domínio: **"Residencial"**, **"Infraestrutura"**.
+- Ordene as opções por frequência de uso ou alfabeticamente — nunca aleatoriamente.
+
+## Acessibilidade
+
+- **Papel:** nativo de `<select>`, com todas as interações de teclado do sistema operativo (setas, digitação para saltar para opção, Enter/Espaço para abrir).
+- **Leitor de ecrã:** anuncia o label, o valor selecionado e o número de opções.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { Select } from "@constructpluseu/react";
+
+<Select
+  label="Tipo de obra"
+  placeholder="Selecione o tipo"
+  options={[
+    { value: "residencial", label: "Residencial" },
+    { value: "comercial", label: "Comercial" },
+  ]}
+/>`,
+    },
+    {
+      label: "Vue",
+      code: `<CpSelect
+  label="Tipo de obra"
+  placeholder="Selecione o tipo"
+  :options="[{ value: 'residencial', label: 'Residencial' }]"
+  v-model="tipo"
+/>`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-select
+  label="Tipo de obra"
+  placeholder="Selecione o tipo"
+  [options]="tipos"
+  [value]="tipo"
+  (valueChange)="tipo = $event"
+/>`,
+    },
+    {
+      label: "Next.js",
+      code: `import { Select } from "@constructpluseu/react";
+
+<Select label="Tipo de obra" options={tipos} placeholder="Selecione o tipo" />`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Combobox / Multiselect** *(planeado)* — para listas longas ou seleção múltipla.
+- **Radio Button** — para poucas opções sempre visíveis.

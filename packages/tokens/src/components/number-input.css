@@ -1,0 +1,58 @@
+.cp-number-input {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--cp-color-semantic-border-default);
+  border-radius: var(--cp-radius-md);
+  overflow: hidden;
+  transition: border-color var(--cp-motion-duration-fast) var(--cp-motion-easing-standard),
+    box-shadow var(--cp-motion-duration-fast) var(--cp-motion-easing-standard);
+}
+
+.cp-number-input:focus-within {
+  border-color: var(--cp-color-semantic-border-focus);
+  box-shadow: var(--cp-shadow-focus-ring);
+}
+
+.cp-number-input--invalid {
+  border-color: var(--cp-color-semantic-border-danger);
+}
+
+.cp-number-input .cp-number-input__field {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  border-radius: 0;
+  text-align: center;
+  box-shadow: none !important;
+}
+
+.cp-number-input__field::-webkit-outer-spin-button,
+.cp-number-input__field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cp-number-input__field {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.cp-number-input__step {
+  flex-shrink: 0;
+  width: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cp-color-semantic-bg-surface-secondary);
+  color: var(--cp-color-semantic-text-primary);
+  font-weight: var(--cp-font-weight-bold);
+}
+
+.cp-number-input__step:hover:not(:disabled) {
+  background-color: var(--cp-color-semantic-border-default);
+}
+
+.cp-number-input__step:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

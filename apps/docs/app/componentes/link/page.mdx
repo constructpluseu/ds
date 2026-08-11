@@ -1,0 +1,74 @@
+import { Link } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Link" };
+
+# Link <StatusBadge status="disponivel" />
+
+Navegação textual para dentro (rotas internas) ou fora (sites de terceiros) da aplicação.
+
+## Quando usar
+
+- Para navegação que muda de página/rota, dentro de texto corrido ou isolada.
+
+## Quando não usar
+
+- Para disparar uma ação que não navega (submeter, guardar, eliminar) — use **Button**.
+
+## Anatomia
+
+Texto sublinhado ao hover, com indicador diagonal opcional quando aponta para fora da aplicação.
+
+## Variantes
+
+<ComponentPreview label="default, muted, external, disabled">
+  <Link href="#">Ver obra</Link>
+  <Link href="#" muted>Termos e condições</Link>
+  <Link href="https://constructplus.eu" external>Site institucional</Link>
+  <Link href="#" disabled>Indisponível</Link>
+</ComponentPreview>
+
+## Tamanhos
+
+Acompanha sempre o tamanho de texto do contexto onde está inserido — não tem tamanhos próprios.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Default | Sublinhado aparece apenas no hover. |
+| Disabled | `aria-disabled="true"`, sem sublinhado, `pointer-events: none`. |
+| External | Ícone diagonal após o texto, `target="_blank"` com `rel="noopener noreferrer"`. |
+
+## Comportamento
+
+- `external` define automaticamente `target="_blank"` e o `rel` seguro — nunca é necessário defini-los manualmente.
+- `disabled` usa `aria-disabled`, não o atributo `disabled` (que não existe em `<a>`) — o link permanece no DOM e na árvore de acessibilidade, apenas não navega.
+
+## Conteúdo
+
+- O texto do link descreve o destino, nunca &ldquo;clique aqui&rdquo;: **&ldquo;Ver obra&rdquo;**, não **&ldquo;Clique aqui para ver a obra&rdquo;**.
+
+## Acessibilidade
+
+- **Papel:** nativo de `<a>`.
+- **Teclado:** `Tab` foca, `Enter` ativa — comportamento nativo do navegador.
+- Links externos devem avisar visualmente (ícone) que abrem uma nova janela, para não surpreender o utilizador.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { Link } from "@constructpluseu/react";\n\n<Link href="/obras/central">Ver obra</Link>` },
+    { label: "Vue", code: `<CpLink href="/obras/central">Ver obra</CpLink>` },
+    { label: "Angular", code: `<cp-link href="/obras/central">Ver obra</cp-link>` },
+    { label: "Next.js", code: `import { Link } from "@constructpluseu/react";\n\n<Link href="/obras/central">Ver obra</Link>\n\n// Para navegação client-side otimizada com prefetch, use next/link\n// e aplique as classes cp-link diretamente, já que <Link> do Next\n// exige o próprio <a> como filho direto.` },
+  ]}
+/>
+
+## Relacionados
+
+- **Button** — para ações que não navegam.
+- **Breadcrumb** — composição de vários links de navegação hierárquica.

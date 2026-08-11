@@ -1,0 +1,81 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { ShellDemo } from "./ShellDemo";
+
+export const metadata = { title: "Navegação (Shell)" };
+
+# Navegação (Shell) <StatusBadge status="disponivel" />
+
+Cabeçalho (`Header`) e menu lateral (`Side Nav`) que enquadram toda a aplicação — o esqueleto de navegação de nível superior, distinto da navegação dentro de uma página (`Tabs`, `Breadcrumb`).
+
+## Quando usar
+
+- Como moldura fixa de uma aplicação autenticada, com a marca, ações globais (perfil, notificações) e a navegação principal entre secções.
+- `Header` e `Side Nav` são dois componentes independentes, feitos para serem usados **em conjunto** — o botão de menu do `Header` tipicamente controla a visibilidade do `Side Nav` em ecrãs estreitos.
+
+## Quando não usar
+
+- Para navegação dentro do conteúdo de uma página (secções de um formulário longo, por exemplo) — use `Tabs` ou `Accordion`.
+- Para menus de ações pontuais — use `Dropdown Menu`.
+
+## Anatomia
+
+**Header**: botão de menu opcional + marca/logótipo + área de ações à direita (conteúdo livre, projetado pelo consumidor).
+**Side Nav**: lista de itens de navegação; itens com sub-itens funcionam como secções expansíveis (padrão de disclosure), até um nível de profundidade.
+
+## Variantes
+
+<ComponentPreview label="Header + Side Nav compostos (React)">
+  <ShellDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Não expõe variantes de tamanho.
+
+## Estados
+
+| Estado | Componente | Comportamento |
+|---|---|---|
+| Menu fechado | Header | Ícone ☰, `aria-expanded="false"` no botão de menu. |
+| Menu aberto | Header | Ícone ✕, `aria-expanded="true"`. |
+| Item ativo | Side Nav | `aria-current="page"`, destacado visualmente. |
+| Grupo fechado/aberto | Side Nav | Seta ▸/▾, sub-itens só no DOM quando abertos. |
+| Side Nav oculto | Side Nav | `open={false}` remove a navegação da vista (usado em ecrãs estreitos). |
+
+## Comportamento
+
+- **Componentes controlados e independentes**: nem o `Header` nem o `Side Nav` guardam estado próprio — `navOpen`/`onMenuToggle` no `Header`, e `expandedIds`/`onExpandedChange` no `Side Nav` são geridos pela aplicação. É essa mesma variável (`navOpen`) que a aplicação normalmente passa como `open` ao `Side Nav`, ligando os dois componentes.
+- O `Side Nav` suporta **até dois níveis**: itens de topo e, opcionalmente, um nível de sub-itens por item. Não é uma árvore genérica — para hierarquias mais profundas, use `Tree View`.
+- Clicar num item de topo sem sub-itens navega diretamente (é um `<a>` nativo); clicar num item com sub-itens expande/recolhe o grupo sem navegar.
+- A área de ações do `Header` aceita qualquer conteúdo — normalmente um menu de utilizador, notificações ou uma busca (`Search`).
+
+## Conteúdo
+
+- A marca no `Header` é o nome do produto, não um slogan.
+- Os rótulos do `Side Nav` nomeiam a secção diretamente: **&ldquo;Financeiro&rdquo;**, não **&ldquo;Área financeira da aplicação&rdquo;**.
+
+## Acessibilidade
+
+- O `Header` usa `<header>` nativo; o botão de menu tem `aria-label` que muda consoante o estado ("Abrir menu de navegação"/"Fechar menu de navegação") e `aria-expanded`.
+- O `Side Nav` usa `<nav aria-label="…">` — dê um `label` descritivo quando houver mais do que uma região de navegação na página (ex.: para distinguir de um `Breadcrumb` também presente).
+- O item ativo usa `aria-current="page"`, não apenas uma classe visual.
+- Os botões de secção expansível têm `aria-expanded` a refletir o estado.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { useState } from "react";\nimport { Header, SideNav } from "@constructpluseu/react";\nimport type { SideNavItem } from "@constructpluseu/react";\n\nconst items: SideNavItem[] = [\n  { id: "obras", label: "Obras", href: "/obras" },\n  { id: "financeiro", label: "Financeiro", href: "/financeiro", children: [\n    { id: "orcamentos", label: "Orçamentos", href: "/financeiro/orcamentos" },\n  ] },\n];\n\nfunction AppShell() {\n  const [navOpen, setNavOpen] = useState(true);\n  const [expandedIds, setExpandedIds] = useState<string[]>([]);\n  return (\n    <>\n      <Header brand="Construct+" navOpen={navOpen} onMenuToggle={() => setNavOpen((o) => !o)} />\n      <SideNav items={items} activeId="obras" expandedIds={expandedIds} onExpandedChange={setExpandedIds} open={navOpen} />\n    </>\n  );\n}` },
+    { label: "Vue", code: `<script setup>\nimport { ref } from "vue";\nimport { CpHeader, CpSideNav } from "@constructpluseu/vue";\n\nconst items = [\n  { id: "obras", label: "Obras", href: "/obras" },\n  { id: "financeiro", label: "Financeiro", href: "/financeiro", children: [\n    { id: "orcamentos", label: "Orçamentos", href: "/financeiro/orcamentos" },\n  ] },\n];\nconst navOpen = ref(true);\nconst expandedIds = ref([]);\n</script>\n\n<template>\n  <CpHeader brand="Construct+" menuButton :navOpen="navOpen" @menuToggle="navOpen = !navOpen" />\n  <CpSideNav :items="items" activeId="obras" :expandedIds="expandedIds" :open="navOpen" @expandedChange="expandedIds = $event" />\n</template>` },
+    { label: "Angular", code: `import { CpHeaderComponent, CpSideNavComponent, SideNavItem } from "@constructpluseu/angular";\n\n@Component({\n  standalone: true,\n  imports: [CpHeaderComponent, CpSideNavComponent],\n  template: \`\n    <cp-header brand="Construct+" [menuButton]="true" [navOpen]="navOpen" (menuToggle)="navOpen = !navOpen"></cp-header>\n    <cp-side-nav [items]="items" activeId="obras" [expandedIds]="expandedIds" [open]="navOpen" (expandedChange)="expandedIds = $event"></cp-side-nav>\n  \`,\n})\nexport class AppShellComponent {\n  navOpen = true;\n  expandedIds: string[] = [];\n  items: SideNavItem[] = [\n    { id: "obras", label: "Obras", href: "/obras" },\n    { id: "financeiro", label: "Financeiro", href: "/financeiro", children: [\n      { id: "orcamentos", label: "Orçamentos", href: "/financeiro/orcamentos" },\n    ] },\n  ];\n}` },
+    { label: "Next.js", code: `"use client";\nimport { useState } from "react";\nimport { Header, SideNav } from "@constructpluseu/react";\nimport type { SideNavItem } from "@constructpluseu/react";\nimport NextLink from "next/link";\n\n// Combine com o roteamento do Next.js substituindo os <a> internos\n// por next/link nos pontos onde precisar de navegação client-side otimizada.\nexport function AppShell({ items }: { items: SideNavItem[] }) {\n  const [navOpen, setNavOpen] = useState(true);\n  const [expandedIds, setExpandedIds] = useState<string[]>([]);\n  return (\n    <>\n      <Header brand="Construct+" navOpen={navOpen} onMenuToggle={() => setNavOpen((o) => !o)} />\n      <SideNav items={items} expandedIds={expandedIds} onExpandedChange={setExpandedIds} open={navOpen} />\n    </>\n  );\n}` },
+  ]}
+/>
+
+## Relacionados
+
+- **Breadcrumb** — navegação estrutural dentro de uma secção, complementar ao `Side Nav`.
+- **Dropdown Menu** — para o conteúdo típico da área de ações do `Header` (menu de utilizador).
+- **Tree View** — quando a hierarquia de navegação tem mais de dois níveis.

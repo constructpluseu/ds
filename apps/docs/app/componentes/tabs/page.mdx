@@ -1,0 +1,111 @@
+import { Tabs } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Tabs" };
+
+# Tabs <StatusBadge status="disponivel" />
+
+Alterna entre vistas relacionadas dentro do mesmo contexto, mostrando sempre apenas uma de cada vez.
+
+## Quando usar
+
+- Para dividir conteúdo relacionado do mesmo objeto em secções (ex.: separadores de uma obra: Orçamento, Materiais, Equipa).
+
+## Quando não usar
+
+- Para navegação entre páginas distintas da aplicação — use a **Navegação (Shell)** *(planeada)*.
+- Quando o utilizador precisa comparar o conteúdo de duas vistas lado a lado — os separadores escondem o conteúdo inativo.
+
+## Anatomia
+
+Lista de separadores (`tablist`) + botões `tab` + um painel (`tabpanel`) que mostra o conteúdo do separador selecionado.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <Tabs
+    aria-label="Detalhes da obra"
+    items={[
+      { id: "orcamento", label: "Orçamento", content: "Orçamento total: 128 450 €, 63% executado." },
+      { id: "materiais", label: "Materiais", content: "34 materiais catalogados, 2 em falta no stock." },
+      { id: "equipa", label: "Equipa", content: "6 pessoas alocadas, 1 subcontratada." },
+      { id: "arquivado", label: "Arquivado", content: "Sem conteúdo.", disabled: true },
+    ]}
+  />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho — a altura dos separadores acompanha o `line-height` do texto (`font-size-md`).
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Selecionado | Texto em `text.primary`, sublinhado em `bg.accent` (verde), peso semibold. |
+| Não selecionado | Texto em `text.secondary`, sem sublinhado. |
+| Disabled | Opacidade 50%, fora da navegação por setas. |
+| Focus visible | Anel de foco padrão do sistema, visível apenas no separador ativo (roving tabindex). |
+
+## Comportamento
+
+- Segue o padrão **roving tabindex**: apenas o separador selecionado tem `tabIndex=0`; os restantes têm `-1`, para que `Tab` entre e saia do grupo com um único passo.
+- **Setas ← →** movem a seleção e o foco entre separadores habilitados (ativação automática); **Home**/**End** saltam para o primeiro/último.
+- Separadores `disabled` são ignorados pela navegação por teclado e não podem ser selecionados.
+
+## Conteúdo
+
+- Rótulos curtos, 1-2 palavras: **"Orçamento"**, **"Materiais"**, nunca frases.
+- Ordene os separadores pela frequência de consulta esperada, com o mais importante em primeiro lugar (torna-se a seleção predefinida).
+
+## Acessibilidade
+
+- **Papéis:** `tablist` no contentor, `tab` em cada botão, `tabpanel` no painel de conteúdo, ligados via `aria-controls`/`aria-labelledby`.
+- **Teclado:** `Tab` entra/sai do grupo; `←`/`→` navegam; `Home`/`End` saltam para as extremidades.
+- **Leitor de ecrã:** anuncia o separador selecionado e a sua posição (ex.: "Orçamento, separador selecionado, 1 de 4").
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { Tabs } from "@constructpluseu/react";
+
+<Tabs
+  aria-label="Detalhes da obra"
+  items={[
+    { id: "orcamento", label: "Orçamento", content: <ResumoOrcamento /> },
+    { id: "materiais", label: "Materiais", content: <ListaMateriais /> },
+  ]}
+/>`,
+    },
+    {
+      label: "Vue",
+      code: `<CpTabs :items="[{ id: 'orcamento', label: 'Orçamento' }, { id: 'materiais', label: 'Materiais' }]" v-model="separador" aria-label="Detalhes da obra">
+  <template #orcamento><ResumoOrcamento /></template>
+  <template #materiais><ListaMateriais /></template>
+</CpTabs>`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-tabs [items]="items" [(activeId)]="separador" ariaLabel="Detalhes da obra">
+  <cp-tab-panel id="orcamento"><app-resumo-orcamento /></cp-tab-panel>
+  <cp-tab-panel id="materiais"><app-lista-materiais /></cp-tab-panel>
+</cp-tabs>`,
+    },
+    {
+      label: "Next.js",
+      code: `import { Tabs } from "@constructpluseu/react";
+
+<Tabs aria-label="Detalhes da obra" items={items} />`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Accordion** — para revelar/ocultar secções verticalmente, em vez de alternar horizontalmente.
+- **Breadcrumb** *(planeado)* — para navegação hierárquica entre páginas.

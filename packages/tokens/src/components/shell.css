@@ -1,0 +1,113 @@
+.cp-header {
+  display: flex;
+  align-items: center;
+  gap: var(--cp-space-3);
+  padding: 0 var(--cp-space-4);
+  height: 3rem;
+  background-color: var(--cp-color-semantic-bg-brand);
+  color: var(--cp-color-semantic-text-on-brand);
+}
+
+.cp-header__menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-radius: var(--cp-radius-md);
+  cursor: pointer;
+}
+
+.cp-header__menu-button:hover {
+  background-color: var(--cp-color-semantic-bg-brand-hover);
+}
+
+.cp-header__brand {
+  color: inherit;
+  font-size: var(--cp-font-size-md);
+  font-weight: var(--cp-font-weight-semibold);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cp-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--cp-space-2);
+  margin-left: auto;
+}
+
+.cp-side-nav {
+  width: 16rem;
+  padding: var(--cp-space-3);
+  background-color: var(--cp-color-semantic-bg-surface);
+  border-right: 1px solid var(--cp-color-semantic-border-default);
+}
+
+.cp-side-nav--closed {
+  display: none;
+}
+
+.cp-side-nav__list,
+.cp-side-nav__sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cp-side-nav__sublist {
+  padding-left: var(--cp-space-4);
+}
+
+.cp-side-nav__link {
+  display: block;
+  padding: var(--cp-space-2) var(--cp-space-3);
+  color: var(--cp-color-semantic-text-primary);
+  font-size: var(--cp-font-size-sm);
+  text-decoration: none;
+  border-radius: var(--cp-radius-md);
+}
+
+.cp-side-nav__link:hover {
+  background-color: var(--cp-color-semantic-bg-surface-secondary);
+}
+
+.cp-side-nav__link[aria-current="page"] {
+  background-color: var(--cp-color-semantic-bg-accent-subtle);
+  color: var(--cp-color-semantic-accent-default);
+  font-weight: var(--cp-font-weight-semibold);
+}
+
+.cp-side-nav__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--cp-space-2);
+  width: 100%;
+  padding: var(--cp-space-2) var(--cp-space-3);
+  color: var(--cp-color-semantic-text-primary);
+  font: inherit;
+  font-size: var(--cp-font-size-sm);
+  font-weight: var(--cp-font-weight-semibold);
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: var(--cp-radius-md);
+  cursor: pointer;
+}
+
+.cp-side-nav__toggle:hover {
+  background-color: var(--cp-color-semantic-bg-surface-secondary);
+}
+
+.cp-side-nav__toggle-label {
+  flex: 1;
+}
+
+.cp-side-nav__toggle-icon {
+  font-size: var(--cp-font-size-xs);
+  color: var(--cp-color-semantic-text-secondary);
+}

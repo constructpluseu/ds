@@ -1,0 +1,85 @@
+import { Textarea } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Textarea" };
+
+# Textarea <StatusBadge status="disponivel" />
+
+Campo de texto multilinha para descrições, notas e observações mais longas.
+
+## Quando usar
+
+- Para descrições de obra, notas internas ou observações de pós-venda com mais de uma linha.
+
+## Quando não usar
+
+- Para um único valor curto — use **Text Input**.
+
+## Anatomia
+
+Label, campo (com possibilidade de redimensionamento vertical), texto de ajuda/erro — mesma
+estrutura do Text Input, com altura mínima maior e redimensionável.
+
+## Variantes
+
+<ComponentPreview label="Com texto de ajuda e com erro">
+  <Textarea label="Descrição da obra" placeholder="Descreva o âmbito dos trabalhos" />
+  <Textarea label="Notas internas" errorText="Escreva pelo menos 10 caracteres" />
+</ComponentPreview>
+
+## Tamanhos
+
+O tamanho (`sm`, `md`, `lg`) afeta o tipo de letra; a altura é sempre flexível (mínimo 6rem,
+redimensionável verticalmente pelo utilizador).
+
+## Estados
+
+Mesma tabela de estados do **Text Input** (default, focus, disabled, invalid), com a diferença
+de que o cursor de redimensionamento aparece no canto inferior direito em `default`.
+
+## Comportamento
+
+- Redimensionável apenas na vertical (`resize: vertical`), para não quebrar o layout da coluna.
+- Não faz auto-crescimento automático de altura por linha nesta fase — o utilizador arrasta a alça inferior quando precisa de mais espaço.
+
+## Conteúdo
+
+- Use `placeholder` para indicar o tipo de conteúdo esperado (ex.: "Descreva o âmbito dos trabalhos"), nunca informação obrigatória.
+
+## Acessibilidade
+
+Mesmas garantias do **Text Input**: label associado via `for`/`id`, `aria-describedby` para
+ajuda/erro, `aria-invalid` quando inválido.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { Textarea } from "@constructpluseu/react";
+
+<Textarea label="Descrição da obra" rows={4} />`,
+    },
+    {
+      label: "Vue",
+      code: `<CpTextarea label="Descrição da obra" :rows="4" v-model="descricao" />`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-textarea label="Descrição da obra" [rows]="4" [value]="descricao" (valueChange)="descricao = $event" />`,
+    },
+    {
+      label: "Next.js",
+      code: `import { Textarea } from "@constructpluseu/react";
+
+<Textarea label="Descrição da obra" rows={4} />`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Text Input** — para valores curtos de uma linha.

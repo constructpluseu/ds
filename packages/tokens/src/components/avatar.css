@@ -1,0 +1,60 @@
+.cp-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--cp-radius-full);
+  background-color: var(--cp-color-semantic-bg-brand);
+  color: var(--cp-color-semantic-text-on-brand);
+  font-weight: var(--cp-font-weight-semibold);
+  overflow: hidden;
+  user-select: none;
+}
+
+.cp-avatar--sm {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: var(--cp-font-size-xs);
+}
+
+.cp-avatar--md {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: var(--cp-font-size-sm);
+}
+
+.cp-avatar--lg {
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: var(--cp-font-size-lg);
+}
+
+.cp-avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cp-avatar__status {
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: var(--cp-radius-full);
+  border: 2px solid var(--cp-color-semantic-bg-surface);
+  background-color: var(--cp-color-semantic-status-neutral-text);
+}
+
+.cp-avatar__status--online {
+  background-color: var(--cp-color-base-mint-500);
+}
+
+.cp-avatar__status--busy {
+  background-color: var(--cp-color-base-red-base);
+}
+
+.cp-avatar__status--away {
+  background-color: var(--cp-color-base-amber-base);
+}

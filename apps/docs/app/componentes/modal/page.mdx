@@ -1,0 +1,151 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { ModalDemo } from "./ModalDemo";
+
+export const metadata = { title: "Modal" };
+
+# Modal <StatusBadge status="disponivel" />
+
+Interrompe o fluxo da aplicação para focar o utilizador numa confirmação, formulário curto ou
+ação crítica, antes de permitir continuar.
+
+## Quando usar
+
+- Para confirmar ações destrutivas ou irreversíveis (ex.: "Eliminar contrato").
+- Para formulários curtos e focados que não justificam uma página própria.
+
+## Quando não usar
+
+- Para conteúdo longo ou exploratório — use uma página ou painel lateral em vez de um modal.
+- Para notificações passivas que não exigem decisão — use **Notification**.
+
+## Anatomia
+
+1. **Sobreposição (overlay)** — escurece o resto da interface e recebe o clique de fecho.
+2. **Caixa de diálogo** — contentor com cabeçalho, corpo e rodapé opcional.
+3. **Título** — identifica o propósito do modal, lido primeiro por leitores de ecrã.
+4. **Botão de fechar** — sempre presente no canto superior direito.
+5. **Rodapé** — ações de confirmação/cancelamento, alinhadas à direita.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <ModalDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+`sm` (24rem), `md` (32rem, predefinição), `lg` (48rem) — escolha com base na quantidade de
+conteúdo do corpo.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Fechado | Não existe no DOM (nem em Angular/Vue/React) — sem custo de renderização quando não está aberto. |
+| Aberto | Bloqueia o scroll do `body`, aplica `aria-modal`, foco movido para o primeiro elemento focável. |
+
+## Comportamento
+
+- Fecha ao premir **Escape**, ao clicar na sobreposição (fora da caixa — configurável via `dismissOnBackdropClick`), ou ao clicar no botão de fechar.
+- O foco é aprisionado dentro do modal enquanto aberto (Tab/Shift+Tab não saem da caixa) e é devolvido ao elemento que tinha foco antes de abrir, ao fechar.
+- **Decisão de escopo desta fase:** o Modal não usa portal (`createPortal`/`Teleport`) — é posicionado com `position: fixed` no local onde é declarado. Isto cobre a grande maioria dos casos; evite colocar o `Modal` dentro de um ancestral com `transform`, `contain` ou `will-change`, pois isso pode alterar o contexto de posicionamento fixo.
+
+## Conteúdo
+
+- O título nomeia a decisão a tomar: **"Eliminar contrato"**, não **"Atenção"** ou **"Tem a certeza?"**.
+- As ações do rodapé usam verbos específicos: **"Eliminar contrato"** / **"Cancelar"**, nunca apenas **"Sim"** / **"Não"**.
+
+## Acessibilidade
+
+- **Papel:** `dialog` com `aria-modal="true"` e `aria-labelledby` a apontar para o título.
+- **Teclado:** foco inicial no primeiro elemento focável; `Tab`/`Shift+Tab` circulam dentro do modal; `Escape` fecha.
+- **Leitor de ecrã:** ao abrir, o título é anunciado primeiro; o resto da página fica inacessível à navegação enquanto o modal está aberto.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { useState } from "react";
+import { Modal, Button } from "@constructpluseu/react";
+
+function EliminarContratoModal() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="danger" onClick={() => setOpen(true)}>Eliminar contrato</Button>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Eliminar contrato"
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setOpen(false)}>Cancelar</Button>
+            <Button variant="danger" onClick={confirmarEliminacao}>Eliminar</Button>
+          </>
+        }
+      >
+        Esta ação não pode ser revertida.
+      </Modal>
+    </>
+  );
+}`,
+    },
+    {
+      label: "Vue",
+      code: `<script setup lang="ts">
+import { ref } from "vue";
+import { CpModal, CpButton } from "@constructpluseu/vue";
+const open = ref(false);
+</script>
+
+<template>
+  <CpButton variant="danger" @click="open = true">Eliminar contrato</CpButton>
+  <CpModal :open="open" title="Eliminar contrato" @close="open = false">
+    Esta ação não pode ser revertida.
+    <template #footer>
+      <CpButton variant="secondary" @click="open = false">Cancelar</CpButton>
+      <CpButton variant="danger" @click="confirmarEliminacao">Eliminar</CpButton>
+    </template>
+  </CpModal>
+</template>`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-button variant="danger" (click)="open = true">Eliminar contrato</cp-button>
+<cp-modal [open]="open" title="Eliminar contrato" [hasFooter]="true" (close)="open = false">
+  Esta ação não pode ser revertida.
+  <ng-container cpModalFooter>
+    <cp-button variant="secondary" (click)="open = false">Cancelar</cp-button>
+    <cp-button variant="danger" (click)="confirmarEliminacao()">Eliminar</cp-button>
+  </ng-container>
+</cp-modal>`,
+    },
+    {
+      label: "Next.js",
+      code: `"use client";
+import { useState } from "react";
+import { Modal, Button } from "@constructpluseu/react";
+
+export function EliminarContratoModal() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="danger" onClick={() => setOpen(true)}>Eliminar contrato</Button>
+      <Modal open={open} onClose={() => setOpen(false)} title="Eliminar contrato">
+        Esta ação não pode ser revertida.
+      </Modal>
+    </>
+  );
+}`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Notification** — para feedback que não exige decisão imediata do utilizador.
+- **Button** — usado no rodapé para confirmar/cancelar.

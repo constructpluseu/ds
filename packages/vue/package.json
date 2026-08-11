@@ -1,0 +1,57 @@
+{
+  "name": "@constructpluseu/vue",
+  "version": "0.1.0",
+  "description": "Implementação em Vue 3 do Construct+ Design System.",
+  "license": "UNLICENSED",
+  "keywords": ["construct-plus", "design-system", "vue", "ui-components"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/constructpluseu/ds.git",
+    "directory": "packages/vue"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/constructplus-vue.cjs",
+  "module": "./dist/constructplus-vue.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/constructplus-vue.js",
+      "require": "./dist/constructplus-vue.cjs"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build && node scripts/copy-styles.mjs",
+    "dev": "vite build --watch",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts,.vue",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@constructpluseu/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.5.0",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "@vue/test-utils": "^2.4.6",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.8",
+    "vite-plugin-dts": "^4.2.3",
+    "vitest": "^2.1.2",
+    "vue": "^3.5.11"
+  }
+}

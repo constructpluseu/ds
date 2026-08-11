@@ -1,0 +1,111 @@
+/* Wrapper genérico de campo — usado por Text Input, Textarea, Select e Number Input. */
+.cp-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cp-space-1);
+}
+
+.cp-field__label {
+  font-size: var(--cp-font-size-sm);
+  font-weight: var(--cp-font-weight-medium);
+  color: var(--cp-color-semantic-text-primary);
+}
+
+.cp-field__label--required::after {
+  content: " *";
+  color: var(--cp-color-semantic-text-danger);
+}
+
+.cp-field__helper {
+  font-size: var(--cp-font-size-xs);
+  color: var(--cp-color-semantic-text-secondary);
+}
+
+.cp-field__helper--error {
+  color: var(--cp-color-semantic-text-danger);
+}
+
+/* Controlo base compartilhado por input/textarea/select */
+.cp-input {
+  width: 100%;
+  font-family: var(--cp-font-family-base);
+  color: var(--cp-color-semantic-text-primary);
+  background-color: var(--cp-color-semantic-bg-surface);
+  border: 1px solid var(--cp-color-semantic-border-default);
+  border-radius: var(--cp-radius-md);
+  transition: border-color var(--cp-motion-duration-fast) var(--cp-motion-easing-standard),
+    box-shadow var(--cp-motion-duration-fast) var(--cp-motion-easing-standard);
+}
+
+.cp-input::placeholder {
+  color: var(--cp-color-semantic-text-placeholder);
+}
+
+.cp-input:hover:not(:disabled) {
+  border-color: var(--cp-color-semantic-border-strong);
+}
+
+.cp-input:focus-visible {
+  outline: none;
+  border-color: var(--cp-color-semantic-border-focus);
+  box-shadow: var(--cp-shadow-focus-ring);
+}
+
+.cp-input:disabled {
+  background-color: var(--cp-color-semantic-bg-disabled);
+  color: var(--cp-color-semantic-text-disabled);
+  cursor: not-allowed;
+}
+
+.cp-input--invalid {
+  border-color: var(--cp-color-semantic-border-danger);
+}
+
+.cp-input--invalid:focus-visible {
+  border-color: var(--cp-color-semantic-border-danger);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+}
+
+.cp-input--sm {
+  height: 2rem;
+  padding-inline: var(--cp-space-3);
+  font-size: var(--cp-font-size-sm);
+}
+
+.cp-input--md {
+  height: 2.5rem;
+  padding-inline: var(--cp-space-3);
+  font-size: var(--cp-font-size-md);
+}
+
+.cp-input--lg {
+  height: 3rem;
+  padding-inline: var(--cp-space-4);
+  font-size: var(--cp-font-size-lg);
+}
+
+/* Textarea: as alturas fixas de --sm/md/lg não se aplicam; usa-se padding vertical. */
+textarea.cp-input {
+  height: auto;
+  min-height: 6rem;
+  padding-block: var(--cp-space-2);
+  line-height: var(--cp-font-line-height-normal);
+  resize: vertical;
+}
+
+/* Select: seta customizada, genérica, desenhada em CSS puro (sem dependência de ícone externo). */
+select.cp-input {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: var(--cp-space-8);
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 1.3rem) center, calc(100% - 1rem) center;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  color: var(--cp-color-semantic-text-primary);
+}
+
+select.cp-input:disabled {
+  color: var(--cp-color-semantic-text-disabled);
+}

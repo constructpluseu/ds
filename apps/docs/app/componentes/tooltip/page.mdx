@@ -1,0 +1,113 @@
+import { Tooltip, Button } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Tooltip" };
+
+# Tooltip <StatusBadge status="disponivel" />
+
+Explicação curta e contextual associada a um elemento, mostrada apenas quando o utilizador
+passa o cursor ou o foco de teclado sobre ele.
+
+## Quando usar
+
+- Para clarificar um ícone sem rótulo visível, ou dar contexto adicional a uma ação (ex.: motivo de um botão desativado).
+
+## Quando não usar
+
+- Para informação essencial à conclusão de uma tarefa — essa deve estar sempre visível, nunca escondida num tooltip.
+- Para conteúdo interativo (links, botões) dentro do próprio tooltip — use **Toggletip** *(planeado)*.
+
+## Anatomia
+
+Elemento gatilho (qualquer componente focável) + balão de texto posicionado relativamente a ele,
+com uma das 4 direções possíveis.
+
+## Variantes
+
+<ComponentPreview label="top, bottom, left, right">
+  <Tooltip content="Guarda as alterações" placement="top">
+    <Button variant="secondary" size="sm">Topo</Button>
+  </Tooltip>
+  <Tooltip content="Guarda as alterações" placement="bottom">
+    <Button variant="secondary" size="sm">Baixo</Button>
+  </Tooltip>
+  <Tooltip content="Guarda as alterações" placement="left">
+    <Button variant="secondary" size="sm">Esquerda</Button>
+  </Tooltip>
+  <Tooltip content="Guarda as alterações" placement="right">
+    <Button variant="secondary" size="sm">Direita</Button>
+  </Tooltip>
+</ComponentPreview>
+
+## Tamanhos
+
+Largura máxima fixa de 16rem; o texto quebra em várias linhas quando necessário.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Oculto | `opacity: 0`, não interfere com cliques (`pointer-events: none`). |
+| Visível | Aparece após hover ou foco no gatilho, com um leve deslize de entrada. |
+
+## Comportamento
+
+- Mostra-se tanto por `hover` como por foco de teclado — nunca é exclusivo do rato.
+- Fecha-se automaticamente ao sair do hover, perder o foco, ou (dependendo da implementação) ao premir Escape.
+- Nesta fase não reposiciona automaticamente para evitar sair do viewport (sem motor de colisão) — escolha a direção (`placement`) sabendo onde o gatilho normalmente aparece no layout.
+
+## Conteúdo
+
+- Texto curto, idealmente uma frase: **"Guarda as alterações"**, não um parágrafo.
+- Nunca repita o que o rótulo visível já diz — o tooltip acrescenta informação, não duplica.
+
+## Acessibilidade
+
+- **Papel:** `tooltip`, associado ao gatilho via `aria-describedby`.
+- **Teclado:** aparece ao focar o gatilho com `Tab`, desaparece ao sair do foco.
+- **Leitor de ecrã:** o conteúdo do tooltip é lido como descrição adicional do elemento focado, sem interromper o fluxo de navegação.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { Tooltip, Button } from "@constructpluseu/react";
+
+<Tooltip content="Guarda as alterações" placement="top">
+  <Button>Guardar</Button>
+</Tooltip>`,
+    },
+    {
+      label: "Vue",
+      code: `<CpTooltip content="Guarda as alterações" placement="top" v-slot="{ describedBy }">
+  <CpButton :aria-describedby="describedBy">Guardar</CpButton>
+</CpTooltip>`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-tooltip content="Guarda as alterações" placement="top">
+  <cp-button>Guardar</cp-button>
+</cp-tooltip>`,
+    },
+    {
+      label: "Next.js",
+      code: `import { Tooltip, Button } from "@constructpluseu/react";
+
+<Tooltip content="Guarda as alterações" placement="top">
+  <Button>Guardar</Button>
+</Tooltip>`,
+    },
+  ]}
+/>
+
+Nota de implementação: no Vue, o slot expõe `describedBy` para ligação manual de
+`aria-describedby` no elemento projetado; no React e Angular essa ligação é automática.
+
+## Relacionados
+
+- **Toggletip** *(planeado)* — para conteúdo interativo acionado por clique.
+- **Popover** *(planeado)* — para conteúdo rico e mais extenso.

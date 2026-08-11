@@ -1,0 +1,101 @@
+import { Tag } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { TagRemovableDemo } from "./TagRemovableDemo";
+
+export const metadata = { title: "Tag / Badge" };
+
+# Tag / Badge <StatusBadge status="disponivel" />
+
+Rótulo curto que comunica o estado, categoria ou classificação de um item — usado em cartões,
+tabelas e listas.
+
+## Quando usar
+
+- Para indicar o estado de uma entidade (ex.: "Pendente", "Concluída", "Atrasada").
+- Para categorizar itens numa lista (ex.: categoria de um artigo do blog).
+
+## Quando não usar
+
+- Para ações — use **Button**.
+- Para texto longo — o Tag é sempre uma palavra ou frase muito curta.
+
+## Anatomia
+
+Rótulo de texto + fundo colorido semanticamente ligado ao estado + botão de remover opcional
+(`×`).
+
+## Variantes
+
+<ComponentPreview label="neutral, info, success, warning, danger">
+  <Tag status="neutral">Rascunho</Tag>
+  <Tag status="info">Em análise</Tag>
+  <Tag status="success">Concluída</Tag>
+  <Tag status="warning">Pendente</Tag>
+  <Tag status="danger">Atrasada</Tag>
+</ComponentPreview>
+<ComponentPreview label="removable (exemplo interativo, React)">
+  <TagRemovableDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho — o Tag acompanha o tamanho de texto do contexto onde está inserido (`font-size-xs`).
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Estático | Sem interação, apenas leitura. |
+| Removable | Mostra um botão `×` que dispara `onRemove`; útil para filtros ativos ou categorias editáveis. |
+
+## Comportamento
+
+- `Badge` é exportado como um alias direto de `Tag` (mesmo componente) — use o nome que ler melhor no contexto: `Tag` para categorização/filtros, `Badge` para indicadores de estado.
+- O botão de remover nunca aparece sem `onRemove` — não há uma prop `removable` isolada em React (a presença do handler já implica a intenção).
+
+## Conteúdo
+
+- Uma a três palavras, sempre em sentence case: **"Em análise"**, não **"EM ANÁLISE"**.
+- Escolha a cor pelo significado, não pela estética: `danger` só para estados que exigem atenção real.
+
+## Acessibilidade
+
+- **Papel:** `<span>` neutro; o texto é lido normalmente pelo leitor de ecrã.
+- O botão de remover tem `aria-label="Remover"` e é totalmente acessível por teclado (`Tab` + `Enter`/`Espaço`).
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { Tag } from "@constructpluseu/react";
+
+<Tag status="success">Concluída</Tag>
+<Tag status="info" onRemove={() => removerFiltro("eletricidade")}>Eletricidade</Tag>`,
+    },
+    {
+      label: "Vue",
+      code: `<CpTag status="success">Concluída</CpTag>
+<CpTag status="info" removable @remove="removerFiltro('eletricidade')">Eletricidade</CpTag>`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-tag status="success">Concluída</cp-tag>
+<cp-tag status="info" [removable]="true" (remove)="removerFiltro('eletricidade')">Eletricidade</cp-tag>`,
+    },
+    {
+      label: "Next.js",
+      code: `import { Tag } from "@constructpluseu/react";
+
+<Tag status="success">Concluída</Tag>`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Card** — usa frequentemente um Tag no cabeçalho para indicar estado.
+- **Notification** — partilha a mesma paleta semântica de estado.

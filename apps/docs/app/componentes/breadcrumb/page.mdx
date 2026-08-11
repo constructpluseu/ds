@@ -1,0 +1,77 @@
+import { Breadcrumb } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Breadcrumb" };
+
+# Breadcrumb <StatusBadge status="disponivel" />
+
+Mostra a posição atual do utilizador numa hierarquia de navegação, com atalhos para os níveis
+superiores.
+
+## Quando usar
+
+- Em páginas com pelo menos 2 níveis de profundidade (ex.: Obras → Obra Central → Orçamento).
+
+## Quando não usar
+
+- Em páginas de primeiro nível, sem hierarquia — não force um breadcrumb de um único item.
+
+## Anatomia
+
+Lista horizontal de itens separados por `/`, com o último item marcado como a página atual
+(sem link).
+
+## Variantes
+
+<ComponentPreview label="Exemplo com 3 níveis">
+  <Breadcrumb
+    items={[
+      { label: "Obras", href: "#" },
+      { label: "Obra Central", href: "#" },
+      { label: "Orçamento" },
+    ]}
+  />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho (`font-size-sm`) — o breadcrumb é sempre um elemento de apoio, nunca o foco visual principal da página.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Item intermédio | Link em `text.secondary`, escurece no hover. |
+| Item atual (último) | Texto em `text.primary`, sem link, `aria-current="page"`. |
+
+## Comportamento
+
+- O último item do array `items` é sempre tratado como a página atual, independentemente de ter `href` ou não.
+- Em ecrãs estreitos, a lista quebra linha (`flex-wrap: wrap`) em vez de truncar — para hierarquias muito profundas, considere mostrar só os 2-3 níveis mais próximos do atual.
+
+## Conteúdo
+
+- Use o mesmo texto do título da página de destino em cada nível, para coerência.
+
+## Acessibilidade
+
+- **Papel:** `<nav aria-label="Navegação estrutural">` envolvendo uma lista `<ol>` — a semântica de lista comunica quantos níveis existem.
+- O item atual usa `aria-current="page"`, não apenas uma cor diferente.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { Breadcrumb } from "@constructpluseu/react";\n\n<Breadcrumb\n  items={[\n    { label: "Obras", href: "/obras" },\n    { label: "Obra Central", href: "/obras/central" },\n    { label: "Orçamento" },\n  ]}\n/>` },
+    { label: "Vue", code: `<CpBreadcrumb :items="[{ label: 'Obras', href: '/obras' }, { label: 'Orçamento' }]" />` },
+    { label: "Angular", code: `<cp-breadcrumb [items]="[{ label: 'Obras', href: '/obras' }, { label: 'Orçamento' }]"></cp-breadcrumb>` },
+    { label: "Next.js", code: `import { Breadcrumb } from "@constructpluseu/react";\n\n<Breadcrumb items={items} />` },
+  ]}
+/>
+
+## Relacionados
+
+- **Link** — cada item do breadcrumb é um link.
+- **Tabs** — para alternar entre vistas do mesmo nível, sem hierarquia.

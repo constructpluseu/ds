@@ -1,0 +1,69 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { SearchDemo } from "./SearchDemo";
+
+export const metadata = { title: "Search" };
+
+# Search <StatusBadge status="disponivel" />
+
+Campo dedicado à procura de obras, materiais ou contactos, com ícone de lupa e botão de limpar.
+
+## Quando usar
+
+- Como campo principal de filtragem de uma lista ou tabela.
+
+## Quando não usar
+
+- Para navegação global do site/produto — esse é um padrão de **Busca e filtragem** mais amplo, não apenas este componente.
+
+## Anatomia
+
+Ícone de lupa (decorativo) + campo de texto + botão de limpar (só quando há texto).
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <SearchDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Segue a mesma escala `sm`/`md`/`lg` dos restantes campos.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Vazio | Sem botão de limpar, mesmo com `clearable`. |
+| Com texto | Botão de limpar visível (se `clearable`). |
+
+## Comportamento
+
+- O label é sempre visualmente oculto (`cp-visually-hidden`) mas presente para leitores de ecrã — o campo usa o próprio label como `placeholder` visível.
+- `onClear` limpa o valor e é chamado separadamente de `onChange`, para permitir lógica distinta (ex.: repor resultados completos da lista).
+- Em React, o botão de limpar aparece automaticamente sempre que `onClear` é fornecido e há texto — não existe uma prop `clearable` separada. Em Vue e Angular, `clearable` é explícito.
+
+## Conteúdo
+
+- O label/placeholder nomeia o que se procura: **&ldquo;Procurar obras&rdquo;**, não apenas **&ldquo;Pesquisar&rdquo;** genérico quando o contexto permitir ser específico.
+
+## Acessibilidade
+
+- **Papel:** `role="searchbox"` sobre `<input type="search">`.
+- O botão de limpar tem `aria-label="Limpar pesquisa"`, nunca depende só do símbolo `×`.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { Search } from "@constructpluseu/react";\n\n// O botão de limpar aparece automaticamente quando onClear é fornecido e há texto.\n<Search\n  label="Procurar obras"\n  value={termo}\n  onChange={(e) => setTermo(e.target.value)}\n  onClear={() => setTermo("")}\n/>` },
+    { label: "Vue", code: `<CpSearch label="Procurar obras" clearable v-model="termo" @clear="termo = ''" />` },
+    { label: "Angular", code: `<cp-search label="Procurar obras" [clearable]="true" [value]="termo" (valueChange)="termo = $event" (clear)="termo = ''"></cp-search>` },
+    { label: "Next.js", code: `"use client";\nimport { useState } from "react";\nimport { Search } from "@constructpluseu/react";\n\nexport function ProcurarObras() {\n  const [termo, setTermo] = useState("");\n  return <Search label="Procurar obras" value={termo} onChange={(e) => setTermo(e.target.value)} onClear={() => setTermo("")} />;\n}` },
+  ]}
+/>
+
+## Relacionados
+
+- **Text Input** — base partilhada de estilo de campo.

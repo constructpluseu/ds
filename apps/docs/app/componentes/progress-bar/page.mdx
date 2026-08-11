@@ -1,0 +1,95 @@
+import { ProgressBar } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Progress Bar" };
+
+# Progress Bar <StatusBadge status="disponivel" />
+
+Indica visualmente o progresso de uma operação com duração previsível (ex.: percentagem de
+execução de uma obra, upload de ficheiros).
+
+## Quando usar
+
+- Quando é possível calcular uma percentagem de conclusão (ex.: "63% do orçamento executado").
+
+## Quando não usar
+
+- Quando a duração da operação é desconhecida — use a variante `indeterminate`, ou um indicador
+  de carregamento simples (**Loading Spinner**, *planeado*).
+
+## Anatomia
+
+Label opcional + percentagem opcional no cabeçalho, pista (track) de fundo, preenchimento
+(fill) proporcional ao valor.
+
+## Variantes
+
+<ComponentPreview label="default, com valor, indeterminate">
+  <ProgressBar label="Aprovisionamento" value={63} max={100} showValue />
+</ComponentPreview>
+<ComponentPreview label="indeterminate">
+  <ProgressBar label="A sincronizar dados" indeterminate />
+</ComponentPreview>
+<ComponentPreview label="status danger">
+  <ProgressBar label="Orçamento excedido" value={92} showValue status="danger" />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho nesta fase — a altura da pista (0.5rem) é consistente em toda a aplicação.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Default | Preenchimento em `bg.accent` (verde), largura proporcional ao valor. |
+| Danger | Preenchimento vermelho — usar quando o valor representa algo a evitar (ex.: risco orçamental). |
+| Indeterminate | Preenchimento com 40% de largura, em animação contínua de translação. |
+
+## Comportamento
+
+- A largura do preenchimento anima suavemente (`motion.duration.moderate`) sempre que `value` muda, comunicando progresso incremental.
+- Em `indeterminate`, `aria-valuenow` não é definido, sinalizando a leitores de ecrã que o progresso não é mensurável.
+
+## Conteúdo
+
+- O `label` nomeia o que está em progresso: **"Aprovisionamento"**, **"A sincronizar dados"**, nunca genérico como "Progresso".
+
+## Acessibilidade
+
+- **Papel:** `progressbar`, com `aria-valuemin`, `aria-valuemax` e `aria-valuenow` (omitido quando indeterminado).
+- **Leitor de ecrã:** anuncia o label (via `aria-labelledby`) e o valor atual.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { ProgressBar } from "@constructpluseu/react";
+
+<ProgressBar label="Aprovisionamento" value={63} showValue />`,
+    },
+    {
+      label: "Vue",
+      code: `<CpProgressBar label="Aprovisionamento" :value="63" show-value />`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-progress-bar label="Aprovisionamento" [value]="63" [showValue]="true"></cp-progress-bar>`,
+    },
+    {
+      label: "Next.js",
+      code: `import { ProgressBar } from "@constructpluseu/react";
+
+<ProgressBar label="Aprovisionamento" value={63} showValue />`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Progress Indicator** *(planeado)* — para progresso em etapas discretas (stepper).
+- **Loading Spinner** *(planeado)* — para carregamento sem progresso mensurável.

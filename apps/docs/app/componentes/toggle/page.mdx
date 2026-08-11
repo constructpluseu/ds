@@ -1,0 +1,94 @@
+import { Toggle } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Toggle" };
+
+# Toggle <StatusBadge status="disponivel" />
+
+Liga/desliga uma definição com efeito imediato, sem depender da submissão de um formulário.
+
+## Quando usar
+
+- Para definições que passam a ter efeito no momento em que são alteradas (ex.: "Notificações por email", "Modo escuro").
+
+## Quando não usar
+
+- Dentro de um formulário que só é aplicado após um clique em "Guardar" — use **Checkbox**.
+
+## Anatomia
+
+Pista (track) + indicador (thumb) que se desloca entre os estados ligado/desligado, com
+rótulo à direita.
+
+## Variantes
+
+<ComponentPreview label="off, on">
+  <Toggle label="Notificações por email" />
+  <Toggle label="Modo escuro" defaultChecked />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho nesta fase.
+
+## Estados
+
+<ComponentPreview label="default, disabled">
+  <Toggle label="Ativo" />
+  <Toggle label="Indisponível" disabled />
+</ComponentPreview>
+
+| Estado | Comportamento |
+|---|---|
+| Off | Pista em `border.strong`, indicador à esquerda. |
+| On | Pista em `bg.accent` (verde), indicador desliza para a direita com easing `spring`. |
+| Focus visible | Anel de foco em torno da pista. |
+| Disabled | Opacidade 50%, sem interação. |
+
+## Comportamento
+
+- A alteração tem efeito imediato — não requer um botão de confirmação separado.
+- Usa `role="switch"` em vez do papel `checkbox` padrão, para comunicar corretamente a semântica de "ligado/desligado" aos leitores de ecrã.
+
+## Conteúdo
+
+- O rótulo descreve a definição no estado ativo: **"Notificações por email"** (fica claro que ligado = recebe notificações).
+
+## Acessibilidade
+
+- **Papel:** `switch` (via `role="switch"` sobre um `<input type="checkbox">`).
+- **Teclado:** `Tab` move o foco; `Espaço` alterna o estado.
+- **Leitor de ecrã:** anuncia o rótulo e o estado como "ligado"/"desligado".
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { Toggle } from "@constructpluseu/react";
+
+<Toggle label="Notificações por email" checked={ativo} onChange={(e) => setAtivo(e.target.checked)} />`,
+    },
+    {
+      label: "Vue",
+      code: `<CpToggle label="Notificações por email" v-model="ativo" />`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-toggle label="Notificações por email" [checked]="ativo" (checkedChange)="ativo = $event" />`,
+    },
+    {
+      label: "Next.js",
+      code: `import { Toggle } from "@constructpluseu/react";
+
+<Toggle label="Notificações por email" checked={ativo} onChange={(e) => setAtivo(e.target.checked)} />`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Checkbox** — para escolhas dentro de um formulário submetido em conjunto.

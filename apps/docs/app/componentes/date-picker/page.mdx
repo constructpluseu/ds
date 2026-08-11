@@ -1,0 +1,86 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { DatePickerDemo, DatePickerLimitadoDemo } from "./DatePickerDemo";
+
+export const metadata = { title: "Date Picker" };
+
+# Date Picker <StatusBadge status="disponivel" />
+
+Seleção de uma única data através de um calendário sobreposto, para prazos, datas de vistoria, faturação ou garantias.
+
+## Quando usar
+
+- Sempre que o dado a capturar é uma data específica e a digitação livre traria risco de formatos ambíguos (ex.: dia/mês trocado).
+- Quando é útil restringir o intervalo de datas possíveis (`minDate`/`maxDate`), ex.: só permitir marcar vistorias em dias úteis futuros.
+
+## Quando não usar
+
+- Para introduzir apenas um mês/ano (ex.: validade de um cartão) — use um `Select` dedicado.
+- Para escolher um intervalo de datas (data de início **e** fim) — esta versão não suporta intervalos; combine dois `Date Picker` lado a lado com validação cruzada.
+
+## Anatomia
+
+Campo de texto só de leitura (mostra a data no formato `dd/mm/aaaa`) + painel de calendário sobreposto com cabeçalho de navegação de mês e grelha de dias.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <DatePickerDemo />
+</ComponentPreview>
+
+<ComponentPreview label="Com intervalo de datas permitido (React)">
+  <DatePickerLimitadoDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Segue a mesma escala `md` dos restantes campos de formulário.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Vazio | Campo mostra o `placeholder` (`dd/mm/aaaa` por omissão). |
+| Preenchido | Campo mostra a data selecionada já formatada. |
+| Aberto | Painel de calendário visível, foco no dia ativo. |
+| Dia fora do intervalo | Botão do dia com `disabled`, não pode ser selecionado. |
+| Erro | `errorText` define `aria-invalid` e substitui o texto de ajuda. |
+| Desativado | `disabled` impede a abertura do calendário. |
+
+## Comportamento
+
+- O campo é só de leitura — a data só muda através do calendário, nunca por digitação direta, para evitar ambiguidade de formato.
+- Clicar no campo, ou premir `Enter`/`Espaço`/`Seta para baixo` com o campo focado, abre o calendário no mês da data selecionada (ou no mês atual, se vazio).
+- Dentro da grelha, as setas do teclado movem o dia em foco (`Esquerda`/`Direita` um dia, `Cima`/`Baixo` uma semana), avançando de mês automaticamente quando necessário.
+- `Enter`/`Espaço` seleciona o dia em foco e fecha o calendário, devolvendo o foco ao campo. `Escape` fecha sem alterar a seleção.
+- Clicar fora do calendário fecha-o sem alterar a seleção.
+- O valor exposto (`value`/`modelValue`) é sempre uma string ISO `aaaa-mm-dd`, independente do idioma de apresentação.
+
+## Conteúdo
+
+- O `label` nomeia o que a data representa: **&ldquo;Data de início da obra&rdquo;**, não **&ldquo;Data&rdquo;** genérico.
+- Quando existir `minDate`/`maxDate`, explique a restrição no `helperText` (ex.: "Disponível entre agosto e dezembro de 2026.") em vez de deixar o utilizador descobrir por tentativa e erro.
+
+## Acessibilidade
+
+- **Papel:** `role="combobox"` no campo (padrão de diálogo de calendário do WAI-ARIA), com `aria-haspopup="dialog"`, `aria-expanded` e `aria-controls` a apontar para o painel.
+- O painel usa `role="dialog"` com `aria-label="Escolher data"`.
+- Cada dia é um `<button>` nativo com `aria-label` por extenso (ex.: "15 de agosto de 2026"), `aria-pressed` a refletir a seleção e `aria-current="date"` no dia de hoje.
+- Navegação por teclado usa *roving tabindex*: só o dia em foco tem `tabindex="0"`, os restantes `tabindex="-1"`.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { useState } from "react";\nimport { DatePicker } from "@constructpluseu/react";\n\nfunction Exemplo() {\n  const [value, setValue] = useState<string | null>(null);\n  return <DatePicker label="Data de início da obra" value={value} onChange={setValue} />;\n}` },
+    { label: "Vue", code: `<script setup>\nimport { ref } from "vue";\nimport { CpDatePicker } from "@constructpluseu/vue";\n\nconst valor = ref(null);\n</script>\n\n<template>\n  <CpDatePicker label="Data de início da obra" v-model="valor" />\n</template>` },
+    { label: "Angular", code: `import { CpDatePickerComponent } from "@constructpluseu/angular";\n\n@Component({\n  standalone: true,\n  imports: [CpDatePickerComponent],\n  template: \`<cp-date-picker label="Data de início da obra" [value]="valor" (valueChange)="valor = $event"></cp-date-picker>\`,\n})\nexport class ExemploComponent {\n  valor: string | null = null;\n}` },
+    { label: "Next.js", code: `"use client";\nimport { useState } from "react";\nimport { DatePicker } from "@constructpluseu/react";\n\nexport function DataDeInicioField() {\n  const [value, setValue] = useState<string | null>(null);\n  return <DatePicker label="Data de início da obra" value={value} onChange={setValue} />;\n}` },
+  ]}
+/>
+
+## Relacionados
+
+- **Text Input** — base partilhada de estilo de campo.
+- **Combobox / Multiselect** — outro campo com painel sobreposto e navegação por teclado semelhante.

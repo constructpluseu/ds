@@ -1,0 +1,86 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { ComboboxDemo, ComboboxMultiploDemo } from "./ComboboxDemo";
+
+export const metadata = { title: "Combobox / Multiselect" };
+
+# Combobox / Multiselect <StatusBadge status="disponivel" />
+
+Escolha com filtro por digitação, de seleção única ou múltipla, indicada para listas longas onde um `Select` nativo deixa de ser prático.
+
+## Quando usar
+
+- Quando a lista de opções é longa (dezenas de itens) e o filtro por digitação acelera a escolha — ex.: lista de materiais, fornecedores ou intervenientes numa obra.
+- Quando é preciso selecionar mais do que um item ao mesmo tempo (`multiple`).
+
+## Quando não usar
+
+- Para listas curtas (até ~7 opções) — prefira `Select` ou `Radio Button`, que expõem todas as opções sem exigir digitação.
+- Para ações (não seleção de dados) — use `Dropdown Menu`.
+
+## Anatomia
+
+Label + campo de texto (`role="combobox"`) + lista de opções sobreposta (`role="listbox"`) que filtra conforme se digita. No modo múltiplo, os itens selecionados aparecem como tags acima do campo, cada uma com botão de remoção.
+
+## Variantes
+
+<ComponentPreview label="Seleção única (React)">
+  <ComboboxDemo />
+</ComponentPreview>
+
+<ComponentPreview label="Seleção múltipla (React)">
+  <ComboboxMultiploDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Segue a mesma escala `md` dos restantes campos de formulário; não expõe `sm`/`lg` nesta versão.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Fechado, sem seleção | Mostra o `placeholder`. |
+| Fechado, com seleção (única) | Mostra o rótulo da opção selecionada. |
+| Aberto | Lista de opções filtradas visível; campo mostra o texto digitado. |
+| Sem resultados | A lista mostra "Sem resultados" em vez de itens. |
+| Erro | `errorText` define `aria-invalid` e substitui o texto de ajuda. |
+| Opção desativada | Não pode ser selecionada por clique nem por teclado. |
+
+## Comportamento
+
+- Digitar filtra as opções pelo rótulo (contém, sem distinção de maiúsculas/minúsculas).
+- **Seleção única:** ao escolher uma opção, a lista fecha e o campo mostra o rótulo escolhido.
+- **Seleção múltipla:** cada escolha adiciona uma tag e a lista permanece aberta; o campo limpa-se para permitir continuar a filtrar.
+- Clicar fora do componente ou premir `Escape` fecha a lista sem alterar a seleção.
+- Teclado: `Seta para baixo`/`Seta para cima` percorrem as opções filtradas, `Enter` seleciona a opção ativa, `Escape` fecha.
+
+## Conteúdo
+
+- O `label` nomeia o que está a ser escolhido: **&ldquo;Tipo de obra&rdquo;**, não **&ldquo;Selecione&rdquo;** genérico.
+- O `placeholder` por omissão é **&ldquo;Selecione…&rdquo;**; só o personalize quando ajudar a esclarecer o formato esperado.
+
+## Acessibilidade
+
+- **Papel:** `role="combobox"` no campo, com `aria-expanded`, `aria-controls` a apontar para a `role="listbox"`, e `aria-autocomplete="list"`.
+- Cada opção usa `role="option"` com `aria-selected` a refletir o estado de seleção; opções desativadas usam `aria-disabled`.
+- O botão de remoção de cada tag tem `aria-label` explícito (ex.: "Remover Residencial"), nunca depende só do símbolo `×`.
+- Totalmente operável por teclado, sem depender do rato.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { useState } from "react";\nimport { Combobox } from "@constructpluseu/react";\n\nconst opcoes = [\n  { value: "residencial", label: "Residencial" },\n  { value: "comercial", label: "Comercial" },\n];\n\nfunction Exemplo() {\n  const [value, setValue] = useState<string[]>([]);\n  return <Combobox label="Tipo de obra" options={opcoes} value={value} onChange={setValue} />;\n}` },
+    { label: "Vue", code: `<script setup>\nimport { ref } from "vue";\nimport { CpCombobox } from "@constructpluseu/vue";\n\nconst opcoes = [\n  { value: "residencial", label: "Residencial" },\n  { value: "comercial", label: "Comercial" },\n];\nconst valor = ref([]);\n</script>\n\n<template>\n  <CpCombobox label="Tipo de obra" :options="opcoes" v-model="valor" />\n</template>` },
+    { label: "Angular", code: `import { CpComboboxComponent } from "@constructpluseu/angular";\n\n@Component({\n  standalone: true,\n  imports: [CpComboboxComponent],\n  template: \`<cp-combobox label="Tipo de obra" [options]="opcoes" [value]="valor" (valueChange)="valor = $event"></cp-combobox>\`,\n})\nexport class ExemploComponent {\n  opcoes = [\n    { value: "residencial", label: "Residencial" },\n    { value: "comercial", label: "Comercial" },\n  ];\n  valor: string[] = [];\n}` },
+    { label: "Next.js", code: `"use client";\nimport { useState } from "react";\nimport { Combobox } from "@constructpluseu/react";\n\nconst opcoes = [\n  { value: "residencial", label: "Residencial" },\n  { value: "comercial", label: "Comercial" },\n];\n\nexport function TipoDeObraField() {\n  const [value, setValue] = useState<string[]>([]);\n  return <Combobox label="Tipo de obra" options={opcoes} value={value} onChange={setValue} />;\n}` },
+  ]}
+/>
+
+## Relacionados
+
+- **Select** — alternativa mais simples para listas curtas sem necessidade de filtro.
+- **Search** — campo de procura sem lista de opções associada.
+- **Tag/Badge** — usado internamente para representar cada seleção no modo múltiplo.

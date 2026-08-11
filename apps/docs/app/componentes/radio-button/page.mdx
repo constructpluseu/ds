@@ -1,0 +1,99 @@
+import { RadioButton } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Radio Button" };
+
+# Radio Button <StatusBadge status="disponivel" />
+
+Escolha única e mutuamente exclusiva entre 2 a 5 opções que valem a pena manter todas visíveis
+ao mesmo tempo.
+
+## Quando usar
+
+- Quando há poucas opções (2-5) e comparar todas ao mesmo tempo ajuda a decidir.
+
+## Quando não usar
+
+- Para mais de 5 opções — use **Select**.
+- Para seleção múltipla independente — use **Checkbox**.
+
+## Anatomia
+
+Círculo visual customizado (com ponto central quando selecionado) + rótulo clicável. Vários
+`RadioButton` partilham o mesmo `name` para formar um grupo nativo do navegador.
+
+## Variantes
+
+<ComponentPreview label="Grupo de 3 opções">
+  <RadioButton name="tipo-obra-doc" value="residencial" label="Residencial" defaultChecked />
+  <RadioButton name="tipo-obra-doc" value="comercial" label="Comercial" />
+  <RadioButton name="tipo-obra-doc" value="infraestrutura" label="Infraestrutura" />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho nesta fase (1.125rem), consistente com o Checkbox.
+
+## Estados
+
+<ComponentPreview label="default, disabled">
+  <RadioButton name="estado-doc" value="a" label="Ativo" />
+  <RadioButton name="estado-doc" value="b" label="Indisponível" disabled />
+</ComponentPreview>
+
+Mesma lógica de estados do **Checkbox** (default, checked, focus visible, disabled), com um
+ponto central em vez de marca de verificação.
+
+## Comportamento
+
+- O agrupamento é feito exclusivamente pelo atributo `name` — não existe um componente
+  `RadioGroup` nesta fase; o formulário consumidor gere o valor selecionado e passa `checked`
+  a cada opção individualmente.
+- Selecionar uma opção do grupo desmarca automaticamente as restantes (comportamento nativo do navegador).
+
+## Conteúdo
+
+- Cada rótulo é uma opção curta e paralela às restantes: **"Residencial"**, **"Comercial"**, não frases completas.
+
+## Acessibilidade
+
+- **Papel:** nativo de `<input type="radio">`.
+- **Teclado:** setas ↑/↓ ou ←/→ movem a seleção dentro do grupo (comportamento nativo do navegador quando o `name` é partilhado); `Tab` entra/sai do grupo uma única vez.
+- **Leitor de ecrã:** anuncia o rótulo, o estado e a posição no grupo (ex.: "1 de 3").
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { RadioButton } from "@constructpluseu/react";
+
+<RadioButton name="tipo" value="residencial" label="Residencial" checked={tipo === "residencial"} onChange={() => setTipo("residencial")} />
+<RadioButton name="tipo" value="comercial" label="Comercial" checked={tipo === "comercial"} onChange={() => setTipo("comercial")} />`,
+    },
+    {
+      label: "Vue",
+      code: `<CpRadioButton name="tipo" value="residencial" label="Residencial" v-model="tipo" />
+<CpRadioButton name="tipo" value="comercial" label="Comercial" v-model="tipo" />`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-radio-button name="tipo" value="residencial" label="Residencial" [checked]="tipo === 'residencial'" (valueChange)="tipo = $event" />
+<cp-radio-button name="tipo" value="comercial" label="Comercial" [checked]="tipo === 'comercial'" (valueChange)="tipo = $event" />`,
+    },
+    {
+      label: "Next.js",
+      code: `import { RadioButton } from "@constructpluseu/react";
+
+<RadioButton name="tipo" value="residencial" label="Residencial" checked={tipo === "residencial"} onChange={() => setTipo("residencial")} />`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Checkbox** — para seleção múltipla independente.
+- **Select** — para mais de 5 opções.

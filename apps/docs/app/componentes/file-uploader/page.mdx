@@ -1,0 +1,77 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { FileUploaderDemo } from "./FileUploaderDemo";
+
+export const metadata = { title: "File Uploader" };
+
+# File Uploader <StatusBadge status="disponivel" />
+
+Carregamento de ficheiros por arrastar-e-largar ou seleção manual, para documentos e fotografias associados a uma obra (autos, comprovativos, plantas).
+
+## Quando usar
+
+- Sempre que o utilizador precisa de anexar um ou mais ficheiros a um registo (obra, orçamento, vistoria).
+- Quando é útil restringir o tipo (`accept`) ou o tamanho (`maxSizeBytes`) dos ficheiros aceites.
+
+## Quando não usar
+
+- Para captura direta de fotografia pela câmara do dispositivo — use um controlo nativo dedicado (`<input capture>`) fora deste componente.
+- Para upload com barra de progresso por ficheiro ou envio automático em segundo plano — este componente só gere a **seleção** local dos ficheiros; o envio é responsabilidade da aplicação.
+
+## Anatomia
+
+Zona de arrastar-e-largar (também clicável, abre o seletor nativo do sistema operativo) + lista dos ficheiros já selecionados, cada um com nome, tamanho e botão de remoção.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <FileUploaderDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Não expõe variantes de tamanho — a zona de carregamento ocupa sempre a largura do contentor.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Vazio | Mostra só a instrução de arrastar/clicar. |
+| Com ficheiros | Lista os ficheiros abaixo da zona de carregamento. |
+| A arrastar sobre a zona | Contorno e fundo destacados enquanto o ficheiro está sobre a zona. |
+| Ficheiro acima do tamanho máximo | Item assinalado a vermelho com "Excede o tamanho máximo" em vez do tamanho. |
+| Erro | `errorText` assinala a zona a vermelho e substitui o texto de ajuda. |
+| Desativado | Zona esmaecida, não aceita cliques nem largar ficheiros. |
+
+## Comportamento
+
+- A zona de carregamento é um `<label>` a envolver um `<input type="file">` visualmente oculto (mas presente e focável) — isto significa que o clique, o `Tab` e o `Enter`/`Espaço` para abrir o seletor nativo funcionam sem qualquer JavaScript adicional de teclado.
+- Arrastar ficheiros para a zona e largar adiciona-os tal como selecioná-los manualmente.
+- Quando `multiple` é `false` (predefinição), selecionar ou largar um novo ficheiro substitui a seleção anterior; quando `true`, os ficheiros acumulam-se na lista.
+- `maxSizeBytes` não bloqueia a seleção — os ficheiros acima do limite continuam na lista, mas assinalados, para que a aplicação decida como agir (ex.: impedir o envio, pedir para o utilizador remover).
+
+## Conteúdo
+
+- O `label` diz o que se espera anexar: **&ldquo;Plantas e comprovativos&rdquo;**, não **&ldquo;Ficheiros&rdquo;** genérico.
+- Quando houver restrições de tipo/tamanho, explique-as no `helperText` (ex.: "PDF, JPG ou PNG, até 5 MB por ficheiro.").
+
+## Acessibilidade
+
+- O `<input type="file">` real permanece no DOM e focável (oculto apenas visualmente via `cp-visually-hidden`), pelo que herda todo o comportamento nativo de acessibilidade do sistema operativo e do leitor de ecrã — não é reimplementado em JavaScript.
+- Cada botão de remoção tem `aria-label` explícito (ex.: "Remover planta.pdf"), nunca depende só do símbolo `×`.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { useState } from "react";\nimport { FileUploader } from "@constructpluseu/react";\n\nfunction Exemplo() {\n  const [files, setFiles] = useState<File[]>([]);\n  return (\n    <FileUploader\n      label="Plantas e comprovativos"\n      files={files}\n      onChange={setFiles}\n      multiple\n      accept=".pdf,.jpg,.png"\n      maxSizeBytes={5 * 1024 * 1024}\n    />\n  );\n}` },
+    { label: "Vue", code: `<script setup>\nimport { ref } from "vue";\nimport { CpFileUploader } from "@constructpluseu/vue";\n\nconst ficheiros = ref([]);\n</script>\n\n<template>\n  <CpFileUploader label="Plantas e comprovativos" v-model="ficheiros" multiple accept=".pdf,.jpg,.png" :maxSizeBytes="5 * 1024 * 1024" />\n</template>` },
+    { label: "Angular", code: `import { CpFileUploaderComponent } from "@constructpluseu/angular";\n\n@Component({\n  standalone: true,\n  imports: [CpFileUploaderComponent],\n  template: \`<cp-file-uploader label="Plantas e comprovativos" [value]="ficheiros" [multiple]="true" accept=".pdf,.jpg,.png" [maxSizeBytes]="5 * 1024 * 1024" (valueChange)="ficheiros = $event"></cp-file-uploader>\`,\n})\nexport class ExemploComponent {\n  ficheiros: File[] = [];\n}` },
+    { label: "Next.js", code: `"use client";\nimport { useState } from "react";\nimport { FileUploader } from "@constructpluseu/react";\n\nexport function AnexosDaObra() {\n  const [files, setFiles] = useState<File[]>([]);\n  return <FileUploader label="Plantas e comprovativos" files={files} onChange={setFiles} multiple />;\n}` },
+  ]}
+/>
+
+## Relacionados
+
+- **Tag/Badge** — usado como referência visual para o estilo de itens removíveis.

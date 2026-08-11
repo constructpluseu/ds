@@ -1,0 +1,63 @@
+.cp-radio {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--cp-space-2);
+  cursor: pointer;
+  font-size: var(--cp-font-size-md);
+  color: var(--cp-color-semantic-text-primary);
+}
+
+.cp-radio__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.cp-radio__circle {
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.0625rem;
+  border-radius: var(--cp-radius-full);
+  border: 1.5px solid var(--cp-color-semantic-border-strong);
+  background-color: var(--cp-color-semantic-bg-surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--cp-motion-duration-fast) var(--cp-motion-easing-standard);
+}
+
+.cp-radio__circle::after {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--cp-radius-full);
+  background-color: var(--cp-color-semantic-bg-brand);
+  transform: scale(0);
+  transition: transform var(--cp-motion-duration-fast) var(--cp-motion-easing-spring);
+}
+
+.cp-radio__input:checked + .cp-radio__circle {
+  border-color: var(--cp-color-semantic-bg-brand);
+}
+
+.cp-radio__input:checked + .cp-radio__circle::after {
+  transform: scale(1);
+}
+
+.cp-radio__input:focus-visible + .cp-radio__circle {
+  outline: 2px solid var(--cp-color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+.cp-radio--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.cp-radio__label {
+  line-height: var(--cp-font-line-height-normal);
+}

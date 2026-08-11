@@ -1,0 +1,78 @@
+.cp-checkbox {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--cp-space-2);
+  cursor: pointer;
+  font-size: var(--cp-font-size-md);
+  color: var(--cp-color-semantic-text-primary);
+}
+
+.cp-checkbox__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.cp-checkbox__box {
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.0625rem;
+  border-radius: var(--cp-radius-sm);
+  border: 1.5px solid var(--cp-color-semantic-border-strong);
+  background-color: var(--cp-color-semantic-bg-surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--cp-motion-duration-fast) var(--cp-motion-easing-standard),
+    border-color var(--cp-motion-duration-fast) var(--cp-motion-easing-standard);
+}
+
+.cp-checkbox__box::after {
+  content: "";
+  width: 0.55rem;
+  height: 0.4rem;
+  border-left: 2px solid var(--cp-color-semantic-text-on-brand);
+  border-bottom: 2px solid var(--cp-color-semantic-text-on-brand);
+  transform: rotate(-45deg) scale(0);
+  transition: transform var(--cp-motion-duration-fast) var(--cp-motion-easing-spring);
+}
+
+.cp-checkbox__input:checked + .cp-checkbox__box {
+  background-color: var(--cp-color-semantic-bg-brand);
+  border-color: var(--cp-color-semantic-bg-brand);
+}
+
+.cp-checkbox__input:checked + .cp-checkbox__box::after {
+  transform: rotate(-45deg) scale(1);
+}
+
+.cp-checkbox__input:indeterminate + .cp-checkbox__box {
+  background-color: var(--cp-color-semantic-bg-brand);
+  border-color: var(--cp-color-semantic-bg-brand);
+}
+
+.cp-checkbox__input:indeterminate + .cp-checkbox__box::after {
+  width: 0.55rem;
+  height: 0;
+  border-left: none;
+  border-bottom: 2px solid var(--cp-color-semantic-text-on-brand);
+  transform: scale(1);
+}
+
+.cp-checkbox__input:focus-visible + .cp-checkbox__box {
+  outline: 2px solid var(--cp-color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+.cp-checkbox--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.cp-checkbox__label {
+  line-height: var(--cp-font-line-height-normal);
+}

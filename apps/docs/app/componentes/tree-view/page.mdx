@@ -1,0 +1,79 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { TreeViewDemo } from "./TreeViewDemo";
+
+export const metadata = { title: "Tree View" };
+
+# Tree View <StatusBadge status="disponivel" />
+
+Hierarquia navegável e expansível, para estruturas com níveis (ex.: obras agrupadas por tipo, pastas de documentos de uma obra).
+
+## Quando usar
+
+- Para representar dados com relação pai-filho clara e navegável, onde o utilizador pode querer ver só um ramo de cada vez.
+- Quando os itens têm profundidade variável (alguns têm filhos, outros não).
+
+## Quando não usar
+
+- Para uma lista plana sem hierarquia — use `List` ou `Structured List`.
+- Para navegação principal do produto — essa é a `Navegação (Shell)`, não este componente.
+
+## Anatomia
+
+Lista com `role="tree"`, cada item (`role="treeitem"`) com um indicador de expansão (▸/▾) quando tem filhos, e indentação proporcional à profundidade.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <TreeViewDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Não expõe variantes de tamanho.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Fechado | Filhos não estão no DOM; indicador mostra ▸. |
+| Aberto | Filhos visíveis; indicador mostra ▾; `aria-expanded="true"`. |
+| Selecionado | Fundo destacado com a cor de acento. |
+| Desativado | Não pode ser selecionado por clique nem por teclado; texto esbatido. |
+| Em foco | Contorno visível à volta da linha; segue o padrão de *roving tabindex*. |
+
+## Comportamento
+
+- **Componente controlado**: `expandedIds` e `selectedId` são geridos pela aplicação; o `Tree View` só emite os pedidos de alteração (`onExpandedChange`/`expandedChange`, `onSelect`/`select`).
+- Clicar no indicador ▸/▾ expande ou recolhe um nó sem o selecionar. Clicar no resto da linha seleciona o nó (se não estiver desativado).
+- Navegação por teclado segue o padrão WAI-ARIA de árvore: `Seta para baixo`/`Seta para cima` movem o foco entre os nós atualmente visíveis; `Seta para a direita` expande um nó fechado ou move o foco para o primeiro filho de um nó já aberto; `Seta para a esquerda` recolhe um nó aberto ou move o foco para o nó-pai; `Enter`/`Espaço` seleciona o nó em foco.
+- Só o nó em foco tem `tabindex="0"` (*roving tabindex*); os restantes têm `tabindex="-1"`, pelo que a árvore inteira ocupa uma só paragem no `Tab` da página.
+
+## Conteúdo
+
+- Rótulos curtos e reconhecíveis: **&ldquo;Moradia Cascais&rdquo;**, não um identificador técnico.
+- Agrupe por um critério que faça sentido para quem gere obras (tipo, estado, ano), não pela estrutura interna da base de dados.
+
+## Acessibilidade
+
+- Usa o padrão WAI-ARIA de árvore com uma lista **plana** anotada com `aria-level`, `aria-posinset` e `aria-setsize` em vez de `<ul>` aninhados — uma alternativa válida ao aninhamento por DOM, prevista nas WAI-ARIA Authoring Practices, mais simples de gerar em todos os frameworks suportados.
+- Nós com filhos declaram `aria-expanded`; nós sem filhos não declaram este atributo.
+- O nó selecionado declara `aria-selected="true"`.
+- O botão de expandir/recolher tem `aria-label` explícito ("Expandir"/"Recolher").
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { useState } from "react";\nimport { TreeView } from "@constructpluseu/react";\nimport type { TreeNode } from "@constructpluseu/react";\n\nconst nodes: TreeNode[] = [\n  { id: "obras", label: "Obras", children: [{ id: "cascais", label: "Moradia Cascais" }] },\n];\n\nfunction Exemplo() {\n  const [expandedIds, setExpandedIds] = useState<string[]>([]);\n  const [selectedId, setSelectedId] = useState<string | null>(null);\n  return (\n    <TreeView\n      label="Estrutura de obras"\n      nodes={nodes}\n      expandedIds={expandedIds}\n      onExpandedChange={setExpandedIds}\n      selectedId={selectedId}\n      onSelect={setSelectedId}\n    />\n  );\n}` },
+    { label: "Vue", code: `<script setup>\nimport { ref } from "vue";\nimport { CpTreeView } from "@constructpluseu/vue";\n\nconst nodes = [\n  { id: "obras", label: "Obras", children: [{ id: "cascais", label: "Moradia Cascais" }] },\n];\nconst expandedIds = ref([]);\nconst selectedId = ref(null);\n</script>\n\n<template>\n  <CpTreeView\n    label="Estrutura de obras"\n    :nodes="nodes"\n    :expandedIds="expandedIds"\n    :selectedId="selectedId"\n    @expandedChange="expandedIds = $event"\n    @select="selectedId = $event"\n  />\n</template>` },
+    { label: "Angular", code: `import { CpTreeViewComponent, TreeNode } from "@constructpluseu/angular";\n\n@Component({\n  standalone: true,\n  imports: [CpTreeViewComponent],\n  template: \`\n    <cp-tree-view\n      label="Estrutura de obras"\n      [nodes]="nodes"\n      [expandedIds]="expandedIds"\n      [selectedId]="selectedId"\n      (expandedChange)="expandedIds = $event"\n      (select)="selectedId = $event"\n    ></cp-tree-view>\n  \`,\n})\nexport class ExemploComponent {\n  nodes: TreeNode[] = [\n    { id: "obras", label: "Obras", children: [{ id: "cascais", label: "Moradia Cascais" }] },\n  ];\n  expandedIds: string[] = [];\n  selectedId: string | null = null;\n}` },
+    { label: "Next.js", code: `"use client";\nimport { useState } from "react";\nimport { TreeView } from "@constructpluseu/react";\nimport type { TreeNode } from "@constructpluseu/react";\n\nexport function EstruturaDeObras({ nodes }: { nodes: TreeNode[] }) {\n  const [expandedIds, setExpandedIds] = useState<string[]>([]);\n  const [selectedId, setSelectedId] = useState<string | null>(null);\n  return (\n    <TreeView label="Estrutura de obras" nodes={nodes} expandedIds={expandedIds} onExpandedChange={setExpandedIds} selectedId={selectedId} onSelect={setSelectedId} />\n  );\n}` },
+  ]}
+/>
+
+## Relacionados
+
+- **Accordion** — disclosure de um só nível; use `Tree View` quando há mais de um nível de profundidade.
+- **Structured List** — alternativa para listas sem hierarquia.

@@ -1,0 +1,71 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { PopoverDemo } from "./PopoverDemo";
+
+export const metadata = { title: "Popover" };
+
+# Popover <StatusBadge status="disponivel" />
+
+Painel flutuante com conteúdo rico, ancorado a um elemento gatilho, mostrado/ocultado ao clicar.
+
+## Quando usar
+
+- Para mostrar informação adicional rica (texto formatado, múltiplos elementos) que não cabe num **Tooltip**.
+
+## Quando não usar
+
+- Para uma única frase curta e não interativa — use **Tooltip**.
+- Para uma lista de ações — use **Dropdown Menu**, que tem semântica e teclado próprios.
+
+## Anatomia
+
+Gatilho (qualquer elemento) + painel posicionado por baixo dele, com fundo sólido, borda e sombra.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <PopoverDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Largura mínima de 14rem, máxima de 20rem — para conteúdo maior, prefira um **Modal**.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Fechado | Painel ausente do DOM. |
+| Aberto | Painel visível, `role="dialog"`, fecha ao clicar fora ou premir Escape. |
+
+## Comportamento
+
+- Ao contrário do **Modal**, o Popover não bloqueia a interação com o resto da página nem aprisiona o foco — é um painel de baixa fricção.
+- Fecha automaticamente ao clicar em qualquer lugar fora do gatilho+painel, ou ao premir Escape.
+
+## Conteúdo
+
+- Pode conter título, texto e até ações simples — mas evite formulários complexos (use **Modal** nesse caso).
+
+## Acessibilidade
+
+- **Papel:** `role="dialog"` no painel, associado ao gatilho via `aria-controls` e `aria-expanded`.
+- **Teclado:** `Escape` fecha; o foco não é automaticamente movido para dentro do painel (ao contrário do Modal) — mantenha o conteúdo simples o suficiente para não exigir isso.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { Popover, Button } from "@constructpluseu/react";\n\n<Popover trigger={<Button variant="secondary">Detalhes</Button>}>\n  Conteúdo rico do popover.\n</Popover>` },
+    { label: "Vue", code: `<CpPopover>\n  <template #trigger="{ toggle, open, id }">\n    <CpButton variant="secondary" :aria-expanded="open" :aria-controls="id" @click="toggle">\n      Detalhes\n    </CpButton>\n  </template>\n  Conteúdo rico do popover.\n</CpPopover>` },
+    { label: "Angular", code: `<cp-popover #pop>\n  <cp-button cpPopoverTrigger variant="secondary" (click)="pop.toggle()">Detalhes</cp-button>\n  Conteúdo rico do popover.\n</cp-popover>` },
+    { label: "Next.js", code: `import { Popover, Button } from "@constructpluseu/react";\n\n<Popover trigger={<Button variant="secondary">Detalhes</Button>}>\n  Conteúdo rico do popover.\n</Popover>` },
+  ]}
+/>
+
+## Relacionados
+
+- **Tooltip** — para texto curto e não interativo.
+- **Dropdown Menu** — para uma lista de ações.
+- **Modal** — para conteúdo mais extenso ou que exige foco total do utilizador.

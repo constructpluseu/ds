@@ -1,0 +1,71 @@
+import { Tile } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { TileButtonDemo } from "./TileButtonDemo";
+
+export const metadata = { title: "Tile" };
+
+# Tile <StatusBadge status="disponivel" />
+
+Superfície clicável que representa um módulo, obra ou atalho — a unidade visual de ecrãs de
+navegação de alto nível (ex.: o painel inicial com os 6 módulos da plataforma).
+
+## Quando usar
+
+- Para atalhos de navegação para módulos ou secções principais (ex.: "Aprovisionamento", "Gestão Financeira").
+
+## Quando não usar
+
+- Para agrupar informação que não é primariamente clicável — use **Card**.
+
+## Anatomia
+
+Ícone/indicador opcional + título + descrição curta, tudo dentro de uma superfície inteira clicável.
+
+## Variantes
+
+<ComponentPreview label="Como link, como botão">
+  <Tile href="#" icon="01" title="Gestão Comercial" description="Clientes, orçamentos e contratos" />
+  <TileButtonDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho — a largura acompanha a coluna da grelha onde é colocado (ver **Fundamentos → Grid e layout**).
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Default | Borda `border.default`, sem sombra. |
+| Hover | Borda `border.strong` + sombra `shadow.md`. |
+
+## Comportamento
+
+- Renderiza como `<a>` quando `href` é fornecido, ou `<button>` caso contrário — nunca uma `<div>` com `onClick`, garantindo semântica e teclado nativos.
+- Toda a superfície é clicável, não apenas o texto.
+
+## Conteúdo
+
+- O título nomeia o módulo/destino: **"Gestão Comercial"**; a descrição resume o valor em poucas palavras.
+
+## Acessibilidade
+
+- **Papel:** nativo de `<a>` ou `<button>`, conforme o modo de uso.
+- O ícone é `aria-hidden`, pois o título já comunica o destino por texto.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { Tile } from "@constructpluseu/react";\n\n<Tile href="/modulos/aprovisionamento" icon="01" title="Aprovisionamento" description="Materiais e stock" />` },
+    { label: "Vue", code: `<CpTile href="/modulos/aprovisionamento" title="Aprovisionamento" description="Materiais e stock">\n  <template #icon>01</template>\n</CpTile>` },
+    { label: "Angular", code: `<cp-tile href="/modulos/aprovisionamento" icon="01" title="Aprovisionamento" description="Materiais e stock"></cp-tile>` },
+    { label: "Next.js", code: `import { Tile } from "@constructpluseu/react";\n\n<Tile href="/modulos/aprovisionamento" title="Aprovisionamento" description="Materiais e stock" />` },
+  ]}
+/>
+
+## Relacionados
+
+- **Card** — para agrupar informação não primariamente clicável.

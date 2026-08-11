@@ -1,0 +1,71 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { PaginationDemo } from "./PaginationDemo";
+
+export const metadata = { title: "Pagination" };
+
+# Pagination <StatusBadge status="disponivel" />
+
+Navega entre páginas de um conjunto de resultados demasiado grande para mostrar de uma vez.
+
+## Quando usar
+
+- Para listas/tabelas com muitos resultados (ex.: histórico de obras, catálogo de materiais).
+
+## Quando não usar
+
+- Para listas curtas que cabem inteiramente no ecrã — paginação desnecessária adiciona fricção.
+- Para carregamento contínuo (infinite scroll) — esse é um padrão diferente, não implementado por este componente.
+
+## Anatomia
+
+Indicador de posição (&ldquo;Página X de Y&rdquo;) + botões de navegação anterior/seguinte.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <PaginationDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho — botões de 2rem, consistentes com controlos de apoio como o fecho do Modal.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Default | Ambos os botões ativos. |
+| Primeira página | Botão &ldquo;Página anterior&rdquo; desativado. |
+| Última página | Botão &ldquo;Página seguinte&rdquo; desativado. |
+
+## Comportamento
+
+- Esta fase cobre apenas navegação anterior/seguinte — não mostra números de página individuais. Para conjuntos muito grandes, isto evita a complexidade de reticências (&ldquo;…&rdquo;) e intervalos de páginas, mantendo o componente simples e previsível.
+- É responsabilidade de quem usa o componente atualizar os dados mostrados quando `onPageChange`/`update:page`/`pageChange` disparar — o componente não busca dados.
+
+## Conteúdo
+
+- O texto de estado usa sempre o formato &ldquo;Página X de Y&rdquo;, nunca abreviado.
+
+## Acessibilidade
+
+- **Papel:** `<nav aria-label="Paginação">` envolvendo os controlos.
+- Os botões têm `aria-label` descritivo (&ldquo;Página anterior&rdquo;/&ldquo;Página seguinte&rdquo;), não apenas o símbolo visual `‹`/`›`.
+- Botões nos limites (primeira/última página) usam o atributo `disabled` nativo, removendo-os da navegação por Tab.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { useState } from "react";\nimport { Pagination } from "@constructpluseu/react";\n\nconst [page, setPage] = useState(1);\n<Pagination page={page} totalPages={8} onPageChange={setPage} />` },
+    { label: "Vue", code: `<script setup>\nimport { ref } from "vue";\nconst page = ref(1);\n</script>\n\n<CpPagination :page="page" :total-pages="8" @update:page="page = $event" />` },
+    { label: "Angular", code: `<cp-pagination [page]="page" [totalPages]="8" (pageChange)="page = $event"></cp-pagination>` },
+    { label: "Next.js", code: `"use client";\nimport { useState } from "react";\nimport { Pagination } from "@constructpluseu/react";\n\nexport function ListaObras() {\n  const [page, setPage] = useState(1);\n  return <Pagination page={page} totalPages={8} onPageChange={setPage} />;\n}` },
+  ]}
+/>
+
+## Relacionados
+
+- **Data Table** *(planeado)* — frequentemente combinado com Pagination.

@@ -1,0 +1,34 @@
+.cp-link {
+  color: var(--cp-color-semantic-text-link);
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+  transition: text-decoration-color var(--cp-motion-duration-fast) var(--cp-motion-easing-standard),
+    color var(--cp-motion-duration-fast) var(--cp-motion-easing-standard);
+}
+
+.cp-link:hover {
+  text-decoration-color: currentColor;
+}
+
+.cp-link--muted {
+  color: var(--cp-color-semantic-text-secondary);
+}
+
+.cp-link[aria-disabled="true"] {
+  color: var(--cp-color-semantic-text-disabled);
+  pointer-events: none;
+  cursor: not-allowed;
+  text-decoration-color: transparent;
+}
+
+.cp-link__external-icon {
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  margin-left: 0.25em;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  vertical-align: middle;
+}

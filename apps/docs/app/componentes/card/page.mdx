@@ -1,0 +1,129 @@
+import { Card, Button, Tag } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Card" };
+
+# Card <StatusBadge status="disponivel" />
+
+Agrupa informação relacionada numa superfície com fronteira visual própria — a unidade básica
+de composição de painéis, listas de obras e módulos do produto.
+
+## Quando usar
+
+- Para agrupar um conjunto coeso de informação (ex.: resumo de uma obra, um módulo do produto).
+- Como unidade clicável para navegar a um detalhe (`interactive`).
+
+## Quando não usar
+
+- Para dados tabulares densos e comparáveis linha a linha — use **Data Table** *(planeado)*.
+- Como substituto de uma secção de página inteira — cartões são para agrupar, não para layout global.
+
+## Anatomia
+
+Cabeçalho opcional (título + subtítulo + ação) → corpo → rodapé opcional, sempre dentro de uma
+superfície com borda, raio e sombra suave.
+
+## Variantes
+
+<ComponentPreview label="Simples, com cabeçalho, com rodapé">
+  <Card title="Obra Central" subtitle="Residencial · Lisboa">
+    Execução em 63% concluída, dentro do prazo previsto.
+  </Card>
+</ComponentPreview>
+<ComponentPreview label="Com ação no cabeçalho e rodapé">
+  <Card
+    title="Contrato #2049"
+    subtitle="Pendente de assinatura"
+    headerAction={<Tag status="warning">Pendente</Tag>}
+    footer={
+      <>
+        <Button size="sm" variant="secondary">Ver detalhes</Button>
+        <Button size="sm" variant="primary">Assinar</Button>
+      </>
+    }
+  >
+    Contrato de remodelação da fração B, aguarda assinatura do cliente desde 3 de agosto.
+  </Card>
+</ComponentPreview>
+<ComponentPreview label="interactive (clicável)">
+  <Card interactive title="Ver todas as obras" subtitle="12 obras ativas">
+    Clique para abrir a lista completa.
+  </Card>
+</ComponentPreview>
+
+## Tamanhos
+
+Sem variantes de tamanho — o cartão ocupa a largura do contentor onde é colocado; o padding interno é fixo (`space.6`).
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Default | Borda `border.default`, sombra suave (`shadow.card`). |
+| Interactive + hover | Sombra mais pronunciada (`shadow.md`) e borda `border.strong`, cursor de pointer. |
+
+## Comportamento
+
+- `interactive` altera apenas a aparência (hover/cursor) — a semântica de clique (`onClick`, navegação) é responsabilidade de quem usa o componente.
+- O cabeçalho só é renderizado se houver `title`, `subtitle` ou uma ação — caso contrário não ocupa espaço.
+
+## Conteúdo
+
+- O título nomeia a entidade representada: **"Obra Central"**, **"Contrato #2049"**.
+- O subtítulo dá contexto complementar curto: categoria, localização, estado.
+
+## Acessibilidade
+
+- **Papel:** nenhum papel ARIA especial — é uma `<div>` semanticamente neutra. Quando `interactive` e clicável, garanta que o elemento clicável real (ex.: um `<a>` ou `<button>` interno, ou o próprio cartão com `role="link"`/`tabIndex` e handler de teclado) cumpre os requisitos de foco e acionamento por teclado.
+- **Leitor de ecrã:** o título, sendo um `<h3>`, contribui para a hierarquia de navegação da página — evite pular níveis de heading dentro do cartão.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { Card, Tag, Button } from "@constructpluseu/react";
+
+<Card
+  title="Contrato #2049"
+  subtitle="Pendente de assinatura"
+  headerAction={<Tag status="warning">Pendente</Tag>}
+  footer={<Button size="sm">Assinar</Button>}
+>
+  Contrato de remodelação da fração B.
+</Card>`,
+    },
+    {
+      label: "Vue",
+      code: `<CpCard title="Contrato #2049" subtitle="Pendente de assinatura">
+  Contrato de remodelação da fração B.
+  <template #headerAction><CpTag status="warning">Pendente</CpTag></template>
+  <template #footer><CpButton size="sm">Assinar</CpButton></template>
+</CpCard>`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-card title="Contrato #2049" subtitle="Pendente de assinatura" [hasFooter]="true">
+  Contrato de remodelação da fração B.
+  <cp-tag cpCardHeaderAction status="warning">Pendente</cp-tag>
+  <cp-button cpCardFooter size="sm">Assinar</cp-button>
+</cp-card>`,
+    },
+    {
+      label: "Next.js",
+      code: `import { Card } from "@constructpluseu/react";
+
+<Card title="Contrato #2049" subtitle="Pendente de assinatura">
+  Contrato de remodelação da fração B.
+</Card>`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Tile** *(planeado)* — variante de cartão pensada para atalhos/módulos.
+- **Tag** — usado frequentemente no cabeçalho do cartão para indicar estado.

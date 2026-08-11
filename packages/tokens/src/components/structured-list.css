@@ -1,0 +1,28 @@
+.cp-structured-list {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--cp-font-size-sm);
+}
+
+.cp-structured-list th {
+  text-align: left;
+  padding: var(--cp-space-3) var(--cp-space-4);
+  background-color: var(--cp-color-semantic-bg-surface-secondary);
+  color: var(--cp-color-semantic-text-secondary);
+  font-weight: var(--cp-font-weight-semibold);
+  border-bottom: 1px solid var(--cp-color-semantic-border-default);
+}
+
+.cp-structured-list td {
+  padding: var(--cp-space-3) var(--cp-space-4);
+  border-bottom: 1px solid var(--cp-color-semantic-border-default);
+  color: var(--cp-color-semantic-text-primary);
+}
+
+.cp-structured-list tbody tr:hover td {
+  background-color: var(--cp-color-semantic-bg-surface-secondary);
+}
+
+.cp-structured-list tbody tr:last-child td {
+  border-bottom: none;
+}

@@ -1,0 +1,142 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { ToastDemo } from "./ToastDemo";
+import { InlineNotificationDemo } from "./InlineNotificationDemo";
+
+export const metadata = { title: "Notification" };
+
+# Notification <StatusBadge status="disponivel" />
+
+Comunica o resultado de uma ação ou um estado relevante, em duas formas: **toast** (transiente,
+sobreposto à interface) e **inline** (persistente, dentro do fluxo da página).
+
+## Quando usar
+
+- **Toast:** para confirmar o resultado imediato de uma ação do utilizador (ex.: "Obra guardada com sucesso"), sem exigir reconhecimento.
+- **Inline:** para avisos persistentes relacionados com o conteúdo da página atual (ex.: "Este contrato está pendente de assinatura").
+
+## Quando não usar
+
+- Para decisões que exigem confirmação explícita — use **Modal**.
+- Para erros de validação de um campo específico — use o `errorText` do próprio campo (Text Input, Select, etc.).
+
+## Anatomia
+
+Ícone de estado + título + descrição opcional + botão de fechar opcional. O toast adiciona-se
+a uma região fixa no canto do ecrã; o inline ocupa o espaço do fluxo normal do documento.
+
+## Variantes
+
+<ComponentPreview label="info, success, warning, danger (inline)">
+  <InlineNotificationDemo status="info" title="Nova versão do módulo ESG disponível" />
+</ComponentPreview>
+<ComponentPreview label="success">
+  <InlineNotificationDemo status="success" title="Obra guardada com sucesso" description="As alterações foram sincronizadas com todos os dispositivos." />
+</ComponentPreview>
+<ComponentPreview label="warning">
+  <InlineNotificationDemo status="warning" title="Contrato pendente de assinatura" />
+</ComponentPreview>
+<ComponentPreview label="danger, dismissible">
+  <InlineNotificationDemo status="danger" title="Falha ao sincronizar stock" description="Verifique a ligação à internet e tente novamente." />
+</ComponentPreview>
+<ComponentPreview label="Toast (exemplo interativo, React)">
+  <ToastDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho para cada tipo (inline e toast); a largura do inline acompanha o contentor, a do toast é fixa (22rem).
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Info | Azul — informação neutra. |
+| Success | Verde (`mint`) — confirmação de sucesso. |
+| Warning | Âmbar — atenção sem bloquear. |
+| Danger | Vermelho, `role="alert"` — falha que requer atenção. |
+
+## Comportamento
+
+- Toasts têm auto-dismiss após 5 segundos por predefinição (`duration`); passar `duration: 0` mantém o toast até ser fechado manualmente.
+- Vários toasts acumulam-se verticalmente na região fixa; cada um anima a entrada de forma independente.
+- A API de toast é imperativa: `useToast()` pode ser chamado em qualquer componente descendente de um único `<ToastProvider>` colocado próximo da raiz da aplicação, que gere o estado e renderiza a região automaticamente.
+
+## Conteúdo
+
+- O título comunica o resultado, não o processo: **"Obra guardada com sucesso"**, não **"A guardar…"**.
+- A descrição (opcional) explica o próximo passo ou a causa: **"Verifique a ligação à internet e tente novamente."**
+
+## Acessibilidade
+
+- **Papel:** `alert` para `danger` (interrompe leitores de ecrã), `status` para os restantes (anúncio educado, sem interromper).
+- A região de toasts usa `aria-live="polite"` e `aria-atomic="true"`, garantindo que cada novo toast é anunciado sem repetir os anteriores.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { InlineNotification, ToastProvider, useToast } from "@constructpluseu/react";
+
+// Uma única vez, próximo da raiz da app:
+<ToastProvider>
+  <App />
+</ToastProvider>
+
+// Em qualquer componente descendente:
+const { show } = useToast();
+show({ title: "Obra guardada com sucesso", status: "success" });
+
+// Inline:
+<InlineNotification status="warning" title="Contrato pendente de assinatura" />`,
+    },
+    {
+      label: "Vue",
+      code: `<script setup lang="ts">
+import { CpToastRegion, CpInlineNotification, useToast } from "@constructpluseu/vue";
+const { show } = useToast();
+</script>
+
+<template>
+  <!-- Uma única vez, próximo da raiz da app -->
+  <CpToastRegion />
+  <CpInlineNotification status="warning" title="Contrato pendente de assinatura" />
+</template>`,
+    },
+    {
+      label: "Angular",
+      code: `// app.component.html — uma única vez:
+<cp-toast-region></cp-toast-region>
+<cp-inline-notification status="warning" title="Contrato pendente de assinatura"></cp-inline-notification>
+
+// noutro componente, injetando o serviço:
+constructor(private toasts: CpToastService) {}
+guardar() {
+  this.toasts.show({ title: "Obra guardada com sucesso", status: "success" });
+}`,
+    },
+    {
+      label: "Next.js",
+      code: `// app/layout.tsx
+import { ToastProvider } from "@constructpluseu/react";
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="pt-PT">
+      <body>
+        <ToastProvider>{children}</ToastProvider>
+      </body>
+    </html>
+  );
+}`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Modal** — para feedback que exige decisão explícita.
+- **Toggletip** *(planeado)* — para explicações contextuais acionadas por clique.

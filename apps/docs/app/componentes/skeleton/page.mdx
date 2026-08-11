@@ -1,0 +1,83 @@
+import { Skeleton } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Skeleton" };
+
+# Skeleton <StatusBadge status="disponivel" />
+
+Marcador de posição visual que imita a forma do conteúdo real enquanto este ainda está a
+carregar, reduzindo a sensação de espera face a um ecrã em branco.
+
+## Quando usar
+
+- Ao carregar dados assíncronos cuja forma final já se conhece (ex.: um cartão de obra, uma linha de tabela).
+
+## Quando não usar
+
+- Para operações muito rápidas (&lt;300ms) — o skeleton pode piscar e chamar mais atenção do que a ausência de feedback.
+- Quando a duração é imprevisível e sem forma conhecida — use **Loading Spinner**.
+
+## Anatomia
+
+Um ou mais blocos com a forma aproximada do conteúdo final (linha de texto, círculo, retângulo),
+com uma animação de brilho a percorrer a superfície.
+
+## Variantes
+
+<ComponentPreview label="text, circle, rect">
+  <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", width: "16rem" }}>
+    <Skeleton variant="text" width="60%" />
+    <Skeleton variant="text" width="90%" />
+    <Skeleton variant="text" width="40%" />
+  </div>
+</ComponentPreview>
+<ComponentPreview label="circle + rect (ex.: cabeçalho de cartão)">
+  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+    <Skeleton variant="circle" width={40} height={40} />
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+      <Skeleton variant="text" width="8rem" />
+      <Skeleton variant="text" width="5rem" />
+    </div>
+  </div>
+</ComponentPreview>
+
+## Tamanhos
+
+Não tem tamanhos predefinidos — `width`/`height` são sempre explícitos, para corresponder
+exatamente à forma do conteúdo que está a substituir.
+
+## Estados
+
+Um único estado visual (a animação de brilho contínua) — o Skeleton desaparece assim que o
+conteúdo real está pronto, substituído diretamente por quem o usa.
+
+## Comportamento
+
+- A animação respeita `prefers-reduced-motion`, abrandando drasticamente em vez de parar por completo (para ainda comunicar "em curso" sem excesso de movimento).
+- Nunca é interativo — não tem `tabindex` nem responde a eventos.
+
+## Conteúdo
+
+Não tem conteúdo textual — é puramente visual.
+
+## Acessibilidade
+
+- **Papel:** `role="presentation"` com `aria-hidden="true"` — é invisível para leitores de ecrã, que devem antes ser informados do carregamento por outro meio (ex.: uma região `aria-live` anunciando "A carregar obras…", gerida por quem usa o componente).
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { Skeleton } from "@constructpluseu/react";\n\n<Skeleton variant="text" width="60%" />\n<Skeleton variant="circle" width={40} height={40} />` },
+    { label: "Vue", code: `<CpSkeleton variant="text" width="60%" />\n<CpSkeleton variant="circle" width="40px" height="40px" />` },
+    { label: "Angular", code: `<cp-skeleton variant="text" width="60%"></cp-skeleton>\n<cp-skeleton variant="circle" width="40px" height="40px"></cp-skeleton>` },
+    { label: "Next.js", code: `import { Skeleton } from "@constructpluseu/react";\n\n<Skeleton variant="text" width="60%" />` },
+  ]}
+/>
+
+## Relacionados
+
+- **Loading Spinner** — para carregamento sem forma de conteúdo conhecida.
+- **Card** — combinação comum: skeletons no lugar do título/corpo enquanto os dados do cartão carregam.

@@ -1,0 +1,71 @@
+import { Toggletip } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Toggletip" };
+
+# Toggletip <StatusBadge status="disponivel" />
+
+Tooltip acionado por clique em vez de hover, adequado para conteúdo que precisa de permanecer
+visível ou que utilizadores de ecrã tátil precisam de aceder sem um cursor.
+
+## Quando usar
+
+- Para explicações contextuais associadas a um ícone de informação (&ldquo;?&rdquo;), especialmente em interfaces tocadas em tablet — o principal dispositivo em contexto de obra.
+
+## Quando não usar
+
+- Quando hover já é suficiente e o público é maioritariamente desktop — use **Tooltip**, mais leve.
+
+## Anatomia
+
+Botão circular pequeno com &ldquo;?&rdquo; + painel de texto que aparece por baixo ao clicar.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <span>Prazo de garantia<Toggletip>Garantia de 24 meses para materiais e mão de obra, a partir da data do auto de receção.</Toggletip></span>
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho de gatilho (1.125rem) — o painel tem largura entre 14rem e 18rem.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Fechado | Só o botão &ldquo;?&rdquo; visível. |
+| Aberto | Painel visível, `aria-expanded="true"` no gatilho. |
+
+## Comportamento
+
+- Ao contrário do Tooltip, permanece aberto até o utilizador clicar fora, premir Escape, ou clicar novamente no gatilho — não fecha ao mover o cursor.
+- Cada instância gere o seu próprio estado; abrir um Toggletip não fecha outros na mesma página (diferente de um Dropdown Menu, que normalmente é único de cada vez por ser mais intrusivo).
+
+## Conteúdo
+
+- Texto curto, uma a duas frases — para conteúdo mais longo ou interativo, use **Popover**.
+
+## Acessibilidade
+
+- **Papel:** o gatilho é um `<button>` com `aria-expanded`/`aria-controls`; o painel usa `role="status"`.
+- **Teclado:** `Tab` foca o gatilho, `Enter`/`Espaço` alterna a visibilidade, `Escape` fecha.
+- Prefira o Toggletip ao Tooltip sempre que o conteúdo precisar de ser acedido em ecrãs táteis, onde não existe "hover".
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { Toggletip } from "@constructpluseu/react";\n\n<Toggletip aria-label="Mais informação sobre a garantia">\n  Garantia de 24 meses para materiais e mão de obra.\n</Toggletip>` },
+    { label: "Vue", code: `<CpToggletip aria-label="Mais informação sobre a garantia">\n  Garantia de 24 meses para materiais e mão de obra.\n</CpToggletip>` },
+    { label: "Angular", code: `<cp-toggletip ariaLabel="Mais informação sobre a garantia">\n  Garantia de 24 meses para materiais e mão de obra.\n</cp-toggletip>` },
+    { label: "Next.js", code: `import { Toggletip } from "@constructpluseu/react";\n\n<Toggletip aria-label="Mais informação sobre a garantia">\n  Garantia de 24 meses para materiais e mão de obra.\n</Toggletip>` },
+  ]}
+/>
+
+## Relacionados
+
+- **Tooltip** — para o mesmo tipo de conteúdo acionado por hover.
+- **Popover** — para conteúdo mais rico ou interativo.

@@ -1,0 +1,74 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { MenuDemo } from "./MenuDemo";
+
+export const metadata = { title: "Dropdown Menu" };
+
+# Dropdown Menu <StatusBadge status="disponivel" />
+
+Lista de ações contextuais acionada a partir de um botão, com navegação por teclado.
+
+## Quando usar
+
+- Para agrupar ações secundárias pouco frequentes que não justificam botões próprios (ex.: "Editar", "Duplicar", "Arquivar", "Eliminar" numa linha de tabela).
+
+## Quando não usar
+
+- Para 2-3 ações sempre visíveis e igualmente importantes — mostre-as como **Button** diretos.
+- Para conteúdo que não são ações (texto, imagens) — use **Popover**.
+
+## Anatomia
+
+Botão gatilho + painel com uma lista vertical de itens de ação.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <MenuDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Largura mínima de 12rem, cresce conforme o texto dos itens.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Fechado | Painel ausente do DOM. |
+| Aberto | Painel visível, primeiro item focável por teclado. |
+| Item disabled | Opacidade 50%, fora da navegação por setas. |
+| Item danger | Texto em `text.danger`, para ações destrutivas (ex.: "Eliminar obra"). |
+
+## Comportamento
+
+- **Setas ↑ ↓** navegam entre itens habilitados; **Home**/**End** saltam para o primeiro/último.
+- Selecionar um item (clique ou Enter/Espaço) executa `onSelect` e fecha o menu, devolvendo o foco ao botão gatilho.
+- Fecha ao clicar fora ou premir Escape, devolvendo sempre o foco ao gatilho.
+
+## Conteúdo
+
+- Rótulos de ação seguem a mesma regra do **Button**: verbo no infinitivo, específico ao contexto ("Eliminar obra", não apenas "Eliminar").
+- Ordene os itens por frequência de uso, com ações destrutivas sempre no fim.
+
+## Acessibilidade
+
+- **Papéis:** `menu` no painel, `menuitem` em cada opção, `aria-haspopup="menu"` e `aria-expanded` no gatilho.
+- **Teclado:** segue o padrão WAI-ARIA APG de menu button — setas para navegar, Enter/Espaço para selecionar, Escape para fechar com retorno de foco ao gatilho.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { Menu, Button } from "@constructpluseu/react";\n\n<Menu\n  trigger={<Button variant="secondary">Ações ⌄</Button>}\n  items={[\n    { id: "editar", label: "Editar obra", onSelect: editar },\n    { id: "eliminar", label: "Eliminar obra", onSelect: eliminar, danger: true },\n  ]}\n/>` },
+    { label: "Vue", code: `<CpMenu :items="items">\n  <template #trigger="{ toggle, open, id }">\n    <CpButton variant="secondary" :aria-expanded="open" :aria-controls="id" @click="toggle">\n      Ações ⌄\n    </CpButton>\n  </template>\n</CpMenu>` },
+    { label: "Angular", code: `<cp-menu #menu [items]="items">\n  <cp-button cpMenuTrigger variant="secondary" (click)="menu.toggle()">Ações ⌄</cp-button>\n</cp-menu>` },
+    { label: "Next.js", code: `import { Menu, Button } from "@constructpluseu/react";\n\n<Menu trigger={<Button variant="secondary">Ações ⌄</Button>} items={items} />` },
+  ]}
+/>
+
+## Relacionados
+
+- **Popover** — para conteúdo rico não estruturado como lista de ações.
+- **Button** — o gatilho do menu é tipicamente um Button.

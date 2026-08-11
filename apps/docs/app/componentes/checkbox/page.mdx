@@ -1,0 +1,107 @@
+import { Checkbox } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Checkbox" };
+
+# Checkbox <StatusBadge status="disponivel" />
+
+Escolha binária independente, ou seleção múltipla numa lista onde cada item pode ser
+selecionado sem afetar os outros.
+
+## Quando usar
+
+- Para aceitar termos, ativar uma opção independente, ou selecionar múltiplos itens numa lista/tabela.
+
+## Quando não usar
+
+- Para uma escolha única entre opções mutuamente exclusivas — use **Radio Button**.
+- Para uma definição com efeito imediato (não faz parte de um formulário submetido) — use **Toggle**.
+
+## Anatomia
+
+Caixa visual customizada (com marca de verificação ou traço no estado indeterminado) + rótulo
+clicável. O `<input type="checkbox">` nativo permanece visualmente oculto mas acessível.
+
+## Variantes
+
+<ComponentPreview label="default, checked, indeterminate">
+  <Checkbox label="Aceito os termos e condições" />
+  <Checkbox label="Selecionar todos os itens" indeterminate />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho nesta fase (1.125rem), consistente com a altura de linha de texto `md`.
+
+## Estados
+
+<ComponentPreview label="default, disabled">
+  <Checkbox label="Ativo" />
+  <Checkbox label="Indisponível" disabled />
+</ComponentPreview>
+
+| Estado | Comportamento |
+|---|---|
+| Default | Caixa com contorno `border.strong`. |
+| Checked | Fundo `bg.brand`, marca de verificação branca com animação de escala. |
+| Indeterminate | Fundo `bg.brand`, traço horizontal em vez de marca — usado em checkboxes-pai de uma seleção parcial. |
+| Focus visible | Anel de foco de 2px em torno da caixa. |
+| Disabled | Opacidade 50%, sem interação. |
+
+## Comportamento
+
+- `indeterminate` é um estado puramente visual do elemento nativo — não é possível chegar a ele por clique; é controlado programaticamente pelo formulário (ex.: quando alguns, mas não todos, os itens de uma lista estão selecionados).
+- Clicar em qualquer parte do rótulo (não apenas na caixa) alterna o estado.
+
+## Conteúdo
+
+- O rótulo descreve o que fica ativo ao marcar: **"Aceito os termos e condições"**, não **"Termos"**.
+- Em listas, o rótulo é o próprio nome do item (ex.: nome do material), sem texto adicional.
+
+## Acessibilidade
+
+- **Papel:** nativo de `<input type="checkbox">`.
+- **Teclado:** `Tab` move o foco; `Espaço` alterna o estado.
+- **Leitor de ecrã:** anuncia o rótulo e o estado (marcado, desmarcado, parcialmente marcado).
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { Checkbox } from "@constructpluseu/react";
+
+<Checkbox
+  label="Aceito os termos e condições"
+  checked={aceite}
+  onChange={(e) => setAceite(e.target.checked)}
+/>`,
+    },
+    {
+      label: "Vue",
+      code: `<CpCheckbox label="Aceito os termos e condições" v-model="aceite" />`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-checkbox
+  label="Aceito os termos e condições"
+  [checked]="aceite"
+  (checkedChange)="aceite = $event"
+/>`,
+    },
+    {
+      label: "Next.js",
+      code: `import { Checkbox } from "@constructpluseu/react";
+
+<Checkbox label="Aceito os termos e condições" checked={aceite} onChange={(e) => setAceite(e.target.checked)} />`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Radio Button** — para escolha única mutuamente exclusiva.
+- **Toggle** — para definições com efeito imediato.

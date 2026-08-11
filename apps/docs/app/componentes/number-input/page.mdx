@@ -1,0 +1,72 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { NumberInputDemo } from "./NumberInputDemo";
+
+export const metadata = { title: "Number Input" };
+
+# Number Input <StatusBadge status="disponivel" />
+
+Campo numérico com botões de incremento/decremento e limites de valor mínimo/máximo.
+
+## Quando usar
+
+- Para quantidades discretas (nº de unidades de material, nº de trabalhadores alocados).
+
+## Quando não usar
+
+- Para valores contínuos ajustados visualmente (ex.: percentagem de conclusão) — use **Slider**.
+- Para texto que parece número mas não é aritmético (NIF, código postal) — use **Text Input**.
+
+## Anatomia
+
+Botão &ldquo;−&rdquo; + campo numérico central + botão &ldquo;+&rdquo;, dentro de um contentor com borda única.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <NumberInputDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Segue a mesma escala `sm`/`md`/`lg` dos restantes campos de formulário.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Default | Botões ativos em ambos os extremos. |
+| Limite mínimo atingido | Botão &ldquo;−&rdquo; desativado. |
+| Limite máximo atingido | Botão &ldquo;+&rdquo; desativado. |
+| Invalid | Borda em `border.danger`. |
+
+## Comportamento
+
+- Os botões respeitam sempre `min`/`max` — nunca é possível ultrapassar os limites, seja pelos botões, pela digitação direta ou pelas setas do teclado nativas do `<input type="number">`.
+- O valor é sempre controlado (`value` + `onChange`) — não existe modo não controlado.
+
+## Conteúdo
+
+- O `label` nomeia a quantidade, incluindo a unidade quando ajuda: **&ldquo;Quantidade de sacos de cimento&rdquo;**.
+
+## Acessibilidade
+
+- **Papel:** `<input type="number">` nativo; os botões `+`/`−` têm `aria-label` descritivo (&ldquo;Aumentar&rdquo;/&ldquo;Diminuir&rdquo;), nunca dependem só do símbolo visual.
+- **Teclado:** o campo aceita as setas ↑/↓ nativas do navegador, além do clique nos botões.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { NumberInput } from "@constructpluseu/react";\n\nconst [quantidade, setQuantidade] = useState(5);\n<NumberInput label="Quantidade" value={quantidade} min={0} max={50} onChange={setQuantidade} />` },
+    { label: "Vue", code: `<CpNumberInput label="Quantidade" v-model="quantidade" :min="0" :max="50" />` },
+    { label: "Angular", code: `<cp-number-input label="Quantidade" [value]="quantidade" [min]="0" [max]="50" (valueChange)="quantidade = $event"></cp-number-input>` },
+    { label: "Next.js", code: `"use client";\nimport { useState } from "react";\nimport { NumberInput } from "@constructpluseu/react";\n\nexport function QuantidadeField() {\n  const [quantidade, setQuantidade] = useState(5);\n  return <NumberInput label="Quantidade" value={quantidade} onChange={setQuantidade} />;\n}` },
+  ]}
+/>
+
+## Relacionados
+
+- **Text Input** — para valores não aritméticos.
+- **Slider** — para valores contínuos ajustados visualmente.

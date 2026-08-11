@@ -1,0 +1,97 @@
+import { Avatar } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Avatar" };
+
+# Avatar <StatusBadge status="disponivel" />
+
+Representa uma pessoa ou equipa através de uma imagem ou, na sua ausência, das iniciais do nome.
+
+## Quando usar
+
+- Para identificar o responsável por uma obra, tarefa ou comentário.
+- Em listas de equipa, menus de utilizador, ou históricos de atividade.
+
+## Quando não usar
+
+- Para representar uma entidade não-pessoal (ex.: uma empresa fornecedora) — considere um logótipo ou ícone dedicado.
+
+## Anatomia
+
+Círculo com imagem (`src`) ou iniciais calculadas a partir do `name` + indicador de estado opcional no canto inferior direito.
+
+## Variantes
+
+<ComponentPreview label="com imagem, com iniciais">
+  <Avatar name="Guilherme Oliveira" src="https://i.pravatar.cc/80?img=12" />
+  <Avatar name="Guilherme Oliveira" />
+  <Avatar name="Madonna" />
+</ComponentPreview>
+<ComponentPreview label="com indicador de estado">
+  <Avatar name="Guilherme Oliveira" status="online" />
+  <Avatar name="Ana Costa" status="busy" />
+  <Avatar name="Rui Santos" status="away" />
+</ComponentPreview>
+
+## Tamanhos
+
+<ComponentPreview label="sm, md, lg">
+  <Avatar name="Guilherme Oliveira" size="sm" />
+  <Avatar name="Guilherme Oliveira" size="md" />
+  <Avatar name="Guilherme Oliveira" size="lg" />
+</ComponentPreview>
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Com imagem | Mostra `src`, recortada em círculo (`object-fit: cover`). |
+| Sem imagem | Mostra as iniciais (primeira + última palavra do nome) sobre fundo `bg.brand`. |
+| Com indicador | Ponto colorido no canto inferior direito: `online` (verde), `busy` (vermelho), `away` (âmbar). |
+
+## Comportamento
+
+- As iniciais são calculadas automaticamente a partir de `name` — não é necessário fornecê-las manualmente. Um nome de uma palavra usa apenas a primeira letra.
+- Se `src` falhar a carregar, esta fase não faz fallback automático para iniciais — planeie fornecer imagens fiáveis ou omitir `src`.
+
+## Conteúdo
+
+- `name` deve ser sempre o nome completo real da pessoa — é também o que é lido por leitores de ecrã.
+
+## Acessibilidade
+
+- **Papel:** `img`, com `aria-label` igual ao nome completo — funciona tanto com imagem como com iniciais.
+- A imagem interna tem `alt=""` (decorativa), evitando duplicar o anúncio do nome já feito pelo `aria-label` do contentor.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { Avatar } from "@constructpluseu/react";
+
+<Avatar name="Guilherme Oliveira" src="/fotos/guilherme.jpg" status="online" />`,
+    },
+    {
+      label: "Vue",
+      code: `<CpAvatar name="Guilherme Oliveira" src="/fotos/guilherme.jpg" status="online" />`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-avatar name="Guilherme Oliveira" src="/fotos/guilherme.jpg" status="online"></cp-avatar>`,
+    },
+    {
+      label: "Next.js",
+      code: `import { Avatar } from "@constructpluseu/react";
+
+<Avatar name="Guilherme Oliveira" src="/fotos/guilherme.jpg" status="online" />`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Tile** *(planeado)* — para representar entidades não-pessoais como módulos ou obras.

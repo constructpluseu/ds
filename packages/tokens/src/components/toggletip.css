@@ -1,0 +1,56 @@
+.cp-toggletip-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.cp-toggletip__trigger {
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: var(--cp-radius-full);
+  background-color: var(--cp-color-semantic-bg-surface-secondary);
+  color: var(--cp-color-semantic-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--cp-font-size-xs);
+  font-weight: var(--cp-font-weight-bold);
+}
+
+.cp-toggletip__trigger:hover {
+  background-color: var(--cp-color-semantic-border-default);
+}
+
+.cp-toggletip__panel {
+  position: absolute;
+  z-index: var(--cp-z-index-tooltip);
+  top: calc(100% + var(--cp-space-2));
+  left: 50%;
+  translate: -50% 0;
+  min-width: 14rem;
+  max-width: 18rem;
+  background-color: var(--cp-color-semantic-bg-surface);
+  border: 1px solid var(--cp-color-semantic-border-default);
+  border-radius: var(--cp-radius-lg);
+  box-shadow: var(--cp-shadow-lg);
+  padding: var(--cp-space-3) var(--cp-space-4);
+  font-size: var(--cp-font-size-sm);
+  color: var(--cp-color-semantic-text-secondary);
+  animation: cp-toggletip-in var(--cp-motion-duration-fast) var(--cp-motion-easing-entrance);
+}
+
+@keyframes cp-toggletip-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-toggletip__panel {
+    animation: none;
+  }
+}

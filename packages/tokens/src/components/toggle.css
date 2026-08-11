@@ -1,0 +1,57 @@
+.cp-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cp-space-2);
+  cursor: pointer;
+  color: var(--cp-color-semantic-text-primary);
+  font-size: var(--cp-font-size-md);
+}
+
+.cp-toggle__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.cp-toggle__track {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 1.5rem;
+  border-radius: var(--cp-radius-full);
+  background-color: var(--cp-color-semantic-border-strong);
+  position: relative;
+  transition: background-color var(--cp-motion-duration-fast) var(--cp-motion-easing-standard);
+}
+
+.cp-toggle__thumb {
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: var(--cp-radius-full);
+  background-color: var(--cp-color-base-white);
+  box-shadow: var(--cp-shadow-sm);
+  transition: transform var(--cp-motion-duration-base) var(--cp-motion-easing-spring);
+}
+
+.cp-toggle__input:checked + .cp-toggle__track {
+  background-color: var(--cp-color-semantic-bg-accent);
+}
+
+.cp-toggle__input:checked + .cp-toggle__track .cp-toggle__thumb {
+  transform: translateX(1rem);
+}
+
+.cp-toggle__input:focus-visible + .cp-toggle__track {
+  outline: 2px solid var(--cp-color-semantic-border-focus);
+  outline-offset: 2px;
+}
+
+.cp-toggle--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

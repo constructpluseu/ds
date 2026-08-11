@@ -1,0 +1,68 @@
+import { List } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "List" };
+
+# List <StatusBadge status="disponivel" />
+
+Lista simples, ordenada ou não, de itens relacionados, com espaçamento e marcadores consistentes.
+
+## Quando usar
+
+- Para uma sequência simples de itens de texto (ex.: passos, requisitos, materiais).
+
+## Quando não usar
+
+- Para dados tabulares com múltiplas colunas — use **Data Table** *(planeado)*.
+- Para uma hierarquia expansível — use **Tree View** *(planeado)*.
+
+## Anatomia
+
+Contentor `<ul>`/`<ol>` + itens `<li>`, com marcador (bullet ou número) na cor de texto placeholder.
+
+## Variantes
+
+<ComponentPreview label="não ordenada, ordenada, unstyled">
+  <List items={["Cimento", "Areia", "Tijolo"]} />
+</ComponentPreview>
+<ComponentPreview label="ordenada">
+  <List ordered items={["Preparar o terreno", "Fundação", "Estrutura"]} />
+</ComponentPreview>
+
+## Tamanhos
+
+Acompanha o tamanho de texto do contexto — sem tamanhos próprios.
+
+## Estados
+
+Sem estados interativos — é um componente puramente apresentacional.
+
+## Comportamento
+
+- `unstyled` remove marcador e indentação, útil quando a lista já tem semântica visual própria (ex.: dentro de um `Card`).
+- A escolha entre `<ul>` e `<ol>` é feita pela prop `ordered`, nunca inferida do conteúdo.
+
+## Conteúdo
+
+- Use `ordered` apenas quando a sequência importa (passos, ranking) — para itens sem ordem relevante, a lista não ordenada é semanticamente mais correta.
+
+## Acessibilidade
+
+- **Papel:** nativo de `<ul>`/`<ol>`/`<li>` — leitores de ecrã anunciam o número de itens e a posição de cada um automaticamente.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { List } from "@constructpluseu/react";\n\n<List items={["Cimento", "Areia", "Tijolo"]} />` },
+    { label: "Vue", code: `<CpList :items="['Cimento', 'Areia', 'Tijolo']" />` },
+    { label: "Angular", code: `<cp-list [items]="['Cimento', 'Areia', 'Tijolo']"></cp-list>` },
+    { label: "Next.js", code: `import { List } from "@constructpluseu/react";\n\n<List items={["Cimento", "Areia", "Tijolo"]} />` },
+  ]}
+/>
+
+## Relacionados
+
+- **Structured List** *(planeado)* — para listas com mais estrutura tabular.

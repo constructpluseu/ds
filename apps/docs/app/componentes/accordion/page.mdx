@@ -1,0 +1,116 @@
+import { Accordion } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Accordion" };
+
+# Accordion <StatusBadge status="disponivel" />
+
+Revela e oculta secções de conteúdo verticalmente, reduzindo a densidade visual de páginas com
+muita informação opcional.
+
+## Quando usar
+
+- Para perguntas frequentes, políticas de garantia, ou detalhes secundários que a maioria dos utilizadores não precisa de ver de imediato.
+
+## Quando não usar
+
+- Para conteúdo que a maioria dos utilizadores precisa de ver sempre — nesse caso, mostre-o diretamente.
+- Para alternar entre vistas do mesmo nível de importância — use **Tabs**.
+
+## Anatomia
+
+Lista de itens, cada um com um cabeçalho clicável (com ícone de estado) e um painel de conteúdo
+que expande/recolhe.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo — apenas um painel aberto (React)">
+  <Accordion
+    items={[
+      { id: "garantia", title: "Qual a duração da garantia?", content: "24 meses para materiais e mão de obra, a partir da data do auto de receção." },
+      { id: "pagamento", title: "Como funciona o faturamento?", content: "Faturação por fases de execução, com fracionamento definido no contrato." },
+      { id: "contacto", title: "Como reporto um problema pós-obra?", content: "Através do módulo de Pós-venda, com registo fotográfico do problema." },
+    ]}
+  />
+</ComponentPreview>
+<ComponentPreview label="allowMultiple (vários painéis abertos)">
+  <Accordion
+    allowMultiple
+    defaultOpenIds={["a"]}
+    items={[
+      { id: "a", title: "Secção A", content: "Conteúdo da secção A." },
+      { id: "b", title: "Secção B", content: "Conteúdo da secção B." },
+    ]}
+  />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho — a altura do cabeçalho acompanha o `line-height` do texto.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Fechado | Ícone em chevron apontando para baixo; painel ausente do DOM. |
+| Aberto | Ícone roda 180°, painel visível com `role="region"`. |
+| Disabled | Cabeçalho com opacidade 50%, fora da navegação por setas e sem interação. |
+
+## Comportamento
+
+- Por predefinição (`allowMultiple=false`), abrir um item fecha automaticamente o anterior — apenas um painel visível de cada vez.
+- Com `allowMultiple`, vários painéis podem ficar abertos simultaneamente, cada um independente.
+- **Setas ↑ ↓** movem o foco entre cabeçalhos; **Home**/**End** saltam para o primeiro/último cabeçalho — o estado aberto/fechado não é afetado apenas pela navegação, só por `Enter`/`Espaço`/clique.
+
+## Conteúdo
+
+- O título do item é sempre uma pergunta ou afirmação curta e específica: **"Qual a duração da garantia?"**, não **"Garantia"** solto.
+- O conteúdo do painel pode ser mais longo — é aqui que cabe o detalhe.
+
+## Acessibilidade
+
+- **Papéis:** cada cabeçalho é um `<button>` dentro de um `<h3>`, com `aria-expanded` e `aria-controls`; cada painel usa `role="region"` com `aria-labelledby` a apontar para o cabeçalho.
+- **Teclado:** `Tab` percorre os cabeçalhos em sequência normal (sem roving tabindex — cada cabeçalho é um alvo de tabulação próprio); `Enter`/`Espaço` alternam; `↑`/`↓`/`Home`/`End` movem o foco entre cabeçalhos.
+- **Leitor de ecrã:** anuncia o título e o estado ("expandido"/"contraído") de cada cabeçalho.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { Accordion } from "@constructpluseu/react";
+
+<Accordion
+  items={[
+    { id: "garantia", title: "Qual a duração da garantia?", content: "24 meses…" },
+    { id: "pagamento", title: "Como funciona o faturamento?", content: "Por fases…" },
+  ]}
+/>`,
+    },
+    {
+      label: "Vue",
+      code: `<CpAccordion :items="[{ id: 'garantia', title: 'Qual a duração da garantia?' }]">
+  <template #garantia>24 meses…</template>
+</CpAccordion>`,
+    },
+    {
+      label: "Angular",
+      code: `<cp-accordion [items]="items">
+  <cp-accordion-panel id="garantia">24 meses…</cp-accordion-panel>
+</cp-accordion>`,
+    },
+    {
+      label: "Next.js",
+      code: `import { Accordion } from "@constructpluseu/react";
+
+<Accordion items={items} />`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Tabs** — para alternar entre vistas do mesmo nível, em vez de expandir/ocultar verticalmente.

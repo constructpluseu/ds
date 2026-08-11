@@ -1,0 +1,42 @@
+{
+  "name": "@constructpluseu/tokens",
+  "version": "0.1.0",
+  "description": "Design tokens do Construct+ Design System (cor, tipografia, espaçamento, raio, sombra, motion, breakpoints, z-index).",
+  "license": "UNLICENSED",
+  "keywords": ["construct-plus", "design-system", "design-tokens"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/constructpluseu/ds.git",
+    "directory": "packages/tokens"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./css/tokens.css": "./dist/css/tokens.css",
+    "./css/reset.css": "./dist/css/reset.css",
+    "./css/components.css": "./dist/css/components.css",
+    "./css/components/*.css": "./dist/css/components/*.css",
+    "./scss": "./dist/scss/_tokens.scss",
+    "./json": "./dist/json/tokens.json",
+    ".": {
+      "types": "./dist/js/tokens.d.ts",
+      "import": "./dist/js/tokens.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node scripts/build-tokens.mjs",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "lint": "echo \"(sem lint dedicado neste pacote)\""
+  },
+  "devDependencies": {
+    "style-dictionary": "^4.2.0"
+  }
+}

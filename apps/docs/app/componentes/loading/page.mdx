@@ -1,0 +1,72 @@
+import { LoadingSpinner } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Loading Spinner" };
+
+# Loading Spinner <StatusBadge status="disponivel" />
+
+Indicador de carregamento contínuo, sem progresso mensurável — comunica apenas que uma operação
+está em curso.
+
+## Quando usar
+
+- Quando a duração da operação é desconhecida ou não vale a pena calcular uma percentagem.
+- Dentro de um botão em carregamento (ver **Button**, prop `loading`, que usa este mesmo padrão internamente).
+
+## Quando não usar
+
+- Quando é possível calcular uma percentagem de conclusão — use **Progress Bar**.
+- Para substituir a forma do conteúdo que está a carregar — use **Skeleton**.
+
+## Anatomia
+
+Um círculo com um segmento em destaque, em rotação contínua.
+
+## Variantes
+
+<ComponentPreview label="sm, md, lg">
+  <LoadingSpinner size="sm" />
+  <LoadingSpinner size="md" />
+  <LoadingSpinner size="lg" />
+</ComponentPreview>
+
+## Tamanhos
+
+`sm` (1rem, dentro de botões/linhas de texto), `md` (1.5rem, predefinição, uso autónomo), `lg`
+(2.5rem, ecrãs de carregamento inicial de página).
+
+## Estados
+
+Um único estado — está sempre em rotação enquanto visível; não tem estado "parado".
+
+## Comportamento
+
+- A rotação abranda mas não para com `prefers-reduced-motion`, mantendo a comunicação de "em curso" com menos estímulo visual.
+- É o mesmo padrão visual usado internamente pelo **Button** no estado `loading`.
+
+## Conteúdo
+
+- O `label` (não visível, só para leitores de ecrã) deve descrever a operação em curso: **&ldquo;A sincronizar stock…&rdquo;**, não apenas o genérico &ldquo;A carregar…&rdquo; quando o contexto permitir ser específico.
+
+## Acessibilidade
+
+- **Papel:** `role="status"` com `aria-label` — leitores de ecrã anunciam o texto do `label` quando o spinner aparece, sem interromper o utilizador (região "polite" implícita do `role="status"`).
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { LoadingSpinner } from "@constructpluseu/react";\n\n<LoadingSpinner size="lg" label="A carregar obras…" />` },
+    { label: "Vue", code: `<CpLoadingSpinner size="lg" label="A carregar obras…" />` },
+    { label: "Angular", code: `<cp-loading-spinner size="lg" label="A carregar obras…"></cp-loading-spinner>` },
+    { label: "Next.js", code: `import { LoadingSpinner } from "@constructpluseu/react";\n\n<LoadingSpinner size="lg" label="A carregar obras…" />` },
+  ]}
+/>
+
+## Relacionados
+
+- **Progress Bar** — quando o progresso é mensurável.
+- **Skeleton** — quando a forma do conteúdo final já é conhecida.
+- **Button** — usa o mesmo padrão visual no estado `loading`.

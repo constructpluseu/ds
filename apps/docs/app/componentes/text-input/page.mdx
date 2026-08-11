@@ -1,0 +1,148 @@
+import { TextInput } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Text Input" };
+
+# Text Input <StatusBadge status="disponivel" />
+
+Campo de texto de uma linha para dados curtos e previsíveis: nome, NIF, email, número de
+contrato. É o componente base de qualquer formulário na plataforma Construct+.
+
+## Quando usar
+
+- Para um único valor de texto, número de telefone ou email numa única linha.
+- Quando o comprimento esperado da resposta é curto (até uma linha visível).
+
+## Quando não usar
+
+- Para texto longo ou descrições — use **Textarea**.
+- Para escolha entre opções conhecidas — use **Select** ou **Radio Button**.
+
+## Anatomia
+
+1. **Label** — identifica o campo; obrigatório sempre que possível.
+2. **Campo** — a área de introdução de texto.
+3. **Texto de ajuda** — instrução opcional sob o campo.
+4. **Mensagem de erro** — substitui o texto de ajuda quando a validação falha.
+
+## Variantes
+
+<ComponentPreview label="Com texto de ajuda e com erro">
+  <TextInput label="Nome da obra" placeholder="Ex.: Edifício Ribeira" />
+  <TextInput label="NIF" helperText="9 dígitos, sem espaços" />
+  <TextInput label="Email" errorText="Introduza um email válido" defaultValue="obra@exemplo" />
+</ComponentPreview>
+
+## Tamanhos
+
+<ComponentPreview label="sm, md, lg">
+  <TextInput label="Pequeno" size="sm" placeholder="sm" />
+  <TextInput label="Médio" size="md" placeholder="md" />
+  <TextInput label="Grande" size="lg" placeholder="lg" />
+</ComponentPreview>
+
+## Estados
+
+<ComponentPreview label="default, disabled, invalid">
+  <TextInput label="Ativo" placeholder="Escreva aqui" />
+  <TextInput label="Indisponível" disabled defaultValue="Valor fixo" />
+  <TextInput label="Com erro" errorText="Campo obrigatório" />
+</ComponentPreview>
+
+| Estado | Comportamento |
+|---|---|
+| Default | Contorno `border.default`; escurece para `border.strong` no hover. |
+| Focus visible | Contorno `border.focus` + anel de destaque (`shadow.focus-ring`). |
+| Disabled | Fundo `bg.disabled`, texto `text.disabled`, sem interação. |
+| Invalid | Contorno e anel de foco em `border.danger`; associado à mensagem via `aria-describedby`. |
+
+## Comportamento
+
+- O `label` é sempre associado ao campo via `for`/`id`, gerado automaticamente quando não fornecido.
+- `errorText`, quando presente, substitui visualmente `helperText` e marca `aria-invalid="true"`.
+- Não aplica máscara de formato automaticamente — máscaras (NIF, telefone) são responsabilidade do formulário que o utiliza.
+
+## Conteúdo
+
+- O label identifica o dado, não a ação: **"Nome da obra"**, não **"Escreva o nome da obra"**.
+- Mensagens de erro explicam como corrigir: **"Introduza um NIF com 9 dígitos"**, não **"Valor inválido"**.
+- Use `placeholder` apenas como exemplo de formato, nunca como substituto do label.
+
+## Acessibilidade
+
+- **Papel:** nativo de `<input>`.
+- **Teclado:** comportamento nativo de campo de texto (Tab, seleção, edição).
+- **Leitor de ecrã:** o label é anunciado antes do valor; texto de ajuda/erro é anunciado via `aria-describedby`, sem interromper a leitura do valor.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    {
+      label: "React",
+      code: `import { TextInput } from "@constructpluseu/react";
+
+<TextInput
+  label="Nome da obra"
+  helperText="Como aparece nos relatórios"
+  value={nome}
+  onChange={(e) => setNome(e.target.value)}
+/>`,
+    },
+    {
+      label: "Vue",
+      code: `<script setup lang="ts">
+import { ref } from "vue";
+import { CpTextInput } from "@constructpluseu/vue";
+const nome = ref("");
+</script>
+
+<template>
+  <CpTextInput
+    label="Nome da obra"
+    helper-text="Como aparece nos relatórios"
+    v-model="nome"
+  />
+</template>`,
+    },
+    {
+      label: "Angular",
+      code: `import { CpTextInputComponent } from "@constructpluseu/angular";
+
+@Component({
+  standalone: true,
+  imports: [CpTextInputComponent],
+  template: \`
+    <cp-text-input
+      label="Nome da obra"
+      helperText="Como aparece nos relatórios"
+      [value]="nome"
+      (valueChange)="nome = $event"
+    />
+  \`,
+})
+export class ObraFormComponent {
+  nome = "";
+}`,
+    },
+    {
+      label: "Next.js",
+      code: `"use client";
+import { useState } from "react";
+import { TextInput } from "@constructpluseu/react";
+
+export function NomeObraField() {
+  const [nome, setNome] = useState("");
+  return <TextInput label="Nome da obra" value={nome} onChange={(e) => setNome(e.target.value)} />;
+}`,
+    },
+  ]}
+/>
+
+## Relacionados
+
+- **Textarea** — para texto multilinha.
+- **Number Input** *(planeado)* — para valores numéricos com incremento/decremento.
+- **Select** — para escolha entre opções conhecidas.

@@ -1,0 +1,70 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { SliderDemo } from "./SliderDemo";
+
+export const metadata = { title: "Slider" };
+
+# Slider <StatusBadge status="disponivel" />
+
+Seleção de um valor numérico contínuo por arrasto, com o valor atual sempre visível.
+
+## Quando usar
+
+- Para ajustar um valor dentro de um intervalo conhecido de forma visual e imediata.
+
+## Quando não usar
+
+- Para quantidades discretas exatas — use **Number Input**, mais preciso para digitação direta.
+
+## Anatomia
+
+Label + valor atual (cabeçalho) + pista com indicador (thumb) arrastável.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo (React)">
+  <SliderDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho — a largura acompanha sempre o contentor (`width: 100%`).
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Default | Indicador em `bg.accent` (verde). |
+| Focus visible | Anel de foco em torno do indicador. |
+| Disabled | Opacidade 50%. |
+
+## Comportamento
+
+- Baseado no `<input type="range">` nativo — herda todo o comportamento de teclado e arrasto do navegador/sistema operativo, incluindo em ecrãs táteis.
+- `showValue` (predefinido: `true`) mostra o valor atual no cabeçalho; desative apenas se o valor for mostrado de outra forma no contexto.
+
+## Conteúdo
+
+- O `label` nomeia o que está a ser ajustado, incluindo a unidade se não for óbvia: **&ldquo;Percentagem de execução&rdquo;**.
+
+## Acessibilidade
+
+- **Papel:** nativo de `<input type="range">`, com `aria-valuenow`/`min`/`max` geridos automaticamente pelo navegador.
+- **Teclado:** setas ←/→/↑/↓ ajustam o valor; `Home`/`End` vão para os extremos — tudo comportamento nativo, sem JavaScript adicional.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { Slider } from "@constructpluseu/react";\n\n<Slider label="Percentagem de execução" value={progresso} onChange={(e) => setProgresso(Number(e.target.value))} />` },
+    { label: "Vue", code: `<CpSlider label="Percentagem de execução" v-model="progresso" />` },
+    { label: "Angular", code: `<cp-slider label="Percentagem de execução" [value]="progresso" (valueChange)="progresso = $event"></cp-slider>` },
+    { label: "Next.js", code: `"use client";\nimport { useState } from "react";\nimport { Slider } from "@constructpluseu/react";\n\nexport function ProgressoSlider() {\n  const [progresso, setProgresso] = useState(63);\n  return <Slider label="Percentagem de execução" value={progresso} onChange={(e) => setProgresso(Number(e.target.value))} />;\n}` },
+  ]}
+/>
+
+## Relacionados
+
+- **Number Input** — para valores discretos exatos.
+- **Progress Bar** — para mostrar progresso sem permitir edição.

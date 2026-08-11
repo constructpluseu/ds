@@ -1,0 +1,79 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+import { DataTableDemo } from "./DataTableDemo";
+
+export const metadata = { title: "Data Table" };
+
+# Data Table <StatusBadge status="disponivel" />
+
+Tabela densa com ordenação por coluna e seleção de linhas, para listar conjuntos de dados como obras, orçamentos ou faturas.
+
+## Quando usar
+
+- Para listar registos com várias propriedades comparáveis lado a lado (obra, cliente, orçamento, estado).
+- Quando o utilizador precisa de ordenar por uma coluna ou selecionar várias linhas para uma ação em lote (ex.: exportar, arquivar).
+
+## Quando não usar
+
+- Para uma lista simples de itens sem colunas comparáveis — use `List` ou `Structured List`.
+- Para grelhas muito grandes que precisem de paginação, filtros avançados ou colunas fixas ao deslocar — este componente não inclui paginação nem "virtualização"; combine com `Pagination` e pagine os `rows` fora do componente.
+
+## Anatomia
+
+Tabela HTML nativa com cabeçalho (coluna de seleção opcional + colunas de dados, algumas ordenáveis) e corpo com uma linha por registo, cada uma com checkbox de seleção opcional.
+
+## Variantes
+
+<ComponentPreview label="Exemplo interativo com ordenação e seleção (React)">
+  <DataTableDemo />
+</ComponentPreview>
+
+## Tamanhos
+
+Não expõe variantes de tamanho — a densidade da tabela é fixa; ajuste `--cp-space-*` no CSS partilhado se precisar de uma variante mais compacta no futuro.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Sem linhas | Mostra `emptyMessage` numa linha que ocupa todas as colunas. |
+| Coluna ordenada | Cabeçalho com seta preenchida e `aria-sort` correspondente. |
+| Linha selecionada | Fundo destacado com a cor de acento. |
+| Checkbox de cabeçalho parcialmente selecionado | Estado indeterminado quando só algumas linhas visíveis estão selecionadas. |
+
+## Comportamento
+
+- **Componente controlado**: o `Data Table` não ordena nem filtra os dados sozinho — recebe `sortKey`/`sortDirection` e devolve, via `onSortChange`, a **próxima** direção sugerida (`"asc"` → `"desc"` → `null`, cíclico); a aplicação aplica essa ordenação aos `rows` antes de os passar de novo ao componente. O mesmo vale para a seleção: `selectedKeys`/`onSelectionChange` são geridos pela aplicação.
+- Clicar no cabeçalho de uma coluna ordenável (ou no botão que o compõe) avança o ciclo de ordenação; colunas sem `sortable` não são clicáveis.
+- O checkbox do cabeçalho seleciona/limpa todas as linhas atualmente passadas em `rows` (não apenas as visíveis num ecrã, caso a aplicação implemente paginação por fora).
+- Em React, a prop opcional `renderCell(row, column)` permite formatar o conteúdo de qualquer célula (ex.: moeda, datas, badges) sem alterar os dados em `rows`. Vue e Angular não têm equivalente direto a esta prop nesta versão — formate o valor antes de o colocar em `rows` nesses frameworks.
+
+## Conteúdo
+
+- Cabeçalhos de coluna curtos e concretos: **&ldquo;Orçamento&rdquo;**, não **&ldquo;Valor associado ao registo&rdquo;**.
+- `emptyMessage` deve nomear o que falta: **&ldquo;Sem obras registadas.&rdquo;**, não um genérico **&ldquo;Sem dados.&rdquo;**, sempre que o contexto permitir ser específico.
+
+## Acessibilidade
+
+- Usa elementos `<table>`/`<thead>`/`<tbody>`/`<th scope="col">` nativos — a estrutura tabular é anunciada corretamente por leitores de ecrã sem papéis ARIA adicionais.
+- A coluna atualmente ordenada declara `aria-sort="ascending"`/`"descending"` no `<th>`; as restantes colunas não declaram `aria-sort` (equivalente a `"none"`).
+- Um `caption` (visualmente oculto via `cp-visually-hidden`) descreve o conteúdo da tabela para quem navega por leitor de ecrã.
+- Cada checkbox de seleção tem `aria-label` explícito (ex.: "Selecionar linha 2"; cabeçalho: "Selecionar todas as linhas").
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { useState } from "react";\nimport { DataTable } from "@constructpluseu/react";\nimport type { DataTableColumn, SortDirection } from "@constructpluseu/react";\n\nconst columns: DataTableColumn[] = [\n  { key: "obra", header: "Obra", sortable: true },\n  { key: "orcamento", header: "Orçamento", sortable: true, align: "end" },\n];\n\nfunction Exemplo() {\n  const [sortKey, setSortKey] = useState<string | null>(null);\n  const [sortDirection, setSortDirection] = useState<SortDirection>(null);\n  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);\n\n  return (\n    <DataTable\n      columns={columns}\n      rows={obras}\n      sortKey={sortKey}\n      sortDirection={sortDirection}\n      onSortChange={(key, direction) => { setSortKey(direction ? key : null); setSortDirection(direction); }}\n      selectable\n      selectedKeys={selectedKeys}\n      onSelectionChange={setSelectedKeys}\n    />\n  );\n}` },
+    { label: "Vue", code: `<script setup>\nimport { ref } from "vue";\nimport { CpDataTable } from "@constructpluseu/vue";\n\nconst columns = [\n  { key: "obra", header: "Obra", sortable: true },\n  { key: "orcamento", header: "Orçamento", sortable: true, align: "end" },\n];\nconst sortKey = ref(null);\nconst sortDirection = ref(null);\nconst selectedKeys = ref([]);\n\nfunction onSortChange(key, direction) {\n  sortKey.value = direction ? key : null;\n  sortDirection.value = direction;\n}\n</script>\n\n<template>\n  <CpDataTable\n    :columns="columns"\n    :rows="obras"\n    :sortKey="sortKey"\n    :sortDirection="sortDirection"\n    selectable\n    :selectedKeys="selectedKeys"\n    @sortChange="onSortChange"\n    @selectionChange="selectedKeys = $event"\n  />\n</template>` },
+    { label: "Angular", code: `import { CpDataTableComponent, DataTableSortEvent } from "@constructpluseu/angular";\n\n@Component({\n  standalone: true,\n  imports: [CpDataTableComponent],\n  template: \`\n    <cp-data-table\n      [columns]="columns"\n      [rows]="obras"\n      [sortKey]="sortKey"\n      [sortDirection]="sortDirection"\n      [selectable]="true"\n      [selectedKeys]="selectedKeys"\n      (sortChange)="onSortChange($event)"\n      (selectionChange)="selectedKeys = $event"\n    ></cp-data-table>\n  \`,\n})\nexport class ExemploComponent {\n  columns = [\n    { key: "obra", header: "Obra", sortable: true },\n    { key: "orcamento", header: "Orçamento", sortable: true, align: "end" },\n  ];\n  sortKey: string | null = null;\n  sortDirection: "asc" | "desc" | null = null;\n  selectedKeys: string[] = [];\n\n  onSortChange(event: DataTableSortEvent) {\n    this.sortKey = event.direction ? event.key : null;\n    this.sortDirection = event.direction;\n  }\n}` },
+    { label: "Next.js", code: `"use client";\nimport { useState } from "react";\nimport { DataTable } from "@constructpluseu/react";\n\nexport function TabelaDeObras({ obras }: { obras: Record<string, unknown>[] }) {\n  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);\n  const columns = [{ key: "obra", header: "Obra" }, { key: "orcamento", header: "Orçamento", align: "end" as const }];\n  return <DataTable columns={columns} rows={obras} selectable selectedKeys={selectedKeys} onSelectionChange={setSelectedKeys} />;\n}` },
+  ]}
+/>
+
+## Relacionados
+
+- **Pagination** — combine com `Data Table` para dividir grandes conjuntos de dados em páginas.
+- **Structured List** — alternativa mais leve para listas sem necessidade de ordenação ou seleção.
+- **Checkbox** — a coluna de seleção reutiliza o mesmo estilo visual do `Checkbox`.

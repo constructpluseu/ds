@@ -1,0 +1,76 @@
+import { StructuredList } from "@constructpluseu/react";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { CodeTabs } from "@/components/CodeTabs";
+import { StatusBadge } from "@/components/StatusBadge";
+
+export const metadata = { title: "Structured List" };
+
+# Structured List <StatusBadge status="disponivel" />
+
+Lista tabular simples, sem paginação, ordenação ou seleção — para conjuntos de dados pequenos
+onde uma tabela completa seria excessiva.
+
+## Quando usar
+
+- Para mostrar um conjunto pequeno e estático de dados em colunas (ex.: lista de materiais de um orçamento).
+
+## Quando não usar
+
+- Para grandes conjuntos de dados que precisam de ordenação, seleção ou paginação — use **Data Table** *(planeado)*.
+
+## Anatomia
+
+Tabela nativa com uma linha de cabeçalho e linhas de dados, sem controlos adicionais.
+
+## Variantes
+
+<ComponentPreview label="Exemplo">
+  <StructuredList
+    headers={["Material", "Quantidade", "Estado"]}
+    rows={[
+      ["Cimento", "50 sacos", "Em stock"],
+      ["Areia", "3 m³", "Em stock"],
+      ["Tijolo", "2000 unidades", "Em falta"],
+    ]}
+  />
+</ComponentPreview>
+
+## Tamanhos
+
+Um único tamanho (`font-size-sm`) — otimizado para densidade de informação.
+
+## Estados
+
+| Estado | Comportamento |
+|---|---|
+| Default | Linhas separadas por borda inferior. |
+| Hover | Fundo `bg.surface-secondary` na linha sob o cursor. |
+
+## Comportamento
+
+- Não pagina, ordena nem seleciona — é puramente apresentacional. Para essas capacidades, aguarde o **Data Table**.
+- O número de colunas é definido implicitamente pelo comprimento do array `headers`; cada linha de `rows` deve ter o mesmo número de células.
+
+## Conteúdo
+
+- Cabeçalhos curtos e diretos: **"Quantidade"**, não **"Quantidade Total Disponível"**.
+
+## Acessibilidade
+
+- **Papel:** `<table>` nativa com `<th scope="col">` em cada cabeçalho — leitores de ecrã anunciam a coluna ao navegar pelas células.
+
+## Código
+
+<CodeTabs
+  tabs={[
+    { label: "React", code: `import { StructuredList } from "@constructpluseu/react";\n\n<StructuredList\n  headers={["Material", "Quantidade", "Estado"]}\n  rows={[\n    ["Cimento", "50 sacos", "Em stock"],\n    ["Tijolo", "2000 unidades", "Em falta"],\n  ]}\n/>` },
+    { label: "Vue", code: `<CpStructuredList :headers="['Material', 'Quantidade', 'Estado']" :rows="[['Cimento', '50 sacos', 'Em stock']]" />` },
+    { label: "Angular", code: `<cp-structured-list [headers]="['Material', 'Quantidade', 'Estado']" [rows]="[['Cimento', '50 sacos', 'Em stock']]"></cp-structured-list>` },
+    { label: "Next.js", code: `import { StructuredList } from "@constructpluseu/react";\n\n<StructuredList headers={headers} rows={rows} />` },
+  ]}
+/>
+
+## Relacionados
+
+- **Data Table** *(planeado)* — para conjuntos de dados grandes com ordenação e seleção.
+- **List** — para uma única coluna de itens.

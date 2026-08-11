@@ -1,0 +1,60 @@
+.cp-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cp-space-1);
+  padding: 0.15rem var(--cp-space-3);
+  border-radius: var(--cp-radius-full);
+  border: 1px solid transparent;
+  font-size: var(--cp-font-size-xs);
+  font-weight: var(--cp-font-weight-semibold);
+  line-height: var(--cp-font-line-height-normal);
+  white-space: nowrap;
+}
+
+.cp-tag--neutral {
+  background-color: var(--cp-color-semantic-status-neutral-bg);
+  color: var(--cp-color-semantic-status-neutral-text);
+  border-color: var(--cp-color-semantic-status-neutral-border);
+}
+
+.cp-tag--info {
+  background-color: var(--cp-color-semantic-status-info-bg);
+  color: var(--cp-color-semantic-status-info-text);
+  border-color: var(--cp-color-semantic-status-info-border);
+}
+
+.cp-tag--success {
+  background-color: var(--cp-color-semantic-status-success-bg);
+  color: var(--cp-color-semantic-status-success-text);
+  border-color: var(--cp-color-semantic-status-success-border);
+}
+
+.cp-tag--warning {
+  background-color: var(--cp-color-semantic-status-warning-bg);
+  color: var(--cp-color-semantic-status-warning-text);
+  border-color: var(--cp-color-semantic-status-warning-border);
+}
+
+.cp-tag--danger {
+  background-color: var(--cp-color-semantic-status-danger-bg);
+  color: var(--cp-color-semantic-status-danger-text);
+  border-color: var(--cp-color-semantic-status-danger-border);
+}
+
+.cp-tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-left: 0.1rem;
+  border-radius: var(--cp-radius-full);
+  color: inherit;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.cp-tag__remove:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.08);
+}

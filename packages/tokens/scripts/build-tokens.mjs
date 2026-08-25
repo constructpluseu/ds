@@ -1,4 +1,5 @@
 import StyleDictionary from "style-dictionary";
+import { outputReferencesFilter } from "style-dictionary/utils";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -82,7 +83,16 @@ const sdDark = new StyleDictionary({
         {
           destination: "tokens-dark.css",
           format: "css/variables",
-          options: { selector: '[data-theme="dark"]', outputReferences: true },
+          // outputReferences: true sozinho gera var(--cp-color-base-*) para referências que o
+          // filter acima exclui deste ficheiro (só emite color.semantic.*, nunca color.base.*) —
+          // o resultado "funciona" hoje só porque tokens-dark.css é sempre concatenado a seguir a
+          // tokens-light.css (que já declara esses --cp-color-base-* em :root) e porque nenhum
+          // token base ainda difere entre temas; deixa de ser garantido no dia em que isso mudar,
+          // ou se alguém importar tokens-dark.css isolado. outputReferencesFilter (helper oficial
+          // do Style Dictionary para este cenário) resolve para o valor literal qualquer
+          // referência a um token filtrado, mantendo var(...) só entre tokens que sobrevivem ao
+          // filter — ver https://styledictionary.com/reference/logging/#filtered-outputreferences.
+          outputReferences: outputReferencesFilter,
           filter: (token) => token.path[0] === "color" && token.path[1] === "semantic",
         },
       ],

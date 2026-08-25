@@ -89,7 +89,7 @@ export default function EspacamentoPage() {
                   style={{
                     width: rem === "0rem" ? "2px" : rem,
                     height: "0.875rem",
-                    backgroundColor: "var(--cp-color-semantic-accent-default)",
+                    backgroundColor: "var(--cp-color-semantic-bg-accent)",
                     borderRadius: "var(--cp-radius-sm)",
                   }}
                 />

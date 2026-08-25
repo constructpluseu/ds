@@ -28,19 +28,22 @@
         "danger": { "value": "{color.base.red.light}" },
         "warning": { "value": "{color.base.amber.light}" },
         "success": { "value": "{color.base.mint.300}" },
-        "info": { "value": "{color.base.blue.light}" }
+        "info": { "value": "{color.base.blue.light}" },
+        "accent": { "value": "{color.base.mint.300}" }
       },
       "border": {
         "default": { "value": "rgba(255, 255, 255, 0.12)" },
         "strong": { "value": "rgba(255, 255, 255, 0.24)" },
         "focus": { "value": "{color.base.mint.400}" },
-        "danger": { "value": "{color.base.red.light}" }
+        "danger": { "value": "{color.base.red.light}" },
+        "accent": { "value": "{color.base.mint.400}" }
       },
       "icon": {
         "primary": { "value": "{color.base.gray.50}" },
         "secondary": { "value": "{color.base.gray.400}" },
         "on-brand": { "value": "{color.base.navy.800}" },
-        "on-accent": { "value": "{color.base.navy.800}" }
+        "on-accent": { "value": "{color.base.navy.800}" },
+        "accent": { "value": "{color.base.mint.300}" }
       },
       "status": {
         "success": {

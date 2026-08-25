@@ -98,15 +98,15 @@
 
 .cp-date-picker__day--selected {
   color: var(--cp-color-semantic-text-on-accent);
-  background-color: var(--cp-color-semantic-accent-default);
+  background-color: var(--cp-color-semantic-bg-accent);
 }
 
 .cp-date-picker__day--selected:hover {
-  background-color: var(--cp-color-semantic-accent-hover);
+  background-color: var(--cp-color-semantic-bg-accent-hover);
 }
 
 .cp-date-picker__day--active:not(.cp-date-picker__day--selected) {
-  box-shadow: inset 0 0 0 1px var(--cp-color-semantic-accent-default);
+  box-shadow: inset 0 0 0 1px var(--cp-color-semantic-border-accent);
 }
 
 .cp-date-picker__day[disabled] {

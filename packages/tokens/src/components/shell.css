@@ -78,7 +78,7 @@
 
 .cp-side-nav__link[aria-current="page"] {
   background-color: var(--cp-color-semantic-bg-accent-subtle);
-  color: var(--cp-color-semantic-accent-default);
+  color: var(--cp-color-semantic-text-accent);
   font-weight: var(--cp-font-weight-semibold);
 }
 

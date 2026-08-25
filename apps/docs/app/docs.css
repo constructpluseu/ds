@@ -60,9 +60,9 @@
 }
 
 .cp-docs-sidebar__link--active {
-  border-left-color: var(--cp-color-semantic-accent-default);
+  border-left-color: var(--cp-color-semantic-border-accent);
   background-color: var(--cp-color-semantic-bg-accent-subtle);
-  color: var(--cp-color-semantic-accent-default);
+  color: var(--cp-color-semantic-text-accent);
   font-weight: var(--cp-font-weight-semibold);
 }
 

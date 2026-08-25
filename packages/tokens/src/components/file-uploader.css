@@ -29,7 +29,7 @@
 }
 
 .cp-file-uploader__dropzone--dragging {
-  border-color: var(--cp-color-semantic-accent-default);
+  border-color: var(--cp-color-semantic-border-accent);
   background-color: var(--cp-color-semantic-bg-accent-subtle);
 }
 

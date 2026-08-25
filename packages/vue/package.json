@@ -1,6 +1,6 @@
 {
   "name": "@constructpluseu/vue",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Implementação em Vue 3 do Construct+ Design System.",
   "license": "UNLICENSED",
   "keywords": ["construct-plus", "design-system", "vue", "ui-components"],

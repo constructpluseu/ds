@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Combobox } from "./Combobox";
+import { expectNoA11yViolations } from "../../test-utils/a11y";
 
 const options = [
   { value: "residencial", label: "Residencial" },
@@ -10,6 +11,14 @@ const options = [
 ];
 
 describe("Combobox (seleção única)", () => {
+  it("não tem violações de acessibilidade (axe-core) com a lista aberta", async () => {
+    const { container } = render(
+      <Combobox label="Tipo de obra" options={options} value={[]} onChange={() => {}} />
+    );
+    await userEvent.click(screen.getByRole("combobox"));
+    await expectNoA11yViolations(container);
+  });
+
   it("mostra as opções ao focar e filtra ao digitar", async () => {
     render(<Combobox label="Tipo de obra" options={options} value={[]} onChange={() => {}} />);
     await userEvent.click(screen.getByRole("combobox"));

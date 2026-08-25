@@ -11,4 +11,8 @@ export default defineConfig({
   banner: {
     js: '"use client";',
   },
+  // Regenera dist/styles.css a cada build — incluindo rebuilds em --watch — para que
+  // `pnpm dev` propague alterações a tokens/CSS de componentes sem precisar de um
+  // `pnpm build` manual antes.
+  onSuccess: "node scripts/copy-styles.mjs",
 });

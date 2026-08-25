@@ -1,8 +1,27 @@
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@vue/test-utils";
 import CpMenu from "./CpMenu.vue";
+import { expectNoA11yViolations } from "../../test-utils/a11y";
 
 describe("CpMenu", () => {
+  it("não tem violações de acessibilidade (axe-core) com o painel aberto", async () => {
+    const wrapper = mount(CpMenu, {
+      props: {
+        items: [
+          { id: "editar", label: "Editar", onSelect: vi.fn() },
+          { id: "eliminar", label: "Eliminar", onSelect: vi.fn(), danger: true },
+        ],
+      },
+      slots: {
+        trigger: `<template #trigger="{ toggle }"><button @click="toggle">Ações</button></template>`,
+      },
+      attachTo: document.body,
+    });
+    await wrapper.find("button").trigger("click");
+    await expectNoA11yViolations(wrapper.element);
+    wrapper.unmount();
+  });
+
   it("abre ao clicar no gatilho e mostra os itens", async () => {
     const wrapper = mount(CpMenu, {
       props: {

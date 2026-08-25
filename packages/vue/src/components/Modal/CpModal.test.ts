@@ -1,8 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@vue/test-utils";
 import CpModal from "./CpModal.vue";
+import { expectNoA11yViolations } from "../../test-utils/a11y";
 
 describe("CpModal", () => {
+  it("não tem violações de acessibilidade (axe-core)", async () => {
+    const wrapper = mount(CpModal, {
+      props: { open: true, title: "Eliminar contrato" },
+      slots: { default: "<p>Confirma a eliminação?</p><button>Confirmar</button>" },
+      attachTo: document.body,
+    });
+    await expectNoA11yViolations(wrapper.element);
+    wrapper.unmount();
+  });
+
   it("não renderiza nada quando open=false", () => {
     const wrapper = mount(CpModal, { props: { open: false, title: "Eliminar contrato" } });
     expect(wrapper.find('[role="dialog"]').exists()).toBe(false);

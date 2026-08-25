@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { axe } from "jest-axe";
 import { CpDatePickerComponent } from "./date-picker.component";
+import { COMPONENT_TEST_RULES } from "../../test-utils/a11y-rules";
 
 @Component({
   standalone: true,
@@ -73,5 +75,13 @@ describe("CpDatePickerComponent", () => {
     fixture.detectChanges();
     const outOfRange: HTMLButtonElement = fixture.nativeElement.querySelector('[data-date="2026-08-01"]');
     expect(outOfRange.disabled).toBe(true);
+  });
+
+  it("não tem violações de acessibilidade (axe-core) com o calendário aberto", async () => {
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('[role="combobox"]');
+    input.click();
+    fixture.detectChanges();
+    const results = await axe(fixture.nativeElement, { rules: COMPONENT_TEST_RULES });
+    expect(results).toHaveNoViolations();
   });
 });

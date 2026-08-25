@@ -3,6 +3,7 @@ import { mount } from "@vue/test-utils";
 import CpHeader from "./CpHeader.vue";
 import CpSideNav from "./CpSideNav.vue";
 import type { SideNavItem } from "./types";
+import { expectNoA11yViolations } from "../../test-utils/a11y";
 
 describe("CpHeader", () => {
   it("mostra a marca e as ações via slot", () => {
@@ -12,6 +13,16 @@ describe("CpHeader", () => {
     });
     expect(wrapper.text()).toContain("Construct+");
     expect(wrapper.text()).toContain("Perfil");
+  });
+
+  it("não tem violações de acessibilidade (axe-core)", async () => {
+    const wrapper = mount(CpHeader, {
+      props: { brand: "Construct+", menuButton: true, navOpen: true },
+      slots: { default: "<button>Perfil</button>" },
+      attachTo: document.body,
+    });
+    await expectNoA11yViolations(wrapper.element);
+    wrapper.unmount();
   });
 
   it("mostra o botão de menu e emite menuToggle", async () => {
@@ -55,5 +66,21 @@ describe("CpSideNav", () => {
     const wrapper = mount(CpSideNav, { props: { items, expandedIds: ["financeiro"] } });
     expect(wrapper.text()).toContain("Orçamentos");
     expect(wrapper.text()).toContain("Faturas");
+  });
+
+  it("emite navigate com o item ao clicar num link de topo", async () => {
+    const wrapper = mount(CpSideNav, { props: { items, expandedIds: [] } });
+    await wrapper.find('a[href="/obras"]').trigger("click");
+    const emitted = wrapper.emitted("navigate");
+    expect(emitted?.[0]?.[0]).toEqual(items[0]);
+  });
+
+  it("não tem violações de acessibilidade (axe-core)", async () => {
+    const wrapper = mount(CpSideNav, {
+      props: { items, activeId: "obras", expandedIds: ["financeiro"] },
+      attachTo: document.body,
+    });
+    await expectNoA11yViolations(wrapper.element);
+    wrapper.unmount();
   });
 });

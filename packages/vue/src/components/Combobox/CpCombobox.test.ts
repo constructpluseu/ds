@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@vue/test-utils";
 import CpCombobox from "./CpCombobox.vue";
+import { expectNoA11yViolations } from "../../test-utils/a11y";
 
 const options = [
   { value: "residencial", label: "Residencial" },
@@ -8,6 +9,16 @@ const options = [
 ];
 
 describe("CpCombobox (seleção única)", () => {
+  it("não tem violações de acessibilidade (axe-core) com a lista aberta", async () => {
+    const wrapper = mount(CpCombobox, {
+      props: { label: "Tipo de obra", options, modelValue: [] },
+      attachTo: document.body,
+    });
+    await wrapper.find('[role="combobox"]').trigger("focus");
+    await expectNoA11yViolations(wrapper.element);
+    wrapper.unmount();
+  });
+
   it("mostra as opções ao focar", async () => {
     const wrapper = mount(CpCombobox, { props: { label: "Tipo de obra", options, modelValue: [] } });
     await wrapper.find('[role="combobox"]').trigger("focus");

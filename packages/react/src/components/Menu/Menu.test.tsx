@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Menu } from "./Menu";
+import { expectNoA11yViolations } from "../../test-utils/a11y";
 
 const items = [
   { id: "editar", label: "Editar", onSelect: vi.fn() },
@@ -9,6 +10,12 @@ const items = [
 ];
 
 describe("Menu", () => {
+  it("não tem violações de acessibilidade (axe-core) com o painel aberto", async () => {
+    const { container } = render(<Menu trigger={<button>Ações</button>} items={items} />);
+    await userEvent.click(screen.getByRole("button", { name: "Ações" }));
+    await expectNoA11yViolations(container);
+  });
+
   it("não mostra o painel por predefinição", () => {
     render(<Menu trigger={<button>Ações</button>} items={items} />);
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();

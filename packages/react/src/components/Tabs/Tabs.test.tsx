@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Tabs } from "./Tabs";
+import { expectNoA11yViolations } from "../../test-utils/a11y";
 
 const items = [
   { id: "orcamento", label: "Orçamento", content: "Conteúdo do orçamento" },
@@ -10,6 +11,11 @@ const items = [
 ];
 
 describe("Tabs", () => {
+  it("não tem violações de acessibilidade (axe-core)", async () => {
+    const { container } = render(<Tabs items={items} aria-label="Detalhes da obra" />);
+    await expectNoA11yViolations(container);
+  });
+
   it("mostra o conteúdo do primeiro separador por predefinição", () => {
     render(<Tabs items={items} aria-label="Detalhes da obra" />);
     expect(screen.getByRole("tab", { name: "Orçamento" })).toHaveAttribute("aria-selected", "true");

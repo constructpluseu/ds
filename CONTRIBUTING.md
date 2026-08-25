@@ -32,6 +32,13 @@ pixel-a-pixel entre os 3 frameworks, porque é literalmente o mesmo ficheiro CSS
    separado para os tipos (nunca exportar tipos diretamente de um `.vue`).
 4. **Angular**: mesmo padrão em `packages/angular/src/lib/{kebab-case}/`, componente standalone,
    selector `cp-{kebab-case}`. Exportar no `packages/angular/src/public-api.ts`.
+5. **Acessibilidade automatizada**: todo o `.test.tsx`/`.test.ts`/`.spec.ts` de um componente
+   inclui pelo menos um teste a correr `axe-core` sobre o componente no seu estado mais completo
+   (ex.: popover/dialog/menu aberto), usando o helper partilhado do pacote —
+   `expectNoA11yViolations` em `src/test-utils/a11y.ts` (React/Vue) ou `axe()` +
+   `COMPONENT_TEST_RULES` de `src/test-utils/a11y-rules.ts` (Angular, via `jest-axe`). Isto cobre
+   estrutura ARIA/semântica automaticamente detetável — não substitui verificação manual de
+   contraste, navegação por teclado e leitor de ecrã.
 5. **Documentação**: criar `apps/docs/app/componentes/{slug}/page.mdx` seguindo o esqueleto fixo
    (ver `button/page.mdx` como referência): Resumo → Quando usar/não usar → Anatomia → Variantes
    → Tamanhos → Estados → Comportamento → Conteúdo → Acessibilidade → Código (4 abas) →

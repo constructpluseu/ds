@@ -31,7 +31,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build && node scripts/copy-styles.mjs",
+    "build": "vite build",
     "dev": "vite build --watch",
     "test": "vitest run",
     "lint": "eslint src --ext .ts,.vue",
@@ -46,6 +46,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.5.0",
     "@vitejs/plugin-vue": "^5.1.4",
+    "axe-core": "^4.13.0",
     "@vue/test-utils": "^2.4.6",
     "jsdom": "^25.0.1",
     "typescript": "^5.6.3",

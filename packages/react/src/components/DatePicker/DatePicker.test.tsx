@@ -2,8 +2,18 @@ import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { DatePicker } from "./DatePicker";
+import { expectNoA11yViolations } from "../../test-utils/a11y";
 
 describe("DatePicker", () => {
+  it("não tem violações de acessibilidade (axe-core) com o calendário aberto", async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <DatePicker label="Data de início" value="2026-08-10" onChange={vi.fn()} />
+    );
+    await user.click(screen.getByLabelText("Data de início"));
+    await expectNoA11yViolations(container);
+  });
+
   it("mostra a data selecionada formatada no campo", () => {
     render(<DatePicker label="Data de início" value="2026-08-10" onChange={vi.fn()} />);
     expect(screen.getByLabelText("Data de início")).toHaveValue("10/08/2026");

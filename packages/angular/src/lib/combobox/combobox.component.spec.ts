@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { axe } from "jest-axe";
 import { CpComboboxComponent, CpComboboxOption } from "./combobox.component";
+import { COMPONENT_TEST_RULES } from "../../test-utils/a11y-rules";
 
 const options: CpComboboxOption[] = [
   { value: "residencial", label: "Residencial" },
@@ -57,6 +59,14 @@ describe("CpComboboxComponent (seleção única)", () => {
     fixture.detectChanges();
     const input: HTMLInputElement = fixture.nativeElement.querySelector('[role="combobox"]');
     expect(input.value).toBe("Comercial");
+  });
+
+  it("não tem violações de acessibilidade (axe-core) com a lista aberta", async () => {
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('[role="combobox"]');
+    input.dispatchEvent(new Event("focus"));
+    fixture.detectChanges();
+    const results = await axe(fixture.nativeElement, { rules: COMPONENT_TEST_RULES });
+    expect(results).toHaveNoViolations();
   });
 });
 

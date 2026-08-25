@@ -1,7 +1,9 @@
 import { Component } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { axe } from "jest-axe";
 import { CpTabsComponent, CpTabItem } from "./tabs.component";
 import { CpTabPanelComponent } from "./tab-panel.component";
+import { COMPONENT_TEST_RULES } from "../../test-utils/a11y-rules";
 
 @Component({
   standalone: true,
@@ -49,5 +51,10 @@ describe("CpTabsComponent + CpTabPanelComponent", () => {
     fixture.detectChanges();
     expect(tabs[1].getAttribute("aria-selected")).toBe("true");
     expect(fixture.nativeElement.textContent).toContain("Conteúdo dos materiais");
+  });
+
+  it("não tem violações de acessibilidade (axe-core)", async () => {
+    const results = await axe(fixture.nativeElement, { rules: COMPONENT_TEST_RULES });
+    expect(results).toHaveNoViolations();
   });
 });

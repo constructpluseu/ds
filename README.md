@@ -14,13 +14,16 @@ V2/
 │   ├── vue/         @constructpluseu/vue      — componentes Vue 3
 │   └── angular/     @constructpluseu/angular  — componentes Angular (standalone)
 └── apps/
-    ├── docs/          site de documentação (Next.js + MDX) — http://localhost:3100
+    ├── docs/          site de documentação (Next.js + MDX) — http://localhost:3100/DS
     └── nextjs-demo/   app de exemplo consumindo @constructpluseu/react — http://localhost:3000
 ```
 
+`apps/docs` corre com `basePath: "/DS"` (ver `apps/docs/next.config.*`) — em desenvolvimento, a raiz
+`http://localhost:3100/` dá 404; a aplicação só existe sob `http://localhost:3100/DS`.
+
 ## Requisitos
 
-- Node.js ≥ 20
+- Node.js ≥ 22
 - pnpm (via `corepack enable`, ou `npm install -g pnpm`)
 
 ## Como começar
@@ -33,11 +36,24 @@ pnpm test    # corre os testes de todos os pacotes
 pnpm lint    # corre o ESLint de todos os pacotes
 ```
 
-Para trabalhar num pacote específico:
+Para trabalhar só em `apps/docs`, use o comando dedicado — builda `tokens` e `react` uma vez
+(gera `dist/css/*.css` e `dist/styles.css`, dos quais `apps/docs` depende) e só depois arranca os
+três em modo watch:
+
+```bash
+pnpm dev:docs   # → http://localhost:3100/DS
+```
+
+`pnpm --filter docs dev` sozinho **não** é auto-suficiente: `apps/docs` importa
+`@constructpluseu/react/styles.css`, que só existe depois de `packages/react` ter sido buildado
+pelo menos uma vez. Sem esse build prévio (via `pnpm build` ou `pnpm dev:docs`), o `next dev`
+falha a resolver o import. Use `pnpm --filter docs dev` apenas depois de já ter corrido `pnpm build`
+ou `pnpm dev:docs` nesta sessão.
+
+Para trabalhar noutro pacote específico (depois de `pnpm build` ter corrido pelo menos uma vez):
 
 ```bash
 pnpm --filter @constructpluseu/react dev
-pnpm --filter docs dev
 ```
 
 ## Estado atual

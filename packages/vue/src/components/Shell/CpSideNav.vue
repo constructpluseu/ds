@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SideNavItem } from "./types";
+import type { SideNavItem, SideNavLeafItem } from "./types";
 
 const props = withDefaults(
   defineProps<{
@@ -11,13 +11,25 @@ const props = withDefaults(
   }>(),
   { label: "Navegação principal", activeId: null, open: true }
 );
-const emit = defineEmits<{ expandedChange: [ids: string[]] }>();
+const emit = defineEmits<{
+  expandedChange: [ids: string[]];
+  /**
+   * Emitido ao clicar num item folha, antes da navegação do browser. Chamar
+   * `event.preventDefault()` cancela o `href` (ex.: router client-side,
+   * verificação de permissão antes de navegar).
+   */
+  navigate: [item: SideNavLeafItem, event: MouseEvent];
+}>();
 
 function toggleExpand(id: string) {
   const next = new Set(props.expandedIds);
   if (next.has(id)) next.delete(id);
   else next.add(id);
   emit("expandedChange", Array.from(next));
+}
+
+function handleNavigate(item: SideNavLeafItem, event: MouseEvent) {
+  emit("navigate", item, event);
 }
 </script>
 
@@ -30,6 +42,7 @@ function toggleExpand(id: string) {
           :href="item.href"
           class="cp-side-nav__link"
           :aria-current="activeId === item.id ? 'page' : undefined"
+          @click="handleNavigate(item, $event)"
         >
           {{ item.label }}
         </a>
@@ -51,6 +64,7 @@ function toggleExpand(id: string) {
                 :href="child.href"
                 class="cp-side-nav__link"
                 :aria-current="activeId === child.id ? 'page' : undefined"
+                @click="handleNavigate(child, $event)"
               >
                 {{ child.label }}
               </a>

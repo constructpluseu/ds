@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@vue/test-utils";
 import CpTabs from "./CpTabs.vue";
+import { expectNoA11yViolations } from "../../test-utils/a11y";
 
 const items = [
   { id: "orcamento", label: "Orçamento" },
@@ -9,6 +10,16 @@ const items = [
 ];
 
 describe("CpTabs", () => {
+  it("não tem violações de acessibilidade (axe-core)", async () => {
+    const wrapper = mount(CpTabs, {
+      props: { items },
+      slots: { orcamento: "Conteúdo do orçamento", materiais: "Conteúdo dos materiais" },
+      attachTo: document.body,
+    });
+    await expectNoA11yViolations(wrapper.element);
+    wrapper.unmount();
+  });
+
   it("mostra o painel do primeiro separador por predefinição", () => {
     const wrapper = mount(CpTabs, {
       props: { items },

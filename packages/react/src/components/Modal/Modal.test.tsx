@@ -2,8 +2,19 @@ import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Modal } from "./Modal";
+import { expectNoA11yViolations } from "../../test-utils/a11y";
 
 describe("Modal", () => {
+  it("não tem violações de acessibilidade (axe-core)", async () => {
+    const { container } = render(
+      <Modal open onClose={() => {}} title="Eliminar contrato">
+        <p>Confirma a eliminação?</p>
+        <button type="button">Confirmar</button>
+      </Modal>
+    );
+    await expectNoA11yViolations(container);
+  });
+
   it("não renderiza nada quando open=false", () => {
     render(
       <Modal open={false} onClose={() => {}} title="Eliminar contrato">

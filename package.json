@@ -9,6 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev:docs": "pnpm --filter @constructpluseu/tokens build && pnpm --filter @constructpluseu/react build && turbo run dev --filter=@constructpluseu/tokens --filter=@constructpluseu/react --filter=docs",
     "lint": "turbo run lint",
     "test": "turbo run test",
     "clean": "turbo run clean",

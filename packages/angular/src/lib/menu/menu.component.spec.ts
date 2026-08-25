@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { axe } from "jest-axe";
 import { CpMenuComponent, CpMenuItem } from "./menu.component";
+import { COMPONENT_TEST_RULES } from "../../test-utils/a11y-rules";
 
 @Component({
   standalone: true,
@@ -42,5 +44,12 @@ describe("CpMenuComponent", () => {
     fixture.detectChanges();
     expect(fixture.componentInstance.editou).toBe(true);
     expect(fixture.nativeElement.querySelector('[role="menu"]')).toBeNull();
+  });
+
+  it("não tem violações de acessibilidade (axe-core) com o painel aberto", async () => {
+    fixture.nativeElement.querySelector("button").click();
+    fixture.detectChanges();
+    const results = await axe(fixture.nativeElement, { rules: COMPONENT_TEST_RULES });
+    expect(results).toHaveNoViolations();
   });
 });

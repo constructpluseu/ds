@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { axe } from "jest-axe";
 import { CpModalComponent } from "./modal.component";
+import { COMPONENT_TEST_RULES } from "../../test-utils/a11y-rules";
 
 @Component({
   standalone: true,
@@ -54,5 +56,11 @@ describe("CpModalComponent", () => {
     fixture.detectChanges();
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
     expect(fixture.componentInstance.closed).toBe(true);
+  });
+
+  it("não tem violações de acessibilidade (axe-core)", async () => {
+    fixture.detectChanges();
+    const results = await axe(fixture.nativeElement, { rules: COMPONENT_TEST_RULES });
+    expect(results).toHaveNoViolations();
   });
 });

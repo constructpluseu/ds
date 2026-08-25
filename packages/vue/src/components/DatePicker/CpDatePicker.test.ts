@@ -1,8 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@vue/test-utils";
 import CpDatePicker from "./CpDatePicker.vue";
+import { expectNoA11yViolations } from "../../test-utils/a11y";
 
 describe("CpDatePicker", () => {
+  it("não tem violações de acessibilidade (axe-core) com o calendário aberto", async () => {
+    const wrapper = mount(CpDatePicker, {
+      props: { label: "Data de início", modelValue: "2026-08-10" },
+      attachTo: document.body,
+    });
+    await wrapper.find('[role="combobox"]').trigger("click");
+    await expectNoA11yViolations(wrapper.element);
+    wrapper.unmount();
+  });
+
   it("mostra a data selecionada formatada no campo", () => {
     const wrapper = mount(CpDatePicker, {
       props: { label: "Data de início", modelValue: "2026-08-10" },

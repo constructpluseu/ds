@@ -25,6 +25,7 @@ export interface SideNavItem extends SideNavLeafItem {
             [attr.href]="item.href"
             class="cp-side-nav__link"
             [attr.aria-current]="activeId === item.id ? 'page' : null"
+            (click)="onNavigate(item, $event)"
           >
             {{ item.label }}
           </a>
@@ -46,6 +47,7 @@ export interface SideNavItem extends SideNavLeafItem {
                   [attr.href]="child.href"
                   class="cp-side-nav__link"
                   [attr.aria-current]="activeId === child.id ? 'page' : null"
+                  (click)="onNavigate(child, $event)"
                 >
                   {{ child.label }}
                 </a>
@@ -64,6 +66,12 @@ export class CpSideNavComponent {
   @Input() expandedIds: string[] = [];
   @Input() open = true;
   @Output() expandedChange = new EventEmitter<string[]>();
+  /**
+   * Emitido ao clicar num item folha, antes da navegação do browser. Chamar
+   * `event.preventDefault()` cancela o `href` (ex.: router client-side,
+   * verificação de permissão antes de navegar).
+   */
+  @Output() navigate = new EventEmitter<{ item: SideNavLeafItem; event: MouseEvent }>();
 
   get navClasses(): string {
     return ["cp-side-nav", this.open ? "" : "cp-side-nav--closed"].filter(Boolean).join(" ");
@@ -78,5 +86,9 @@ export class CpSideNavComponent {
     if (next.has(id)) next.delete(id);
     else next.add(id);
     this.expandedChange.emit(Array.from(next));
+  }
+
+  onNavigate(item: SideNavLeafItem, event: MouseEvent): void {
+    this.navigate.emit({ item, event });
   }
 }

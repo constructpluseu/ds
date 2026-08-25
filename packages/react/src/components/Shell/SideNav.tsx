@@ -1,3 +1,5 @@
+import type { MouseEvent } from "react";
+
 export interface SideNavLeafItem {
   id: string;
   label: string;
@@ -15,6 +17,12 @@ export interface SideNavProps {
   expandedIds: string[];
   onExpandedChange: (ids: string[]) => void;
   open?: boolean;
+  /**
+   * Chamado ao clicar num item folha, antes da navegação do browser. Chamar
+   * `event.preventDefault()` cancela o `href` (ex.: router client-side,
+   * verificação de permissão antes de navegar).
+   */
+  onNavigate?: (item: SideNavLeafItem, event: MouseEvent<HTMLAnchorElement>) => void;
 }
 
 export function SideNav({
@@ -24,6 +32,7 @@ export function SideNav({
   expandedIds,
   onExpandedChange,
   open = true,
+  onNavigate,
 }: SideNavProps) {
   function toggleExpand(id: string) {
     const next = new Set(expandedIds);
@@ -44,6 +53,7 @@ export function SideNav({
                   href={item.href}
                   className="cp-side-nav__link"
                   aria-current={activeId === item.id ? "page" : undefined}
+                  onClick={(event) => onNavigate?.(item, event)}
                 >
                   {item.label}
                 </a>
@@ -72,6 +82,7 @@ export function SideNav({
                         href={child.href}
                         className="cp-side-nav__link"
                         aria-current={activeId === child.id ? "page" : undefined}
+                        onClick={(event) => onNavigate?.(child, event)}
                       >
                         {child.label}
                       </a>
